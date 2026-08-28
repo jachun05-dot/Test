@@ -6,10 +6,14 @@
 
 1. **Groq API 키** — https://console.groq.com 가입 후 발급 (무료 티어)
 2. **Threads API 액세스 토큰**
-   - https://developers.facebook.com 에서 Meta 개발자 앱 생성
-   - Threads API 제품 추가, `threads_basic` / `threads_content_publish` 권한 요청
-   - OAuth 인증으로 단기 토큰 발급 → 60일 장기 토큰으로 교환
-   - `THREADS_USER_ID`, `THREADS_ACCESS_TOKEN` 확보
+   - https://developers.facebook.com 에서 Meta 개발자 앱 생성 (본인 Threads/Instagram 계정으로 로그인)
+   - 앱 대시보드에서 "Threads API" 제품 추가
+   - 앱 설정 > Threads API 에서 Redirect URI 등록 (예: `https://localhost/`)
+   - `threads_basic`, `threads_content_publish`, `threads_manage_replies` 권한 요청
+   - App 대시보드에서 App ID / App Secret 확인
+   - `python scripts/get_threads_token.py` 실행 → 안내에 따라 브라우저 인증 → `THREADS_USER_ID`, `THREADS_ACCESS_TOKEN` 출력됨 → `.env`에 붙여넣기
+   - 장기 토큰은 60일마다 만료되므로, 만료 전 스크립트를 다시 실행해 갱신 필요
+   - App Secret과 토큰은 이 스크립트 안에서만 쓰이고 어디로도 전송되지 않음 (절대 채팅에 붙여넣지 마세요)
 
 ## 설치
 
