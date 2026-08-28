@@ -51,6 +51,20 @@ python post.py --product "다이슨 무선청소기" --desc "흡입력 좋고 �
 
 `--product`가 지정되면 `--file`/`--text` 대신 이 모드로 동작합니다. 실제 있었던 일처럼 단정하지 않는 창작 에피소드로 생성되며, 근거 없는 효과·효능(건강 개선 등)은 주장하지 않도록 프롬프트에 제한을 걸어뒀습니다.
 
+## GUI 앱 / exe
+
+CLI 대신 설정 화면에서 키를 입력할 수 있는 GUI 버전도 있습니다 (`gui.py`, tkinter 기반).
+
+```bash
+python gui.py
+```
+
+"설정" 탭에서 Groq API 키, Threads User ID/Access Token을 입력하고 저장하면 `.env`에 저장됩니다. "글 작성" 탭에서 상품 기반/썰 각색 모드를 고르고 미리보기 생성 → 확인 후 게시할 수 있습니다.
+
+**Windows .exe로 받기**: 리포지토리에 `.github/workflows/build-windows-exe.yml` 워크플로우가 있어서, GitHub 저장소의 Actions 탭에서 "Build Windows exe"를 수동 실행(workflow_dispatch)하거나 `gui.py`/`src/` 변경사항을 푸시하면 자동으로 빌드됩니다. 빌드가 끝나면 해당 실행(run) 페이지의 Artifacts에서 `ThreadsAutoPoster-windows`를 다운로드하면 `ThreadsAutoPoster.exe`가 들어있습니다. Python 설치 없이 그 exe만 실행하면 됩니다.
+
+서명되지 않은 개인 프로그램이라 Windows Defender SmartScreen이 경고를 띄울 수 있습니다 — "추가 정보" → "실행" 으로 진행하면 됩니다.
+
 ## 동작 흐름
 
 1. 입력을 읽는다 — 썰 원문(파일/텍스트/stdin) 또는 상품명+특징(`--product`)

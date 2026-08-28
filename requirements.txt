@@ -1,3 +1,6 @@
 groq
 requests
 python-dotenv
+
+# GUI/exe 빌드용 (선택)
+# pip install pyinstaller

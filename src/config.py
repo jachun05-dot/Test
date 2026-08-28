@@ -21,12 +21,12 @@ def get_required(key: str, prompt_text: str, secret: bool = False) -> str:
 
     answer = input("이 값을 .env에 저장해서 다음부터 다시 안 물어보게 할까요? (y/n): ").strip().lower()
     if answer == "y":
-        _save_to_env(key, value)
+        save_to_env(key, value)
 
     return value
 
 
-def _save_to_env(key: str, value: str) -> None:
+def save_to_env(key: str, value: str) -> None:
     lines = ENV_PATH.read_text(encoding="utf-8").splitlines() if ENV_PATH.exists() else []
 
     for i, line in enumerate(lines):
