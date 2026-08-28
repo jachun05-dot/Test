@@ -23,6 +23,8 @@ cp .env.example .env
 # .env 파일에 GROQ_API_KEY, THREADS_USER_ID, THREADS_ACCESS_TOKEN 채워넣기
 ```
 
+`.env`를 미리 안 채워도 됩니다. 값이 없으면 실행 중에 필요한 시점에만 입력창이 뜨고, 원하면 `.env`에 저장해서 다음부터 안 물어보게 할 수 있습니다. 예를 들어 Groq 키만 있으면 각색 결과까지는 먼저 확인해볼 수 있고, Threads 토큰은 게시 확인(`y`) 시점에 물어봅니다.
+
 ## 사용법
 
 썰 원문을 파일로 준비 (예: `stories/오늘썰.txt`) 후 실행:

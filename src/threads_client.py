@@ -1,15 +1,16 @@
-import os
 import time
 
 import requests
+
+from src.config import get_required
 
 GRAPH_BASE = "https://graph.threads.net/v1.0"
 
 
 class ThreadsClient:
     def __init__(self):
-        self.user_id = os.environ["THREADS_USER_ID"]
-        self.access_token = os.environ["THREADS_ACCESS_TOKEN"]
+        self.user_id = get_required("THREADS_USER_ID", "Threads User ID")
+        self.access_token = get_required("THREADS_ACCESS_TOKEN", "Threads Access Token", secret=True)
 
     def _create_container(self, text: str, reply_to_id: str | None = None) -> str:
         url = f"{GRAPH_BASE}/{self.user_id}/threads"

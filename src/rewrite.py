@@ -2,6 +2,8 @@ import os
 
 from groq import Groq
 
+from src.config import get_required
+
 SYSTEM_PROMPT = (
     "너는 한국어 Threads(스레드) 계정을 운영하는 콘텐츠 작가야. "
     "주어진 썰(사연)을 참고해서 Threads에 어울리는 글로 새로 재구성해.\n"
@@ -16,7 +18,8 @@ SYSTEM_PROMPT = (
 
 
 def rewrite_story(raw_text: str) -> str:
-    client = Groq(api_key=os.environ["GROQ_API_KEY"])
+    api_key = get_required("GROQ_API_KEY", "Groq API 키", secret=True)
+    client = Groq(api_key=api_key)
     model = os.environ.get("GROQ_MODEL", "llama-3.3-70b-versatile")
 
     response = client.chat.completions.create(
