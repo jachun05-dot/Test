@@ -5,7 +5,7 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 
-from src.rewrite import rewrite_story
+from src.rewrite import generate_product_story, rewrite_story
 from src.threads_client import ThreadsClient
 
 
@@ -23,23 +23,29 @@ def main() -> None:
     load_dotenv()
 
     parser = argparse.ArgumentParser(
-        description="인터넷 썰을 각색해 Threads에 게시하고, 댓글로 토스 링크를 답니다."
+        description="썰(원문 각색 또는 상품 기반 창작)을 Threads에 게시하고, 댓글로 토스 링크를 답니다."
     )
     parser.add_argument("--file", "-f", help="썰 원문이 담긴 텍스트 파일 경로")
     parser.add_argument("--text", "-t", help="썰 원문 텍스트 직접 입력")
+    parser.add_argument("--product", "-p", help="상품명 (지정하면 이 상품 기반 창작 썰 모드로 동작)")
+    parser.add_argument("--desc", "-d", default="", help="상품 특징 (--product와 함께 사용)")
     parser.add_argument("--link", "-l", required=True, help="댓글로 달 토스 쇼핑 링크")
     parser.add_argument(
         "--yes", "-y", action="store_true", help="미리보기 확인 없이 바로 게시"
     )
     args = parser.parse_args()
 
-    raw_story = read_story(args)
-    if not raw_story:
-        print("썰 원문이 비어 있습니다.", file=sys.stderr)
-        sys.exit(1)
+    if args.product:
+        print(f"\n'{args.product}' 상품 기반으로 창작 썰을 생성하는 중...\n")
+        rewritten = generate_product_story(args.product, args.desc)
+    else:
+        raw_story = read_story(args)
+        if not raw_story:
+            print("썰 원문이 비어 있습니다.", file=sys.stderr)
+            sys.exit(1)
 
-    print("\n원문을 Threads 톤으로 각색하는 중...\n")
-    rewritten = rewrite_story(raw_story)
+        print("\n원문을 Threads 톤으로 각색하는 중...\n")
+        rewritten = rewrite_story(raw_story)
 
     print("=" * 40)
     print(rewritten)
