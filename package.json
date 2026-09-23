@@ -1,0 +1,15 @@
+{
+  "name": "cat-diet-calculator",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "아픈 고양이를 위한 사료 성분 계산기",
+  "scripts": {
+    "build": "tsc",
+    "test": "tsc && node --test tests/*.test.mjs",
+    "start": "tsc && npx serve ."
+  },
+  "devDependencies": {
+    "typescript": "^6.0.2"
+  }
+}

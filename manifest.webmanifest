@@ -1,0 +1,14 @@
+{
+  "name": "냥식단 — 아픈 고양이 사료 계산기",
+  "short_name": "냥식단",
+  "description": "사료 성분을 건물 기준·100kcal당으로 변환하고 질환별 기준과 비교합니다.",
+  "lang": "ko",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f4f6f3",
+  "theme_color": "#2b6a5c",
+  "icons": [
+    { "src": "icons/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}
