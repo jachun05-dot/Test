@@ -3,10 +3,14 @@
 {
   "name": "endlessmathsheets",
   "compatibility_date": "2026-06-01",
-  // Serve only on the custom domain (added in the dashboard), so the same pages
-  // are not also public on *.workers.dev.
+  // Serve only on the custom domains, so the same pages are not also public on
+  // *.workers.dev. Pages carry a canonical link to the bare domain.
   "workers_dev": false,
   "preview_urls": false,
+  "routes": [
+    { "pattern": "endlessmathsheets.com", "custom_domain": true },
+    { "pattern": "www.endlessmathsheets.com", "custom_domain": true }
+  ],
   "assets": {
     "directory": "./dist",
     "html_handling": "auto-trailing-slash",
