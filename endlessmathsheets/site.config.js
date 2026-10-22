@@ -6,7 +6,7 @@ export default {
   url: 'https://endlessmathsheets.com',
   contactEmail: 'hello@endlessmathsheets.com',
   adsense: {
-    client: '', // e.g. 'ca-pub-1234567890123456'
+    client: 'ca-pub-6524402921836917',
     // Optional manual ad units. Leave empty to rely on Auto ads.
     slots: { top: '', bottom: '' },
   },
