@@ -1,0 +1,8 @@
+Fonts in this folder are distributed under the SIL Open Font License, Version 1.1
+(https://openfontlicense.org):
+
+- Atkinson Hyperlegible (Braille Institute of America)
+- Bricolage Grotesque (Mathieu Triay)
+- Lexend (The Lexend Project Authors)
+
+Downloaded from Google Fonts, latin subset.
