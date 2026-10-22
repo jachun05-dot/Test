@@ -54,5 +54,9 @@ Ads never print: print styles hide everything except the worksheet.
 
 ## Deploying
 
-Any static host works. On Cloudflare Pages: root directory `endlessmathsheets`, build command
-`npm run build`, output directory `dist`.
+Any static host works.
+
+- Cloudflare Workers (current default): root directory `endlessmathsheets`, build command
+  `npm run build`, deploy command `npx wrangler deploy`. Settings live in `wrangler.jsonc`.
+- Cloudflare Pages: root directory `endlessmathsheets`, build command `npm run build`,
+  output directory `dist`.

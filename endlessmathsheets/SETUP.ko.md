@@ -30,17 +30,18 @@
 
 ## 2. 사이트 올리기 (15분)
 
-1. Cloudflare 왼쪽 메뉴 **Workers & Pages → Create → Pages → Connect to Git**으로 가요.
-2. GitHub 계정을 연결하고 `jachun05-dot/test` 저장소를 골라요.
+1. Cloudflare 왼쪽 메뉴 **Workers & Pages → Create → Import a repository**로 가요.
+2. GitHub 계정을 연결하고 `jachun05-dot/Test` 저장소를 골라요.
 3. 설정값:
-   - **Production branch**: `claude/gazua-4079rc` (또는 이 브랜치를 합친 `main`)
-   - **Root directory**: `endlessmathsheets`
+   - **Project name**: `endlessmathsheets` (`wrangler.jsonc`의 `name`과 같아야 해요)
    - **Build command**: `npm run build`
-   - **Build output directory**: `dist`
-4. **Save and Deploy**를 누르면 1~2분 뒤 `xxxx.pages.dev` 주소로 사이트가 열려요.
-5. 프로젝트의 **Custom domains**에서 `endlessmathsheets.com`을 연결해요. 1단계에서 Cloudflare로 샀다면 자동으로 설정돼요.
+   - **Deploy command**: `npx wrangler deploy` (기본값 그대로)
+   - **Advanced settings → Root directory(Path)**: `endlessmathsheets` ← 꼭 입력
+4. **Deploy**를 누르면 1~2분 뒤 `endlessmathsheets.<계정>.workers.dev` 주소로 사이트가 열려요.
+5. 프로젝트의 **Settings → Domains & Routes → Add → Custom domain**에서 `endlessmathsheets.com`을 연결해요.
 
 이후에는 GitHub에 변경이 올라갈 때마다 자동으로 다시 배포돼요.
+(예전 방식인 Cloudflare Pages를 쓴다면: Build output directory `dist`, Root directory `endlessmathsheets`)
 
 ## 3. 문의용 이메일 (5분)
 

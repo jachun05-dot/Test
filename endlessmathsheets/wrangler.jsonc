@@ -1,0 +1,11 @@
+// Cloudflare Workers static-assets deploy (Workers & Pages > Import a repository).
+// Build: npm run build  ·  Deploy: npx wrangler deploy  ·  Root directory: endlessmathsheets
+{
+  "name": "endlessmathsheets",
+  "compatibility_date": "2026-06-01",
+  "assets": {
+    "directory": "./dist",
+    "html_handling": "auto-trailing-slash",
+    "not_found_handling": "404-page"
+  }
+}
