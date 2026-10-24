@@ -352,6 +352,7 @@ p { margin: 0; }
 .tpc { margin-left: -0.2em; }
 .tx { font-size: 0.6em; color: #555; }
 .ts, .tn sup { font-size: 0.62em; line-height: 0; }
+.tn u { text-decoration-thickness: 0.07em; text-underline-offset: 0.14em; }
 .ts { position: relative; top: -0.55em; margin-left: -0.3em; }
 .tb { display: inline-flex; align-items: flex-end; justify-content: center; height: 1.2em; border-bottom: 0.06em solid currentColor; flex: none; }
 .tb .ka { display: inline-flex; align-items: center; gap: 0.22em; line-height: 1.1; }

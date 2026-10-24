@@ -37,7 +37,8 @@ const fracW = (t) => Math.max(partW(t.n), partW(t.d)) + 0.25 + (t.w ? strW(t.w) 
 
 function tokW(t, bw = 0) {
   switch (t.t) {
-    case 'n': return strW(t.v);
+    case 'n':
+    case 'u': return strW(t.v);
     case 'o': return t.v === '(' || t.v === ')' ? 0.36 : 0.85;
     case 'x': return t.v.length * 0.47;
     case 'p': return strW(t.b) + strW(t.e) * 0.65;
@@ -174,6 +175,7 @@ export function planLayout(problems, format, o = {}) {
 function tokHtml(t, key, bw = 0) {
   switch (t.t) {
     case 'n': return `<span class="tn">${esc(t.v)}</span>`;
+    case 'u': return `<span class="tn">${esc(t.v.slice(0, t.i))}<u>${esc(t.v[t.i])}</u>${esc(t.v.slice(t.i + 1))}</span>`;
     case 'o': return `<span class="to${t.v === '(' ? ' tpo' : t.v === ')' ? ' tpc' : ''}">${esc(t.v)}</span>`;
     case 'x': return `<span class="tx">${esc(t.v)}</span>`;
     case 'p': return `<span class="tn">${esc(t.b)}<sup>${esc(t.e)}</sup></span>`;

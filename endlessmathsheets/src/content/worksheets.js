@@ -10,6 +10,7 @@ export const CONTROLS = {
   order: { id: 'order', label: 'Order', type: 'select', options: [['shuffled', 'Mixed up'], ['ordered', 'In order first']] },
   mode: { id: 'mode', label: 'Task', type: 'select', options: [['read', 'Read the clock'], ['draw', 'Draw the hands']] },
   step: { id: 'step', label: 'Time to the', type: 'select', options: [[60, 'Hour'], [30, 'Half hour'], [15, 'Quarter hour'], [5, '5 minutes'], [1, 'Minute']] },
+  level: { id: 'level', label: 'Level', type: 'select', options: [[4, 'Grade 4 (easier)'], [5, 'Grade 5'], [6, 'Grade 6 (harder)']] },
   place: { id: 'place', label: 'Round to the', type: 'select', options: [['mixed', 'Mixed places'], ['whole', 'Whole number'], ['tenth', 'Tenth'], ['hundredth', 'Hundredth']] },
 };
 
@@ -762,25 +763,35 @@ ws({
 ws({
   slug: 'fractions/improper-fractions-to-mixed-numbers', cat: 'fractions', group: 'Fraction sense', card: 'Improper to mixed',
   title: 'Improper Fractions to Mixed Numbers Worksheets', sheet: 'Improper Fractions to Mixed Numbers', instr: 'Write each improper fraction as a mixed number.',
-  grades: [4, 5], std: ['4.NF.B.3'],
-  gen: 'fracToMixed', params: {}, format: 'horizontal', count: 24, counts: [12, 16, 24, 32],
-  intro: 'An improper fraction such as 17/5 has a numerator larger than its denominator. Students divide to find how many wholes it holds and what is left over: 17/5 = 3 2/5.',
-  onSheet: 'Improper fractions with denominators from 2 to 12 that do not simplify, so each answer has one correct form.',
+  grades: [4, 5, 6], std: ['4.NF.B.3'],
+  gen: 'fracToMixed', params: { level: 5 }, controls: ['level'], format: 'horizontal', count: 24, counts: [12, 16, 24, 32],
+  intro: 'An improper fraction such as 17/5 has a numerator larger than its denominator. Students divide to find how many wholes it holds and what is left over: 17/5 = 3 2/5. Choose a grade 4, 5 or 6 level to match your class.',
+  onSheet: 'Improper fractions that do not simplify, so each answer has one correct form. The grade 4 level uses denominators up to 6, grade 5 up to 12, and grade 6 up to 20 with larger whole numbers.',
   tips: [
     'Connect this to division with remainders: 17 ÷ 5 = 3 R2.',
     'The remainder becomes the new numerator. The denominator stays the same.',
+  ],
+  byGrade: [
+    ['Grade 4', 'Mixed numbers first appear when students add and subtract fractions with like denominators (4.NF.B.3). Sums such as 5/6 + 4/6 = 9/6 are rewritten as 1 3/6. The grade 4 level keeps denominators at 6 or less.'],
+    ['Grade 5', 'Answers to fraction addition and multiplication are often improper, and students are expected to write them as mixed numbers (5.NF.A.1, 5.NF.B.4). The grade 5 level uses denominators up to 12.'],
+    ['Grade 6', 'Quotients of fractions, such as 3/4 ÷ 1/6 = 18/4, are rewritten as mixed numbers in simplest form (6.NS.A.1). The grade 6 level uses denominators up to 20 and answers with whole parts up to 12.'],
   ],
 });
 ws({
   slug: 'fractions/mixed-numbers-to-improper-fractions', cat: 'fractions', group: 'Fraction sense', card: 'Mixed to improper',
   title: 'Mixed Numbers to Improper Fractions Worksheets', sheet: 'Mixed Numbers to Improper Fractions', instr: 'Write each mixed number as an improper fraction.',
-  grades: [4, 5], std: ['4.NF.B.3'],
-  gen: 'fracToImproper', params: {}, format: 'horizontal', count: 24, counts: [12, 16, 24, 32],
-  intro: 'Turning a mixed number into an improper fraction is a key step before multiplying or dividing mixed numbers. For 2 3/4, multiply 2 by 4 and add 3 to get 11/4.',
-  onSheet: 'Mixed numbers with whole parts from 1 to 9 and denominators from 2 to 12.',
+  grades: [4, 5, 6], std: ['4.NF.B.3'],
+  gen: 'fracToImproper', params: { level: 5 }, controls: ['level'], format: 'horizontal', count: 24, counts: [12, 16, 24, 32],
+  intro: 'Turning a mixed number into an improper fraction is a key step before multiplying or dividing mixed numbers. For 2 3/4, multiply 2 by 4 and add 3 to get 11/4. Choose a grade 4, 5 or 6 level to match your class.',
+  onSheet: 'Mixed numbers in simplest form. The grade 4 level uses denominators up to 6 and whole numbers up to 5, grade 5 uses denominators up to 12, and grade 6 uses denominators up to 20 and whole numbers up to 12.',
   tips: [
     'Ask "How many fourths are in 2 wholes?" before showing the shortcut.',
     'Check by converting the answer back into a mixed number.',
+  ],
+  byGrade: [
+    ['Grade 4', 'Students learn that a mixed number such as 2 3/4 is the same as 11/4 while adding and subtracting mixed numbers with like denominators (4.NF.B.3). The grade 4 level keeps denominators at 6 or less.'],
+    ['Grade 5', 'Rewriting mixed numbers as improper fractions is the usual first step for multiplying them, as in 2 1/3 × 3/4 (5.NF.B.6). The grade 5 level uses denominators up to 12.'],
+    ['Grade 6', 'Dividing with mixed numbers, such as 3 1/2 ÷ 1 3/4, starts by converting both to improper fractions (6.NS.A.1). The grade 6 level uses denominators up to 20 and whole numbers up to 12.'],
   ],
 });
 ws({
@@ -883,6 +894,19 @@ ws({
 // ---------------- Decimals ----------------
 
 ws({
+  slug: 'decimals/decimal-place-value', cat: 'decimals', group: 'Place value', card: 'Decimal place value',
+  title: 'Decimal Place Value Worksheets', sheet: 'Decimal Place Value', instr: 'Write the value of the underlined digit.',
+  grades: [5], std: ['5.NBT.A.1', '5.NBT.A.3'],
+  gen: 'decPlace', params: {}, format: 'horizontal', count: 20, counts: [10, 20, 30, 40],
+  intro: 'Each place in a decimal is worth ten times the place to its right: tens, ones, tenths, hundredths, thousandths. These sheets ask for the value of an underlined digit, the skill behind reading, comparing and rounding decimals in 5th grade.',
+  onSheet: 'Numbers with one to three whole-number digits and two or three decimal places. Students write the value of the underlined digit, such as 0.07 for the 7 in 45.372.',
+  tips: [
+    'Have students read each number aloud with its place names: 45.372 is forty-five and three hundred seventy-two thousandths.',
+    'A place value chart with columns for tens, ones, tenths, hundredths and thousandths makes the value of each digit easy to see.',
+    'Ask what happens to the value of a digit when it moves one place to the left. It becomes ten times greater.',
+  ],
+});
+ws({
   slug: 'decimals/adding-decimals', cat: 'decimals', group: 'Decimal operations', card: 'Adding decimals',
   title: 'Adding Decimals Worksheets', sheet: 'Adding Decimals', instr: 'Add. Line up the decimal points.',
   grades: [5], std: ['5.NBT.B.7'],
@@ -904,6 +928,20 @@ ws({
   tips: [
     'Write a zero in empty places before subtracting: 12.4 − 3.75 becomes 12.40 − 3.75.',
     'Check by adding the answer to the number you subtracted.',
+  ],
+});
+ws({
+  slug: 'decimals/adding-and-subtracting-decimals', cat: 'decimals', group: 'Decimal operations', card: 'Adding and subtracting',
+  title: 'Adding and Subtracting Decimals Worksheets', sheet: 'Adding and Subtracting Decimals', instr: 'Look at each sign. Line up the decimal points.',
+  grades: [5, 6, 7], std: ['5.NBT.B.7', '6.NS.B.3'],
+  gen: 'mixed', params: { ops: [{ gen: 'decAddSub', params: { op: '+', w: [0, 99], dp: [1, 2] } }, { gen: 'decAddSub', params: { op: '-', w: [0, 99], dp: [1, 2] } }] },
+  format: 'vertical', formats: ['vertical', 'horizontal'], count: 20, counts: [10, 15, 20, 25],
+  intro: 'Addition and subtraction of decimals on the same page, so students check the sign and line up the decimal points every time. This mixed practice is a 5th grade skill and a quick review in 6th and 7th grade.',
+  onSheet: 'Half addition and half subtraction with tenths and hundredths of different lengths, such as 34.7 + 8.25 and 52.4 − 17.86.',
+  tips: [
+    'Write a zero in empty places so both numbers have the same number of decimal places.',
+    'Check each subtraction by adding the answer to the number you subtracted.',
+    'For 6th and 7th grade review, ask students to estimate each answer to the nearest whole number first.',
   ],
 });
 ws({

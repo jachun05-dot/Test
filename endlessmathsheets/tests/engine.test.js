@@ -82,6 +82,15 @@ function checkLine(parts) {
     assert.equal(sym, diff > 0 ? '>' : diff < 0 ? '<' : '=');
     return;
   }
+  const under = parts.find((t) => t.t === 'u');
+  if (under) {
+    const point = under.v.indexOf('.');
+    const digit = Number(under.v[under.i]);
+    const exp = under.i < point ? point - under.i - 1 : point - under.i;
+    const ans = parts[parts.length - 1].a[0].v;
+    assert.ok(eq(parseNum(ans), exp >= 0 ? R(digit * 10 ** exp) : R(digit, 10 ** -exp)), `value of digit ${under.i} in ${under.v} is ${ans}`);
+    return;
+  }
   const arrow = parts.findIndex((t) => t.v === '→');
   if (arrow >= 0) {
     const n = parseNum(parts[0].v);
@@ -217,12 +226,18 @@ test('fraction answers are exact and simplified', () => {
   run('fracCompare', {});
   run('fracToMixed', {});
   run('fracToImproper', {});
+  for (const level of [4, 5, 6]) {
+    const maxD = { 4: 6, 5: 12, 6: 20 }[level];
+    for (const p of run('fracToMixed', { level }, 32)) assert.ok(Number(p.parts[0].d) <= maxD);
+    for (const p of run('fracToImproper', { level }, 32)) assert.ok(Number(p.parts[0].d) <= maxD);
+  }
 });
 
 test('decimals, integers, rounding, comparing', () => {
   run('decAddSub', { op: '+', w: [0, 99], dp: [1, 2] });
   run('decAddSub', { op: '-', w: [0, 99], dp: [1, 2] });
   run('decMul', {});
+  run('decPlace', {}, 40);
   const dd = run('decDiv', {}, 12);
   for (const p of dd) assert.ok(p.dividend.includes('.'));
   for (const place of ['whole', 'tenth', 'hundredth', 'mixed']) run('decRound', { place });

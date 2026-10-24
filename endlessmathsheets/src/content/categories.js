@@ -111,8 +111,8 @@ export const CATEGORIES = [
     tile: 'decimals/adding-decimals',
     name: 'Decimals',
     title: 'Decimal Worksheets',
-    lede: 'Adding, subtracting, multiplying, dividing and rounding decimals to hundredths.',
-    groups: ['Decimal operations'],
+    lede: 'Decimal place value, then adding, subtracting, multiplying, dividing and rounding decimals to hundredths.',
+    groups: ['Place value', 'Decimal operations'],
     guide: [
       'Decimal arithmetic is place-value arithmetic with a point. For adding and subtracting, the decimal points must line up, which is why the stacked sheets here align every number on its point, even when the numbers have different lengths.',
       'For multiplying, students multiply as if the numbers were whole and then place the decimal point by counting decimal places. For dividing a decimal by a whole number, the point in the quotient goes straight above the point in the dividend.',

@@ -7,7 +7,7 @@
 // Every problem has a `key` used to avoid repeats on the same sheet.
 
 import { gcd, lcm, carryCount, borrowCount, fmtInt, fmtDec, MINUS, TIMES, DIVIDE } from './numbers.js';
-import { N, O, X, P, S, F, B } from './tokens.js';
+import { N, O, X, P, S, F, B, U } from './tokens.js';
 
 const span = ([lo, hi]) => hi - lo + 1;
 const inRange = (v, r) => !r || (v >= r[0] && v <= r[1]);
@@ -389,19 +389,29 @@ function genFracCompare(rng, p, count) {
   });
 }
 
+// Difficulty by grade for mixed-number conversions: denominator and whole-number ranges.
+const FRAC_LEVELS = {
+  4: { d: [2, 6], w: [1, 5] },
+  5: { d: [2, 12], w: [1, 9] },
+  6: { d: [2, 20], w: [1, 12] },
+};
+const fracLevel = (p) => FRAC_LEVELS[p.level] || FRAC_LEVELS[5];
+
 function genFracToMixed(rng, p, count) {
+  const L = fracLevel(p);
   return collect(count, () => {
-    const d = rng.int(2, 12);
-    const n = rng.int(d + 1, d * 6);
+    const d = rng.int(...L.d);
+    const n = rng.int(d + 1, d * (L.w[1] + 1) - 1);
     if (gcd(n, d) !== 1) return null;
     return { type: 'line', parts: [F(n, d), O('='), B(F(n % d, d, Math.floor(n / d)))], key: `${n}/${d}` };
   });
 }
 
 function genFracToImproper(rng, p, count) {
+  const L = fracLevel(p);
   return collect(count, () => {
-    const f = simplestProper(rng, [2, 12]);
-    const w = rng.int(1, 9);
+    const f = simplestProper(rng, L.d);
+    const w = rng.int(...L.w);
     return { type: 'line', parts: [F(f.n, f.d, w), O('='), B(F(w * f.d + f.n, f.d))], key: `${w}_${f.n}/${f.d}` };
   });
 }
@@ -465,6 +475,25 @@ function genDecDiv(rng, p, count) {
     const v = q.v * d;
     if (v % 10 === 0) return null;
     return divProblem(fmtDec(v, q.dp), d, fmtDec(q.v, q.dp), 0, false);
+  });
+}
+
+// Value of an underlined digit, e.g. the 7 in 45.372 is 0.07.
+function genDecPlace(rng, p, count) {
+  return collect(count, () => {
+    const wd = rng.int(1, 3);
+    const dp = rng.int(2, 3);
+    const whole = rng.int(10 ** (wd - 1), 10 ** wd - 1);
+    let frac = rng.int(1, 10 ** dp - 1);
+    if (frac % 10 === 0) frac += rng.int(1, 9);
+    const s = `${whole}.${String(frac).padStart(dp, '0')}`;
+    const point = s.indexOf('.');
+    // Mostly decimal places, sometimes a whole-number place.
+    const i = rng.chance(0.75) ? rng.int(point + 1, s.length - 1) : rng.int(0, point - 1);
+    const digit = s[i];
+    if (digit === '0') return null;
+    const value = i < point ? digit + '0'.repeat(point - i - 1) : `0.${'0'.repeat(i - point - 1)}${digit}`;
+    return { type: 'line', parts: [U(s, i), O('\u2192'), B(N(value))], key: `${s}@${i}` };
   });
 }
 
@@ -635,6 +664,7 @@ export const GENERATORS = {
   decMul: { formats: ['horizontal'], generate: genDecMul },
   decDiv: { formats: ['longdiv', 'horizontal'], generate: genDecDiv },
   decRound: { formats: ['horizontal'], generate: genDecRound },
+  decPlace: { formats: ['horizontal'], generate: genDecPlace },
   int: { formats: ['horizontal'], generate: genInt },
   round: { formats: ['horizontal'], generate: genRound },
   compare: { formats: ['horizontal'], generate: genCompare },

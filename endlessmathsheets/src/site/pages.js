@@ -205,8 +205,16 @@ function card(ctx, ws, { showCat = false } = {}) {
 </a></li>`;
 }
 
+// "4th, 5th and 6th grade" — the way people type grades into search.
+function gradeWords(grades) {
+  const ord = (g) => (g === 'K' ? 'kindergarten' : `${g}${g === 1 ? 'st' : g === 2 ? 'nd' : g === 3 ? 'rd' : 'th'}`);
+  const words = grades.map(ord);
+  const list = words.length > 1 ? `${words.slice(0, -1).join(', ')} and ${words[words.length - 1]}` : words[0];
+  return grades.length === 1 && grades[0] === 'K' ? list : `${list} grade`;
+}
+
 function metaDescription(ws) {
-  const base = `Free printable ${ws.title.replace(/ Worksheets/, ' worksheets').replace(/^./, (c) => c.toLowerCase())} with answer keys. ${ws.onSheet}`;
+  const base = `Free printable ${ws.title.toLowerCase()} for ${gradeWords(ws.grades)}, with answer keys. ${ws.onSheet}`;
   if (base.length <= 160) return base;
   const cut = base.slice(0, 157);
   return `${cut.slice(0, cut.lastIndexOf(' '))}…`;
@@ -285,6 +293,7 @@ ${printBtn}
 <p>${esc(ws.onSheet)} Each sheet comes with an answer key on a separate page.</p>
 <h2>Teaching tips</h2>
 <ul>${ws.tips.map((t) => `<li>${esc(t)}</li>`).join('')}</ul>
+${ws.byGrade ? `<h2>Which grade is this for?</h2>${ws.byGrade.map(([g, t]) => `<p><b>${esc(g)}.</b> ${esc(t)}</p>`).join('')}` : ''}
 <h2>How to use this worksheet maker</h2>
 <p>Press <b>New worksheet</b> for a fresh set of problems, then <b>Print</b>. To save a PDF instead, choose "Save as PDF" in the print window. Every sheet has a short code in the bottom corner. Copy the link to a sheet and you can print exactly the same problems again later, which is handy for retakes and for sharing with other teachers.</p>
 <p class="std">Common Core alignment: <b>${esc(stdText)}</b> (${esc(gradeText(ws.grades))}).</p>
@@ -316,7 +325,7 @@ ${adSlot(ctx, 'bottom')}
   ];
   const scripts = `${jsonScript('ws-config', cfg)}\n<script type="module" src="${L('/assets/js/app.js')}?v=${ctx.version}"></script>`;
   return page(ctx, {
-    title: `${ws.title} (Free, Printable)`,
+    title: `${ws.title} (${gradeText(ws.grades)}, Free Printable)`,
     description: metaDescription(ws),
     path,
     main,
