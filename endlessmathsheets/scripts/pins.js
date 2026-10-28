@@ -8,9 +8,10 @@ import { join, extname, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import site from '../site.config.js';
 import { WORKSHEETS } from '../src/content/worksheets.js';
-import { PINS, PIN_BOARD } from '../src/content/pins.js';
-import { worksheetConfig, gradeText } from '../src/site/pages.js';
+import { PINS } from '../src/content/pins.js';
+import { worksheetConfig, levelText } from '../src/site/pages.js';
 import { makeWorksheet } from '../src/engine/index.js';
+import { THEMES, svgIcon } from '../src/engine/themes.js';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const DIST = join(ROOT, 'dist');
@@ -36,6 +37,10 @@ function pinHtml(pin) {
   const cut = html.indexOf('<section class="sheet is-key">');
   const front = html.slice(0, html.indexOf('</section>') + 10);
   const key = html.slice(cut, html.indexOf('</section>', cut) + 10);
+  const paper = cfg.paper || 'letter';
+  const theme = THEMES[ws.theme];
+  const art = theme ? `<div class="art">${[...new Set([theme.strip[1], theme.icon, theme.strip[2], theme.strip[0]])].slice(0, 3).map((b) => svgIcon(b)).join('')}</div>` : '';
+  const label = ws.locale === 'uk' ? 'Free printable · A4' : 'Free printable';
   const len = pin.title.length;
   const size = len <= 24 ? 104 : len <= 32 ? 92 : len <= 40 ? 82 : 74;
   return `<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="/assets/site.css"><style>
@@ -56,12 +61,16 @@ html,body{margin:0;width:1000px;height:1500px;overflow:hidden;background:#fff}
 .foot .b{display:flex;align-items:center;gap:16px}
 .foot svg{width:52px;height:52px}
 .foot .g{background:#fff;color:#16203a;border-radius:999px;padding:8px 22px;font-size:30px}
+.lrow{display:flex;align-items:center;gap:22px}
+.art{display:flex;align-items:flex-end;gap:8px;color:#fff;--icon-fill:${pin.color};margin-top:-14px}
+.art .ti{width:66px;height:66px;stroke-width:1.5}
+.art .ti:nth-child(2){width:88px;height:88px}
 </style></head><body><div class="pin">
-<div class="s s-key sheets" data-paper="letter" data-view="key">${key}</div>
-<div class="s s-front sheets" data-paper="letter" data-view="sheet">${front}</div>
-<div class="top"><span class="label">Free printable</span><h1 class="title">${esc(pin.title)}</h1><p class="sub">${esc(pin.sub)}</p></div>
+<div class="s s-key sheets" data-paper="${paper}" data-view="key">${key}</div>
+<div class="s s-front sheets" data-paper="${paper}" data-view="sheet">${front}</div>
+<div class="top"><div class="lrow"><span class="label">${label}</span>${art}</div><h1 class="title">${esc(pin.title)}</h1><p class="sub">${esc(pin.sub)}</p></div>
 <div class="sticker">Answer<br>key<br>included</div>
-<div class="foot"><span class="b"><svg viewBox="0 0 40 40"><rect x="9" y="3" width="26" height="32" rx="4" fill="#f6b81a"/><rect x="4" y="7" width="26" height="31" rx="4" fill="#fff" stroke="#fff" stroke-width="1"/><path d="M10 17h14M10 23h14M10 29h8" stroke="#1f4fbf" stroke-width="2.5" stroke-linecap="round"/><path d="M8 8v29" stroke="#e0746b" stroke-width="1.6"/></svg>${site.domain}</span><span class="g">${esc(gradeText(ws.grades))}</span></div>
+<div class="foot"><span class="b"><svg viewBox="0 0 40 40"><rect x="9" y="3" width="26" height="32" rx="4" fill="#f6b81a"/><rect x="4" y="7" width="26" height="31" rx="4" fill="#fff" stroke="#fff" stroke-width="1"/><path d="M10 17h14M10 23h14M10 29h8" stroke="#1f4fbf" stroke-width="2.5" stroke-linecap="round"/><path d="M8 8v29" stroke="#e0746b" stroke-width="1.6"/></svg>${site.domain}</span><span class="g">${esc(levelText(ws))}</span></div>
 </div></body></html>`;
 }
 
@@ -110,7 +119,7 @@ async function main() {
     rows.push([
       pin.pinTitle,
       `${site.url}/pins/${fileName(pin)}`,
-      PIN_BOARD,
+      pin.board,
       '',
       pin.description,
       `${site.url}/${pin.slug}/`,

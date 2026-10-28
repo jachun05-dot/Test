@@ -1,6 +1,7 @@
 // Pinterest pins: one per popular worksheet. scripts/pins.js renders the images
 // into src/static/pins/ (served at /pins/...) and writes a bulk-upload CSV.
 export const PIN_BOARD = 'Free Printable Math Worksheets';
+export const UK_BOARD = 'Maths Worksheets UK (KS1 and KS2)';
 
 const COLORS = {
   addition: '#c2410c',
@@ -12,9 +13,12 @@ const COLORS = {
   rounding: '#3f6212',
   'telling-time': '#0e7490',
   'order-of-operations': '#334155',
+  'thanksgiving-math-worksheets': '#a4460a',
+  'christmas-math-worksheets': '#15803d',
+  maths: '#0f5f8f',
 };
 
-const p = (slug, title, sub, pinTitle, description, keywords) => ({
+const p = (slug, title, sub, pinTitle, description, keywords, extra = {}) => ({
   slug,
   cat: slug.split('/')[0],
   color: COLORS[slug.split('/')[0]],
@@ -23,6 +27,8 @@ const p = (slug, title, sub, pinTitle, description, keywords) => ({
   pinTitle,
   description,
   keywords,
+  board: slug.startsWith('maths/') ? UK_BOARD : PIN_BOARD,
+  ...extra,
 });
 
 export const PINS = [
@@ -123,4 +129,38 @@ export const PINS = [
     'Adding and Subtracting Decimals Worksheets – Free Printable (Grades 5–7)',
     'Printable worksheets that mix decimal addition and subtraction on one page, with every decimal point lined up. Great for 5th grade practice and 6th or 7th grade review. Answer key included.',
     'adding and subtracting decimals, decimal worksheets, 5th grade math, 6th grade math, 7th grade math'),
+  // Seasonal pins: post Thanksgiving first (US teachers plan in early November), then Christmas.
+  p('thanksgiving-math-worksheets/multiplication', 'Thanksgiving Multiplication Worksheets', 'Pick the times tables, then color the turkeys',
+    'Thanksgiving Multiplication Worksheets – Free Printable With Answer Key',
+    'Free printable Thanksgiving multiplication worksheets for 3rd and 4th grade. Choose the times tables, print a new turkey-themed sheet every time, and let kids color the pictures when they finish. The answer key prints on its own page.',
+    'thanksgiving math worksheets, thanksgiving multiplication, thanksgiving activities for kids, 3rd grade math, november math'),
+  p('thanksgiving-math-worksheets/addition', 'Thanksgiving Addition Worksheets', 'Facts within 20 with turkeys and pumpkins',
+    'Thanksgiving Addition Worksheets for 1st and 2nd Grade (Free Printable)',
+    'Free Thanksgiving addition worksheets with sums within 20 for 1st and 2nd grade. Turkey, pumpkin and leaf line art that kids can color, a new sheet every click, and an answer key. Great for the week before Thanksgiving break.',
+    'thanksgiving math, thanksgiving worksheets, addition within 20, 1st grade math, thanksgiving activities for kids'),
+  p('christmas-math-worksheets/multiplication', 'Christmas Multiplication Worksheets', 'Pick the times tables, then color the tree',
+    'Christmas Multiplication Worksheets – Free Printable With Answer Key',
+    'Free Christmas multiplication worksheets for 3rd and 4th grade. Tick the times tables you want, print a festive sheet with a tree, ornaments and candy canes, and get a matching answer key. New problems every click.',
+    'christmas math worksheets, christmas multiplication, christmas activities for kids, 3rd grade math, december math'),
+  p('christmas-math-worksheets/addition', 'Christmas Addition Worksheets', 'Facts within 20 with ornaments and gifts',
+    'Christmas Addition Worksheets for 1st and 2nd Grade – Free Printable',
+    'Free Christmas addition worksheets with sums within 20 for 1st and 2nd grade. Kids solve the facts, then color the tree, ornaments and gifts. Every click makes a new sheet, with an answer key on its own page.',
+    'christmas math, christmas worksheets, addition within 20, 1st grade math, christmas activities for kids'),
+  // UK and Australia: A4 sheets with UK wording, on their own board.
+  p('maths/multiplication-tables-check', 'Times Tables Check Practice', '25 questions, just like the real MTC',
+    'Multiplication Tables Check Practice Sheets – Year 4 (Free, A4)',
+    'Free printable MTC practice for Year 4: 25 times tables questions from 2 to 12, just like the multiplication tables check in June. A new sheet every click, with an answer key. A4 paper, no sign-up.',
+    'multiplication tables check, MTC practice, year 4 maths, times tables, ks2 maths'),
+  p('maths/short-division', 'Short Division Worksheets', 'The bus stop method, with remainders',
+    'Short Division (Bus Stop Method) Worksheets – Year 5, Free A4',
+    'Free bus stop method worksheets for Year 5 short division: numbers up to 4 digits divided by a one-digit number, with remainders. A4 paper, UK layout and an answer key on its own page.',
+    'bus stop method, short division, year 5 maths, division worksheets, ks2 maths'),
+  p('maths/column-addition-3-digit', 'Column Addition Worksheets', '3-digit numbers, with exchanging',
+    'Column Addition Worksheets for Year 3 – Free Printable Maths (A4)',
+    'Free printable column addition worksheets for Year 3, with 3-digit numbers and exchanging. A4 paper, UK wording, a new sheet every click and an answer key on its own page. Suits Australian classrooms too.',
+    'column addition, year 3 maths, ks2 maths worksheets, maths worksheets uk, addition with exchanging'),
+  p('maths/number-bonds-to-10', 'Number Bonds to 10 Worksheets', 'Fill in the missing number',
+    'Number Bonds to 10 Worksheets – Year 1 Maths (Free Printable)',
+    'Free number bonds to 10 worksheets for Year 1 and Reception. Children fill in the missing number in facts like 3 + ? = 10. A4 paper, a new sheet every click, and an answer key on its own page.',
+    'number bonds to 10, number bonds, year 1 maths, ks1 maths, reception maths'),
 ];
