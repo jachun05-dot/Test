@@ -50,8 +50,9 @@ async function main() {
 
   const fontsCss = await readFile(join(ROOT, 'src/site/fonts.css'), 'utf8');
   const css = (preview ? '' : fontsCss) + (await readFile(join(ROOT, 'src/site/site.css'), 'utf8'));
-  // Preload the two faces every page uses first: body text and worksheet digits.
-  const preloadFonts = [...fontsCss.matchAll(/url\((\/fonts\/(?:atkinson-hyperlegible-386222|lexend-[a-f0-9]+)\.woff2)\)/g)].map((m) => m[1]);
+  // Preload the faces every page uses first: body text, headings and worksheet digits,
+  // so text does not reflow (and push the page around) when a font arrives late.
+  const preloadFonts = [...fontsCss.matchAll(/url\((\/fonts\/(?:atkinson-hyperlegible-386222|bricolage-grotesque-[a-f0-9]+|lexend-[a-f0-9]+)\.woff2)\)/g)].map((m) => m[1]);
   const app = await readFile(join(ROOT, 'src/client/app.js'), 'utf8');
   const version = createHash('sha1').update(css).update(app).digest('hex').slice(0, 8);
 

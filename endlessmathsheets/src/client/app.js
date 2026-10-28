@@ -28,7 +28,6 @@ function initMaker(root, cfg) {
   const form = $('#opts', root);
   const codeEl = $('#sheet-code', root);
   const status = $('#status', root);
-  const details = $('details.opts', root);
 
   const state = {
     seed: cfg.seed,
@@ -184,8 +183,6 @@ function initMaker(root, cfg) {
       status.textContent = '';
     }, 4000);
   });
-
-  if (details && window.matchMedia('(max-width: 899px)').matches) details.open = false;
 
   syncForm();
   if (hadQuery) render();

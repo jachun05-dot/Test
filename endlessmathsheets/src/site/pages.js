@@ -312,6 +312,7 @@ ${printBtn}
 </div>
 <div class="gen-body">
 <details class="opts" open><summary>Customize</summary>${optionsForm(ws, cfg, ctx.preview)}</details>
+<script>if(matchMedia('(max-width: 899px)').matches)document.currentScript.previousElementSibling.open=false</script>
 <div class="stage"><div class="sheets" id="sheets" data-view="sheet" data-paper="${paper}" data-print-key="1">${html}</div></div>
 </div>
 </section>
