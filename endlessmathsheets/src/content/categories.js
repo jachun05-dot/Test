@@ -202,6 +202,63 @@ export const CATEGORIES = [
       ['Do multiplication and division have the same priority?', 'Yes. Do whichever comes first from left to right. The same goes for addition and subtraction.'],
     ],
   },
+  {
+    slug: 'thanksgiving-math-worksheets',
+    lower: 'Thanksgiving',
+    guideTitle: 'Using Thanksgiving worksheets in class',
+    tile: 'thanksgiving-math-worksheets/multiplication',
+    name: 'Thanksgiving',
+    title: 'Thanksgiving Math Worksheets',
+    lede: 'Turkey-themed math practice for the weeks before Thanksgiving: addition, subtraction, multiplication and division, with a new set of problems every click.',
+    groups: ['Thanksgiving worksheets'],
+    guide: [
+      'These worksheets practice the same grade-level skills as the rest of the site, wrapped in a Thanksgiving frame with turkeys, pumpkins and fall leaves. The line art prints well in black and white, and kids can color the pictures when they finish.',
+      'They work well as morning work in the week of Thanksgiving, as a calm activity before the break, or as homework packets. Because every sheet is different, you can give one to each table group without anyone copying.',
+    ],
+    faq: [
+      ['When is Thanksgiving?', 'In the United States, Thanksgiving is the fourth Thursday of November. In 2026 it falls on November 26.'],
+      ['Do the Thanksgiving worksheets include answer keys?', 'Yes. Each sheet prints with an answer key on its own page, just like the regular worksheets.'],
+      ['Will they print in black and white?', 'Yes. The frame and pictures are line drawings in a warm brown, which print as grey on a black and white printer.'],
+    ],
+  },
+  {
+    slug: 'christmas-math-worksheets',
+    lower: 'Christmas',
+    guideTitle: 'Using Christmas worksheets in class',
+    tile: 'christmas-math-worksheets/multiplication',
+    name: 'Christmas',
+    title: 'Christmas Math Worksheets',
+    lede: 'Festive math practice with trees, ornaments and snowflakes: addition, subtraction, multiplication and division, with a new set of problems every click.',
+    groups: ['Christmas worksheets'],
+    guide: [
+      'Christmas worksheets keep regular skills going during the busy weeks of December. Each sheet has a festive frame, a tree by the title and a row of ornaments, gifts and candy canes along the bottom.',
+      'Use them for the last days before winter break, for early finishers, or in a holiday homework packet. Every click makes a new sheet, and the answer key prints on its own page.',
+    ],
+    faq: [
+      ['Are these Christmas math worksheets free?', 'Yes. Every worksheet on the site is free to print for home and classroom use, with no sign-up.'],
+      ['Which grades are they for?', 'Addition and subtraction within 20 suit 1st and 2nd grade, two-digit addition and subtraction suits 2nd grade, and the multiplication and division facts suit 3rd and 4th grade.'],
+      ['Can I change the number of problems?', 'Yes. Each worksheet lets you choose the number of problems, the layout, the paper size and whether to print the answer key.'],
+    ],
+  },
+  {
+    slug: 'maths',
+    lower: 'UK maths',
+    guideTitle: 'How these UK worksheets work',
+    tile: 'maths/column-addition-3-digit',
+    name: 'UK Maths',
+    title: 'Maths Worksheets (UK & Australia)',
+    lede: 'A4 maths worksheets that use the words British and Australian classrooms use: number bonds, column addition, short division with the bus stop method and times tables check practice.',
+    groups: ['Number bonds', 'Column addition and subtraction', 'Times tables, multiplication and division', 'Telling the time'],
+    guide: [
+      'These worksheets follow the National Curriculum for England, from number bonds in Year 1 to long division in Year 6. They print on A4 paper by default, use maths and colour rather than math and color, and name the methods the way UK teachers do: column addition, exchanging, short and long multiplication, and short division with the bus stop method.',
+      'Australian classrooms use the same words and paper size, so the sheets suit Australian pupils too. Note that year groups are not quite the same: in England, Year 3 pupils are 7 to 8 years old, while in Australia Year 3 pupils are usually 8 to 9. Pick the worksheet by the skill rather than the year.',
+    ],
+    faq: [
+      ['What is the bus stop method?', 'It is the UK name for short division. The number being divided sits under a bracket that looks like a bus shelter, the divisor waits outside, and remainders are carried to the next digit.'],
+      ['What is the multiplication tables check?', 'The multiplication tables check (MTC) is taken by Year 4 pupils in England every June: 25 times tables questions on screen, with 6 seconds to answer each one.'],
+      ['What does exchanging mean?', 'Exchanging is the UK word for regrouping or carrying: 10 ones are exchanged for 1 ten, or 1 ten for 10 ones when subtracting.'],
+    ],
+  },
 ];
 
 export const CATEGORY_BY_SLUG = Object.fromEntries(CATEGORIES.map((c) => [c.slug, c]));

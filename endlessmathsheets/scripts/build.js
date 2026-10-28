@@ -7,8 +7,9 @@ import site from '../site.config.js';
 import { CATEGORIES, CATEGORY_BY_SLUG } from '../src/content/categories.js';
 import { WORKSHEETS } from '../src/content/worksheets.js';
 import { GRADES } from '../src/content/grades.js';
+import { YEARS } from '../src/content/years.js';
 import { staticPages } from '../src/content/static.js';
-import { linker, worksheetPage, categoryPage, gradePage, homePage, textPage, notFoundPage } from '../src/site/pages.js';
+import { linker, worksheetPage, categoryPage, gradePage, yearPage, homePage, textPage, notFoundPage } from '../src/site/pages.js';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const preview = process.argv.includes('--preview');
@@ -38,6 +39,7 @@ function checkContent() {
     if (!CATEGORY_BY_SLUG[w.cat]) throw new Error(`${w.slug}: unknown category ${w.cat}`);
     if (!CATEGORY_BY_SLUG[w.cat].groups.includes(w.group)) throw new Error(`${w.slug}: unknown group ${w.group}`);
     if (!w.counts.includes(w.count)) throw new Error(`${w.slug}: default count not in counts`);
+    if (w.alt && !slugs.has(w.alt) && !WORKSHEETS.some((x) => x.slug === w.alt)) throw new Error(`${w.slug}: alt ${w.alt} not found`);
   }
 }
 
@@ -61,7 +63,17 @@ async function main() {
 
   const updated = new Date().toISOString().slice(0, 10);
   const year = new Date().getFullYear();
-  const base = { site, categories: CATEGORIES, catBySlug: CATEGORY_BY_SLUG, worksheets: WORKSHEETS, grades: GRADES, version, preview, year, preloadFonts: [...new Set(preloadFonts)] };
+  // hreflang: each UK page and its US twin point at each other.
+  const alternates = {};
+  for (const w of WORKSHEETS) {
+    if (!w.alt) continue;
+    const us = `/${w.alt}/`;
+    const uk = `/${w.slug}/`;
+    const set = [['en-us', us], ['en-gb', uk], ['en-au', uk], ['x-default', us]];
+    alternates[w.slug] = set;
+    alternates[w.alt] = set;
+  }
+  const base = { alternates, years: YEARS, site, categories: CATEGORIES, catBySlug: CATEGORY_BY_SLUG, worksheets: WORKSHEETS, grades: GRADES, version, preview, year, preloadFonts: [...new Set(preloadFonts)] };
   const ctxFor = (path, section) => ({ ...base, link: linker(path, preview), section });
   const pages = [];
   const add = async (path, html) => {
@@ -72,6 +84,7 @@ async function main() {
   await add('/', homePage(ctxFor('/')));
   for (const cat of CATEGORIES) await add(`/${cat.slug}/`, categoryPage(ctxFor(`/${cat.slug}/`, cat.slug), cat));
   for (const g of GRADES) await add(`/${g.slug}/`, gradePage(ctxFor(`/${g.slug}/`), g));
+  for (const y of YEARS) await add(`/${y.slug}/`, yearPage(ctxFor(`/${y.slug}/`), y));
   for (const ws of WORKSHEETS) await add(`/${ws.slug}/`, worksheetPage(ctxFor(`/${ws.slug}/`, ws.cat), ws));
   for (const sp of staticPages(site, WORKSHEETS.length, updated)) await add(sp.path, textPage(ctxFor(sp.path), sp));
   await write('404.html', notFoundPage(ctxFor('/')));

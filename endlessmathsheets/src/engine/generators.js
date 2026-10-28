@@ -255,6 +255,21 @@ function genMissing(rng, p, count) {
   return drawPool(pool, count, rng);
 }
 
+// Number bonds: pairs that make a total, in four layouts (UK Year 1 to 3).
+function genBonds(rng, p, count) {
+  const T = p.total;
+  const step = p.pairs === 'tens' ? 10 : p.pairs === 'fives' ? 5 : 1;
+  const pool = [];
+  for (let a = 0; a <= T; a += step) {
+    const b = T - a;
+    pool.push({ type: 'line', parts: [N(a), O('+'), B(N(b)), O('='), N(T)], key: `${a}+_` });
+    pool.push({ type: 'line', parts: [B(N(a)), O('+'), N(b), O('='), N(T)], key: `_+${b}` });
+    pool.push({ type: 'line', parts: [N(T), O('='), N(a), O('+'), B(N(b))], key: `=${a}+_` });
+    pool.push({ type: 'line', parts: [N(T), O(MINUS), N(a), O('='), B(N(b))], key: `${T}-${a}` });
+  }
+  return drawPool(pool, count, rng);
+}
+
 // ---------- fractions ----------
 
 const properN = (rng, d) => rng.int(1, d - 1);
@@ -654,6 +669,7 @@ export const GENERATORS = {
   div: { formats: ['horizontal', 'longdiv'], generate: genDiv },
   mixed: { formats: ['horizontal', 'vertical'], generate: genMixed },
   missing: { formats: ['horizontal'], generate: genMissing },
+  bonds: { formats: ['horizontal'], generate: genBonds },
   frac: { formats: ['horizontal'], generate: genFrac },
   fracSimplify: { formats: ['horizontal'], generate: genFracSimplify },
   fracEquiv: { formats: ['horizontal'], generate: genFracEquiv },

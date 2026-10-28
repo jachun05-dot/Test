@@ -377,6 +377,22 @@ p { margin: 0; }
   border-right: 0.07em solid currentColor; border-radius: 0 100% 100% 0 / 0 50% 50% 0;
 }
 
+/* holiday themes: frame, title icon and footer pictures */
+.ti { fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linejoin: round; stroke-linecap: round; }
+.ti .f { fill: var(--icon-fill, #fff); }
+.ti .d { fill: currentColor; stroke: none; }
+.ti .cc-o { stroke-width: 5.5; }
+.ti .cc-i { stroke: var(--icon-fill, #fff); stroke-width: 2.6; }
+.th-thanksgiving { --th: #b45309; }
+.th-christmas { --th: #15803d; }
+.sh-in.th::before { content: ""; position: absolute; inset: 2.2cqw; border: 0.35cqw solid var(--th); border-radius: 2.4cqw; pointer-events: none; opacity: 0.55; }
+.sh-ticon { color: var(--th); }
+.sh-ticon .ti { width: 1.2em; height: 1.2em; vertical-align: -0.22em; margin-right: 0.22em; }
+.sh-art { flex: none; height: 8.6cqw; margin-top: 1.6cqw; display: flex; justify-content: center; align-items: flex-end; gap: 4.5cqw; color: var(--th); }
+.sh-art .ti { width: 8.6cqw; height: 8.6cqw; }
+/* UK short division: a straight "bus stop" instead of a curved bracket */
+.sh-uk .ldn::before { border-radius: 0; width: 0.15em; }
+
 /* clocks */
 .ck { display: flex; flex-direction: column; align-items: center; gap: 0.3em; }
 .ckf { width: 5em; height: 5em; display: block; overflow: visible; }

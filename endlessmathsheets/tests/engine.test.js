@@ -210,6 +210,10 @@ test('mixed operations and missing numbers', () => {
   assert.ok(mixed.some((p) => p.type === 'div'));
   run('missing', { ops: ['+'], max: 20 });
   run('missing', { ops: [TIMES], lo: 1, hi: 10 });
+  for (const [total, pairs] of [[10], [20], [100, 'tens'], [100, 'fives'], [100, 'any']]) {
+    const bonds = run('bonds', { total, pairs }, 40);
+    for (const p of bonds) assert.ok(p.parts.some((t) => t.t === 'n' && t.v === String(total)), `bond to ${total}`);
+  }
 });
 
 test('fraction answers are exact and simplified', () => {

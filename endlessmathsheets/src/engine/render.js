@@ -3,6 +3,7 @@
 
 import { N, O, X, B } from './tokens.js';
 import { MINUS, TIMES } from './numbers.js';
+import { THEMES, svgIcon } from './themes.js';
 
 const ESC = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' };
 export const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ESC[c]);
@@ -144,11 +145,12 @@ const HEAD_NAME = 6.6;
 const HEAD_REST = 13.2;
 const FOOT = 4.2;
 const COL_GAP = 3;
+const ART = 10.2; // picture row on holiday sheets
 
 export function planLayout(problems, format, o = {}) {
   const ratio = (PAPERS[o.paper] || PAPERS.letter).ratio;
   const gridW = 100 - 2 * PAD_X;
-  const gridH = 100 / ratio - PAD_TOP - PAD_BOTTOM - (o.showName === false ? 0 : HEAD_NAME) - HEAD_REST - FOOT;
+  const gridH = 100 / ratio - PAD_TOP - PAD_BOTTOM - (o.showName === false ? 0 : HEAD_NAME) - HEAD_REST - FOOT - (o.theme ? ART : 0);
   const bw = o.bw ?? sheetBlankWidth(problems, format);
   const box = problems.reduce(
     (m, p) => {
@@ -227,9 +229,10 @@ function renderVertical(p, key, sheetMax) {
   return `<span class="v" style="grid-template-columns:${cols.join(' ')}">${html}</span>`;
 }
 
-function renderLongDiv(p, key) {
+function renderLongDiv(p, key, uk) {
   // The remainder column keeps its width on the worksheet too, so both pages line up.
-  const rem = p.rmode ? `<span class="ldr ka" style="min-width:${r2(0.3 + strW(`R${p.divisor}`))}em">${key && p.r !== '0' ? `R${esc(p.r)}` : ''}</span>` : '';
+  const R = uk ? 'r' : 'R'; // UK classrooms write remainders as "r"
+  const rem = p.rmode ? `<span class="ldr ka" style="min-width:${r2(0.3 + strW(`R${p.divisor}`))}em">${key && p.r !== '0' ? `${R}${esc(p.r)}` : ''}</span>` : '';
   return (
     `<span class="ld${p.rmode ? ' ld-r' : ''}"><span class="ldq ka">${key ? esc(p.q) : ''}</span>${rem}` +
     `<span class="lds">${esc(p.divisor)}</span><span class="ldn">${esc(p.dividend)}</span></span>`
@@ -283,19 +286,19 @@ function renderClock(p, key) {
   return `<span class="ck">${svg}${label}</span>`;
 }
 
-function cellHtml(p, n, format, key, vmax, bw) {
+function cellHtml(p, n, format, key, vmax, bw, uk) {
   const kind = kindOf(p, format);
   let body;
   if (kind === 'c') body = renderClock(p, key);
   else if (kind === 'v') body = renderVertical(p, key, vmax);
-  else if (kind === 'd') body = renderLongDiv(p, key);
+  else if (kind === 'd') body = renderLongDiv(p, key, uk);
   else body = renderLine(toLine(p), key, bw);
   return `<div class="pb pb-${kind}"><span class="pn">${n}.</span>${body}</div>`;
 }
 
 // Long titles get a smaller size so they fit next to the score box or answer-key badge.
-function titleSize(title, key) {
-  const len = title.length + (key ? 12 : 8);
+function titleSize(title, key, themed) {
+  const len = title.length + (key ? 12 : 8) + (themed ? 3 : 0);
   return len > 52 ? ' sh-title-xs' : len > 40 ? ' sh-title-s' : '';
 }
 
@@ -320,13 +323,20 @@ export function renderSheets(problems, o) {
         : '';
     const badge = key ? '<span class="sh-badge">Answer key</span>' : '';
     const score = key ? '' : `<span class="sh-score">Score <span class="sh-line sh-tiny"></span> / ${list.length}</span>`;
-    const cells = list.map((p, j) => cellHtml(p, pi * plan.perPage + j + 1, o.format, key, vmax, bw)).join('');
+    const cells = list.map((p, j) => cellHtml(p, pi * plan.perPage + j + 1, o.format, key, vmax, bw, o.uk)).join('');
     const pageNote = total > 1 ? ` &middot; Page ${pi + 1} of ${total}` : '';
+    // Holiday sheets get a frame, an icon by the title and a row of pictures in the footer.
+    // Classes go on .sh-in so the <section class="sheet"> markup stays the same for every sheet.
+    const theme = THEMES[o.theme];
+    const inCls = `sh-in${theme ? ` th th-${o.theme}` : ''}${o.uk ? ' sh-uk' : ''}`;
+    const icon = theme ? `<span class="sh-ticon">${svgIcon(theme.icon)}</span>` : '';
+    const art = theme ? `<div class="sh-art">${theme.strip.map((b) => svgIcon(b)).join('')}</div>` : '';
     return (
-      `<section class="sheet${key ? ' is-key' : ''}"><div class="sh-in">` +
-      `<header class="sh-head">${fields}<div class="sh-titlebar"><h2 class="sh-title${titleSize(o.title, key)}">${badge}${esc(o.title)}</h2>${score}</div>` +
+      `<section class="sheet${key ? ' is-key' : ''}"><div class="${inCls}">` +
+      `<header class="sh-head">${fields}<div class="sh-titlebar"><h2 class="sh-title${titleSize(o.title, key, !!theme)}">${badge}${icon}${esc(o.title)}</h2>${score}</div>` +
       `<p class="sh-instr">${esc(o.instructions)}</p></header>` +
       `<div class="sh-grid sh-${o.format}" style="--cols:${plan.cols};--rows:${plan.rows};--fs:${plan.fs};--gy:${plan.rowGap}">${cells}</div>` +
+      art +
       `<footer class="sh-foot"><span>${esc(o.site || '')}</span><span>Sheet ${esc(o.code || '')}${pageNote}</span></footer>` +
       '</div></section>'
     );

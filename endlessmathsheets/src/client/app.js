@@ -37,7 +37,7 @@ function initMaker(root, cfg) {
     title: '',
     key: true,
     name: true,
-    paper: 'letter',
+    paper: cfg.paper || 'letter',
     params: {},
   };
 
@@ -53,7 +53,7 @@ function initMaker(root, cfg) {
   if (q.has('t')) state.title = q.get('t').slice(0, 60);
   if (q.get('k') === '0') state.key = false;
   if (q.get('nm') === '0') state.name = false;
-  if (q.get('p') === 'a4') state.paper = 'a4';
+  if (q.get('p') === 'a4' || q.get('p') === 'letter') state.paper = q.get('p');
   for (const c of cfg.controls) {
     if (!q.has(c.id)) continue;
     const allowed = c.options.map(([v]) => String(v));
@@ -117,7 +117,7 @@ function initMaker(root, cfg) {
     if (state.title) p.set('t', state.title);
     if (!state.key) p.set('k', '0');
     if (!state.name) p.set('nm', '0');
-    if (state.paper !== 'letter') p.set('p', state.paper);
+    if (state.paper !== (cfg.paper || 'letter')) p.set('p', state.paper);
     for (const c of cfg.controls) {
       const v = state.params[c.id];
       if (v === undefined) continue;

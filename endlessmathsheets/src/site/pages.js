@@ -17,6 +17,16 @@ export function gradeText(grades) {
   return `Grades ${first}–${last}`;
 }
 
+// UK pages use National Curriculum years instead of US grades.
+function yearText(years) {
+  if (years.length === 1) return `Year ${years[0]}`;
+  return `Years ${years[0]}–${years[years.length - 1]}`;
+}
+// "X Worksheets (100 Problems)" + "Grade 3" -> "X Worksheets (100 Problems, Grade 3, Free Printable)"
+const titleWith = (title, extra) => (title.endsWith(')') ? `${title.slice(0, -1)}, ${extra})` : `${title} (${extra})`);
+
+export const levelText = (ws) => (ws.years ? yearText(ws.years) : gradeText(ws.grades));
+
 // ---------- links ----------
 
 // In preview builds every link is relative and points at index.html files,
@@ -105,7 +115,7 @@ const jsonScript = (id, data) =>
 
 // Full page. In preview mode the home page drops its document wrapper, because
 // the artifact host adds its own.
-export function page(ctx, { title, description, path, main, jsonld = [], scripts = '', bare = false, bodyClass = '' }) {
+export function page(ctx, { title, description, path, main, jsonld = [], scripts = '', bare = false, bodyClass = '', lang = 'en', paper = 'letter', alternates = null }) {
   const L = ctx.link;
   const canonical = ctx.site.url + path;
   const ads = ctx.site.adsense.client
@@ -116,6 +126,7 @@ export function page(ctx, { title, description, path, main, jsonld = [], scripts
 <title>${esc(title)}</title>
 <meta name="description" content="${esc(description)}">
 <link rel="canonical" href="${canonical}">
+${alternates ? alternates.map(([hl, href]) => `<link rel="alternate" hreflang="${hl}" href="${ctx.site.url}${href}">`).join('\n') : ''}
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Endless Math Sheets">
 <meta property="og:title" content="${esc(title)}">
@@ -128,7 +139,7 @@ export function page(ctx, { title, description, path, main, jsonld = [], scripts
 <link rel="apple-touch-icon" href="${L('/apple-touch-icon.png')}">
 ${fontLinks(ctx)}
 <link rel="stylesheet" href="${L('/assets/site.css')}?v=${ctx.version}">
-<style id="page-size">@page{size:letter;margin:0.5in}</style>
+<style id="page-size">@page{size:${paper === 'a4' ? 'A4' : 'letter'};margin:0.5in}</style>
 ${jsonld.map((d) => `<script type="application/ld+json">${JSON.stringify(d).replace(/</g, '\\u003c')}</script>`).join('\n')}
 ${ads}`;
   const body = `${header(ctx)}
@@ -137,7 +148,7 @@ ${footer(ctx)}
 ${scripts}`;
   if (bare) return `${head}\n<meta name="claude:viewport-fit-sides" content="cover">\n<div class="${bodyClass || 'page'}">\n${body}\n</div>\n`;
   return `<!doctype html>
-<html lang="en">
+<html lang="${lang}">
 <head>
 ${head}
 </head>
@@ -169,6 +180,9 @@ export function worksheetConfig(ws, site) {
     site: site.domain,
     controls: ws.controls.map((id) => CONTROLS[id]),
     seed: defaultSeed(ws),
+    paper: ws.paper || 'letter',
+    theme: ws.theme,
+    locale: ws.locale,
   };
 }
 
@@ -201,7 +215,7 @@ function card(ctx, ws, { showCat = false } = {}) {
   return `<li><a class="card" href="${L(`/${ws.slug}/`)}">
 <span class="card-title">${esc(showCat ? ws.title.replace(/ Worksheets.*$/, '') : ws.card)}</span>
 <span class="card-ex" aria-hidden="true">${esc(exampleText(ws))}</span>
-<span class="card-meta">${esc(gradeText(ws.grades))}${showCat ? ` · ${esc(cat.name)}` : ''}</span>
+<span class="card-meta">${esc(levelText(ws))}${showCat ? ` · ${esc(cat.name)}` : ''}</span>
 </a></li>`;
 }
 
@@ -213,8 +227,14 @@ function gradeWords(grades) {
   return grades.length === 1 && grades[0] === 'K' ? list : `${list} grade`;
 }
 
+function yearWords(years) {
+  if (years.length === 1) return `Year ${years[0]}`;
+  return `Years ${years.slice(0, -1).join(', ')} and ${years[years.length - 1]}`;
+}
+
 function metaDescription(ws) {
-  const base = `Free printable ${ws.title.toLowerCase()} for ${gradeWords(ws.grades)}, with answer keys. ${ws.onSheet}`;
+  const who = ws.years ? yearWords(ws.years) : gradeWords(ws.grades);
+  const base = `Free printable ${ws.title.toLowerCase()} for ${who}, with answer keys. ${ws.onSheet}`;
   if (base.length <= 160) return base;
   const cut = base.slice(0, 157);
   return `${cut.slice(0, cut.lastIndexOf(' '))}…`;
@@ -246,7 +266,7 @@ function optionsForm(ws, cfg, preview) {
       .join('')}</div></fieldset>`);
   }
   for (const id of ws.controls) fields.push(controlField(CONTROLS[id], ws.params[CONTROLS[id].id]));
-  fields.push(`<div class="field"><label for="o-paper">Paper</label><select id="o-paper" name="paper"><option value="letter" selected>US Letter</option><option value="a4">A4</option></select></div>`);
+  fields.push(`<div class="field"><label for="o-paper">Paper</label><select id="o-paper" name="paper"><option value="letter"${ws.paper === 'a4' ? '' : ' selected'}>US Letter</option><option value="a4"${ws.paper === 'a4' ? ' selected' : ''}>A4</option></select></div>`);
   fields.push(`<div class="field checks"><label class="check"><input type="checkbox" name="key" id="o-key" checked><span>Print the answer key</span></label><label class="check"><input type="checkbox" name="name" id="o-name" checked><span>Name and date line</span></label></div>`);
   fields.push(`<div class="field code"><span>Sheet code <b id="sheet-code">${seedToCode(cfg.seed)}</b></span><button type="button" class="link-btn" id="btn-link">Copy link to this sheet</button><span class="status" id="status" role="status" aria-live="polite"></span></div>`);
   return `<form id="opts" class="opts-form" autocomplete="off">${fields.join('')}</form>`;
@@ -257,9 +277,17 @@ export function worksheetPage(ctx, ws) {
   const cat = ctx.catBySlug[ws.cat];
   const cfg = worksheetConfig(ws, ctx.site);
   const path = `/${ws.slug}/`;
-  const { html } = makeWorksheet(cfg, { seed: cfg.seed, count: ws.count, format: ws.format, params: {} });
+  const paper = ws.paper || 'letter';
+  const { html } = makeWorksheet(cfg, { seed: cfg.seed, count: ws.count, format: ws.format, params: {}, paper });
+  const uk = ws.locale === 'uk';
+  const catLower = cat.lower || cat.name.toLowerCase();
+  const chips = uk
+    ? [levelText(ws), 'National Curriculum (England)', 'A4', 'Answer key included']
+    : [levelText(ws), `Common Core ${ws.std.join(', ')}`, 'Answer key included'];
+  const standardLine = uk
+    ? `<p class="std">National Curriculum: ${esc(ws.nc)}</p>`
+    : `<p class="std">Common Core alignment: <b>${esc(ws.std.join(', '))}</b> (${esc(levelText(ws))}).</p>`;
   const crumbItems = [['/', 'Home'], [`/${cat.slug}/`, cat.name], [path, ws.card]];
-  const stdText = ws.std.join(', ');
   const related = ctx.worksheets.filter((w) => w.cat === ws.cat && w.slug !== ws.slug);
   const idx = ctx.worksheets.filter((w) => w.cat === ws.cat).indexOf(ws);
   const siblings = ctx.worksheets.filter((w) => w.cat === ws.cat);
@@ -273,7 +301,7 @@ ${crumbs(ctx, crumbItems)}
 <header class="ws-head">
 <h1>${esc(ws.title)}</h1>
 <p class="lede">${esc(ws.intro)}</p>
-<ul class="chips-static"><li>${esc(gradeText(ws.grades))}</li><li>Common Core ${esc(stdText)}</li><li>Answer key included</li></ul>
+<ul class="chips-static">${chips.map((c) => `<li>${esc(c)}</li>`).join('')}</ul>
 </header>
 ${adSlot(ctx, 'top')}
 <section class="gen" id="maker" aria-label="Worksheet maker">
@@ -284,7 +312,7 @@ ${printBtn}
 </div>
 <div class="gen-body">
 <details class="opts" open><summary>Customize</summary>${optionsForm(ws, cfg, ctx.preview)}</details>
-<div class="stage"><div class="sheets" id="sheets" data-view="sheet" data-paper="letter" data-print-key="1">${html}</div></div>
+<div class="stage"><div class="sheets" id="sheets" data-view="sheet" data-paper="${paper}" data-print-key="1">${html}</div></div>
 </div>
 </section>
 <div class="ws-below">
@@ -296,11 +324,11 @@ ${printBtn}
 ${ws.byGrade ? `<h2>Which grade is this for?</h2>${ws.byGrade.map(([g, t]) => `<p><b>${esc(g)}.</b> ${esc(t)}</p>`).join('')}` : ''}
 <h2>How to use this worksheet maker</h2>
 <p>Press <b>New worksheet</b> for a fresh set of problems, then <b>Print</b>. To save a PDF instead, choose "Save as PDF" in the print window. Every sheet has a short code in the bottom corner. Copy the link to a sheet and you can print exactly the same problems again later, which is handy for retakes and for sharing with other teachers.</p>
-<p class="std">Common Core alignment: <b>${esc(stdText)}</b> (${esc(gradeText(ws.grades))}).</p>
+${standardLine}
 </article>
 ${adSlot(ctx, 'bottom')}
-<section class="related" aria-labelledby="rel-h"><h2 id="rel-h">More ${esc(cat.name.toLowerCase())} worksheets</h2><ul class="cards">${relatedList.map((w) => card(ctx, w)).join('')}</ul>
-<p class="more"><a href="${L(`/${cat.slug}/`)}">All ${esc(cat.name.toLowerCase())} worksheets</a></p></section>
+<section class="related" aria-labelledby="rel-h"><h2 id="rel-h">More ${esc(catLower)} worksheets</h2><ul class="cards">${relatedList.map((w) => card(ctx, w)).join('')}</ul>
+<p class="more"><a href="${L(`/${cat.slug}/`)}">All ${esc(catLower)} worksheets</a></p></section>
 </div>
 </main>`;
   const jsonld = [
@@ -313,25 +341,32 @@ ${adSlot(ctx, 'bottom')}
       url: ctx.site.url + path,
       learningResourceType: 'Worksheet',
       isAccessibleForFree: true,
-      educationalLevel: gradeText(ws.grades),
-      inLanguage: 'en',
-      educationalAlignment: ws.std.map((s) => ({
-        '@type': 'AlignmentObject',
-        alignmentType: 'teaches',
-        educationalFramework: 'Common Core State Standards',
-        targetName: s,
-      })),
+      educationalLevel: levelText(ws),
+      inLanguage: uk ? 'en-GB' : 'en',
+      ...(ws.std.length
+        ? {
+            educationalAlignment: ws.std.map((s) => ({
+              '@type': 'AlignmentObject',
+              alignmentType: 'teaches',
+              educationalFramework: 'Common Core State Standards',
+              targetName: s,
+            })),
+          }
+        : {}),
     },
   ];
   const scripts = `${jsonScript('ws-config', cfg)}\n<script type="module" src="${L('/assets/js/app.js')}?v=${ctx.version}"></script>`;
   return page(ctx, {
-    title: `${ws.title} (${gradeText(ws.grades)}, Free Printable)`,
+    title: titleWith(ws.title, `${levelText(ws)}, Free Printable`),
     description: metaDescription(ws),
     path,
     main,
     jsonld,
     scripts,
     bodyClass: 'has-maker',
+    lang: uk ? 'en-GB' : 'en',
+    paper,
+    alternates: ctx.alternates?.[ws.slug] || null,
   });
 }
 
@@ -353,9 +388,10 @@ export function categoryPage(ctx, cat) {
 ${crumbs(ctx, crumbItems)}
 <header class="hub-head"><h1>${esc(cat.title)}</h1><p class="lede">${esc(cat.lede)}</p><p class="count">${list.length} worksheet makers · answer keys included · no sign-up</p></header>
 ${groups}
+${cat.slug === 'maths' ? yearStrip(ctx, 'Worksheets by year') : ''}
 ${adSlot(ctx, 'bottom')}
 <div class="hub-guide">
-<article class="prose"><h2>Teaching ${esc(cat.name.toLowerCase())}, step by step</h2>${cat.guide.map((p) => `<p>${esc(p)}</p>`).join('')}</article>
+<article class="prose"><h2>${esc(cat.guideTitle || `Teaching ${cat.lower || cat.name.toLowerCase()}, step by step`)}</h2>${cat.guide.map((p) => `<p>${esc(p)}</p>`).join('')}</article>
 <section class="faq prose" aria-labelledby="faq-h"><h2 id="faq-h">Questions</h2>${cat.faq.map(([q, a]) => `<h3>${esc(q)}</h3><p>${esc(a)}</p>`).join('')}</section>
 </div>
 </main>`;
@@ -368,11 +404,49 @@ ${adSlot(ctx, 'bottom')}
     },
   ];
   return page(ctx, {
-    title: `${cat.title} (Free, Printable)`,
+    title: titleWith(cat.title, 'Free Printable'),
     description: `${cat.title.replace(' Worksheets', ' worksheets')}: ${list.length} free printable worksheet makers with answer keys. ${cat.lede}`.slice(0, 160),
     path,
     main,
     jsonld,
+    lang: cat.slug === 'maths' ? 'en-GB' : 'en',
+  });
+}
+
+function yearStrip(ctx, heading, skip) {
+  const items = ctx.years
+    .filter((y) => y.key !== skip)
+    .map((y) => `<li><a href="${ctx.link(`/${y.slug}/`)}">${esc(y.name)}</a></li>`)
+    .join('');
+  return `<nav class="grade-strip" aria-label="${esc(heading)}"><h2>${esc(heading)}</h2><ul>${items}</ul></nav>`;
+}
+
+export function yearPage(ctx, year) {
+  const path = `/${year.slug}/`;
+  const list = ctx.worksheets.filter((w) => w.years && w.years.includes(year.key));
+  const crumbItems = [['/', 'Home'], ['/maths/', 'UK Maths'], [path, year.name]];
+  const byGroup = ctx.catBySlug.maths.groups
+    .map((g) => {
+      const items = list.filter((w) => w.group === g);
+      if (!items.length) return '';
+      return `<section class="ws-group"><h2>${esc(g)}</h2><ul class="cards">${items.map((w) => card(ctx, w)).join('')}</ul></section>`;
+    })
+    .join('');
+  const main = `<main id="main" class="wrap hub">
+${crumbs(ctx, crumbItems)}
+<header class="hub-head"><h1>${esc(year.title)}</h1><p class="lede">${esc(year.intro)}</p><p class="count">${list.length} A4 worksheet makers for ${esc(year.name)} · answer keys included</p></header>
+${byGroup}
+${adSlot(ctx, 'bottom')}
+${yearStrip(ctx, 'Other years', year.key)}
+</main>`;
+  return page(ctx, {
+    title: `${year.title} (UK, Free Printable)`,
+    description: `Free printable ${year.name} maths worksheets on A4 paper with answer keys, following the National Curriculum for England. A new set of questions every click.`,
+    path,
+    main,
+    jsonld: [breadcrumbLd(ctx, crumbItems)],
+    lang: 'en-GB',
+    paper: 'a4',
   });
 }
 

@@ -11,6 +11,7 @@ export const CONTROLS = {
   mode: { id: 'mode', label: 'Task', type: 'select', options: [['read', 'Read the clock'], ['draw', 'Draw the hands']] },
   step: { id: 'step', label: 'Time to the', type: 'select', options: [[60, 'Hour'], [30, 'Half hour'], [15, 'Quarter hour'], [5, '5 minutes'], [1, 'Minute']] },
   level: { id: 'level', label: 'Level', type: 'select', options: [[4, 'Grade 4 (easier)'], [5, 'Grade 5'], [6, 'Grade 6 (harder)']] },
+  pairs: { id: 'pairs', label: 'Pairs', type: 'select', options: [['tens', 'Multiples of 10'], ['fives', 'Multiples of 5'], ['any', 'Any numbers']] },
   place: { id: 'place', label: 'Round to the', type: 'select', options: [['mixed', 'Mixed places'], ['whole', 'Whole number'], ['tenth', 'Tenth'], ['hundredth', 'Hundredth']] },
 };
 
@@ -1241,6 +1242,337 @@ ws({
   tips: [
     'Have students write out the repeated multiplication for the first few problems.',
     'Point out the pattern in powers of 10: the exponent equals the number of zeros.',
+  ],
+});
+
+
+// ---------------- Holiday worksheets ----------------
+
+const MIX2 = { ops: [{ gen: 'add', params: { a: [10, 99], b: [10, 99] } }, { gen: 'sub', params: { a: [10, 99], b: [10, 99], diff: [1, 99] } }] };
+const HOLIDAY = {
+  thanksgiving: {
+    name: 'Thanksgiving',
+    addition: ['Addition facts within 20 with a Thanksgiving turkey frame. A festive way to keep 1st and 2nd graders practicing facts in the busy week before the holiday.',
+      ['Run a "gobble race": students solve as many problems as they can in three minutes, then check with the answer key.', 'Ask early finishers to write their own turkey word problem using one fact from the sheet.']],
+    subtraction: ['Subtraction facts within 20 on a Thanksgiving sheet with turkeys, pumpkins and fall leaves, for 1st and 2nd grade.',
+      ['Tell a story for one problem before starting: "There were 15 pies and the family ate 7. How many are left?"', 'Pair this sheet with the Thanksgiving addition sheet to review fact families.']],
+    mixed2: ['Two-digit addition and subtraction, with and without regrouping, on a Thanksgiving-themed sheet for 2nd grade.',
+      ['Have students circle the sign in each problem before solving.', 'Use it as a pre-break review of the regrouping skills taught this fall.']],
+    multiplication: ['Multiplication facts on a Thanksgiving-themed sheet for 3rd and 4th grade. Tick the times tables you want so the sheet matches what your class is learning.',
+      ['Make it a "turkey time" challenge: how many facts can students finish before the timer runs out?', 'Turn off tables students already know to focus on the trickier facts.']],
+    division: ['Division facts within 100 with a Thanksgiving frame for 3rd and 4th grade. Choose the divisors to match your class.',
+      ['Use a sharing story: 24 slices of pie shared by 6 people.', 'Ask students to write the matching multiplication fact beside each problem.']],
+  },
+  christmas: {
+    name: 'Christmas',
+    addition: ['Addition facts within 20 on a Christmas sheet with a tree, ornaments and snowflakes. Good practice for 1st and 2nd graders in the weeks before winter break.',
+      ['Hold an "elf check": students swap sheets and check each other\'s answers with the key.', 'Write one fact on the board each day of December and solve it together before starting the sheet.']],
+    subtraction: ['Subtraction facts within 20 with a Christmas theme for 1st and 2nd grade. Ornaments, gifts and candy canes line the bottom of the page.',
+      ['Use a story: 18 presents under the tree and 9 are opened. How many are still wrapped?', 'Count up to find the difference: from 9, count up to 18.']],
+    mixed2: ['A festive review of two-digit addition and subtraction for 2nd grade, with regrouping in some problems.',
+      ['Ask students to estimate each answer to the nearest ten first.', 'Great for the last week before break, when students need practice that feels different.']],
+    multiplication: ['Multiplication facts with a Christmas tree frame for 3rd and 4th grade. Tick the times tables you want on the sheet.',
+      ['Pick one "tree table" a day in December and tick only that table.', 'Students who finish can draw arrays of ornaments for two facts from the sheet.']],
+    division: ['Division facts within 100 on a Christmas sheet for 3rd and 4th grade. Choose the divisors to match your class.',
+      ['Use sharing stories: 32 candy canes shared among 4 stockings.', 'Pair it with the Christmas multiplication sheet to practice fact families.']],
+  },
+};
+
+for (const [theme, h] of Object.entries(HOLIDAY)) {
+  const cat = `${theme}-math-worksheets`;
+  const group = `${h.name} worksheets`;
+  const base = { cat, group, theme };
+  ws({
+    ...base, slug: `${cat}/addition`, card: 'Addition within 20',
+    title: `${h.name} Addition Worksheets`, sheet: `${h.name} Addition`, instr: 'Add. Then color the pictures!',
+    grades: [1, 2], std: ['1.OA.C.6', '2.OA.B.2'],
+    gen: 'add', params: { a: [0, 20], b: [0, 20], sum: [0, 20] }, format: 'horizontal', count: 30, counts: FACT_COUNTS,
+    intro: h.addition[0],
+    onSheet: 'Two numbers from 0 to 20 with sums up to 20. The holiday pictures around the page can be colored when the problems are done.',
+    tips: h.addition[1],
+  });
+  ws({
+    ...base, slug: `${cat}/subtraction`, card: 'Subtraction within 20',
+    title: `${h.name} Subtraction Worksheets`, sheet: `${h.name} Subtraction`, instr: 'Subtract. Then color the pictures!',
+    grades: [1, 2], std: ['1.OA.C.6', '2.OA.B.2'],
+    gen: 'sub', params: { a: [0, 20], b: [0, 20] }, format: 'horizontal', count: 30, counts: FACT_COUNTS,
+    intro: h.subtraction[0],
+    onSheet: 'Starting numbers up to 20 with no negative answers, on a holiday-themed page.',
+    tips: h.subtraction[1],
+  });
+  ws({
+    ...base, slug: `${cat}/2-digit-addition-and-subtraction`, card: '2-digit add and subtract',
+    title: `${h.name} 2-Digit Addition and Subtraction Worksheets`, sheet: `${h.name} 2-Digit Math`, instr: 'Look at each sign. Regroup when you need to.',
+    grades: [2], std: ['2.NBT.B.5'],
+    gen: 'mixed', params: MIX2, format: 'vertical', formats: ['vertical', 'horizontal'], count: 25, counts: V_COUNTS,
+    intro: h.mixed2[0],
+    onSheet: 'Half addition and half subtraction with two-digit numbers, stacked in columns. Some problems need regrouping.',
+    tips: h.mixed2[1],
+  });
+  ws({
+    ...base, slug: `${cat}/multiplication`, card: 'Multiplication facts',
+    title: `${h.name} Multiplication Worksheets`, sheet: `${h.name} Multiplication`, instr: 'Multiply. Then color the pictures!',
+    grades: [3, 4], std: ['3.OA.C.7'],
+    gen: 'mul', params: { tables: range(1, 10), from: 0, upTo: 10 }, controls: ['tables'], format: 'horizontal', count: 30, counts: FACT_COUNTS,
+    intro: h.multiplication[0],
+    onSheet: 'Facts from the times tables you choose (1 to 10 by default), each multiplied by 0 to 10.',
+    tips: h.multiplication[1],
+  });
+  ws({
+    ...base, slug: `${cat}/division`, card: 'Division facts',
+    title: `${h.name} Division Worksheets`, sheet: `${h.name} Division`, instr: 'Divide. Then color the pictures!',
+    grades: [3, 4], std: ['3.OA.C.7'],
+    gen: 'div', params: { divisors: range(1, 10), qFrom: 1, upTo: 10 }, controls: ['divisors'], format: 'horizontal', count: 30, counts: FACT_COUNTS,
+    intro: h.division[0],
+    onSheet: 'Division facts for the divisors you choose (1 to 10 by default), with answers from 1 to 10.',
+    tips: h.division[1],
+  });
+}
+
+// ---------------- UK & Australia (maths) ----------------
+// locale 'uk': A4 paper, UK terms, National Curriculum years instead of US grades.
+// alt: the matching US page, used for hreflang links.
+
+const UK = { cat: 'maths', locale: 'uk', paper: 'a4', grades: [], std: [] };
+const UK_TIME_INSTR = { by: 'mode', values: { read: 'Write the time shown on each clock.', draw: 'Draw the hands to show each time.', default: 'Write the time shown on each clock.' } };
+
+ws({
+  ...UK, slug: 'maths/number-bonds-to-10', group: 'Number bonds', card: 'Number bonds to 10',
+  title: 'Number Bonds to 10 Worksheets', sheet: 'Number Bonds to 10', instr: 'Fill in the missing number.',
+  years: [1], nc: 'Year 1: represent and use number bonds and related subtraction facts within 20.',
+  gen: 'bonds', params: { total: 10 }, format: 'horizontal', count: 30, counts: [20, 30, 40],
+  intro: 'Number bonds to 10 are the pairs of numbers that make 10: 0 and 10, 1 and 9, 2 and 8, and so on. Knowing them by heart makes adding and subtracting across 10 much easier in Year 1 and Year 2.',
+  onSheet: 'Every number bond to 10 in four forms: 4 + __ = 10, __ + 6 = 10, 10 = 4 + __ and 10 − 4 = __, in a new order each time.',
+  tips: [
+    'Use a ten frame or ten fingers: the empty spaces show the missing part.',
+    'Practise the bonds in order first (0 + 10, 1 + 9, 2 + 8 …) so children see the pattern, then mix them up.',
+    'Link each bond to its subtraction fact: if 7 + 3 = 10, then 10 − 3 = 7.',
+  ],
+});
+ws({
+  ...UK, slug: 'maths/number-bonds-to-20', group: 'Number bonds', card: 'Number bonds to 20',
+  title: 'Number Bonds to 20 Worksheets', sheet: 'Number Bonds to 20', instr: 'Fill in the missing number.',
+  years: [1, 2], nc: 'Year 1: number bonds within 20. Year 2: recall and use addition and subtraction facts to 20 fluently.',
+  gen: 'bonds', params: { total: 20 }, format: 'horizontal', count: 30, counts: [20, 30, 40],
+  intro: 'Number bonds to 20 build on bonds to 10: if 3 + 7 = 10, then 13 + 7 = 20. These sheets practise every pair of whole numbers that makes 20.',
+  onSheet: 'Every pair that makes 20, written as missing number additions and subtractions.',
+  tips: [
+    'Show how each bond to 20 comes from a bond to 10 by adding a ten.',
+    'A bead string or two ten frames side by side help children see both parts.',
+  ],
+});
+ws({
+  ...UK, slug: 'maths/number-bonds-to-100', group: 'Number bonds', card: 'Number bonds to 100',
+  title: 'Number Bonds to 100 Worksheets', sheet: 'Number Bonds to 100', instr: 'Fill in the missing number.',
+  years: [2, 3], nc: 'Year 2: derive and use related facts up to 100, such as 30 + 70 = 100.',
+  gen: 'bonds', params: { total: 100, pairs: 'tens' }, controls: ['pairs'], format: 'horizontal', count: 30, counts: [20, 30, 40],
+  intro: 'Number bonds to 100 start with multiples of 10 (30 + 70) in Year 2 and move on to any pair (37 + 63) in Year 3. Choose the type of pairs in the options.',
+  onSheet: 'Pairs that make 100. Choose multiples of 10, multiples of 5, or any whole numbers.',
+  tips: [
+    'Use known bonds to 10: 3 + 7 = 10, so 30 + 70 = 100.',
+    'For any pair, make the next ten first, then count on in tens: 37 + 3 = 40, then 40 + 60 = 100.',
+  ],
+});
+
+const COL_ADD = 'Year 3: add and subtract numbers with up to three digits, using formal written methods of columnar addition and subtraction.';
+const COL_ADD4 = 'Year 4: add and subtract numbers with up to 4 digits using the formal written methods of columnar addition and subtraction.';
+ws({
+  ...UK, slug: 'maths/column-addition-2-digit', group: 'Column addition and subtraction', card: 'Column addition, 2-digit',
+  title: 'Column Addition Worksheets: 2-Digit Numbers', sheet: 'Column Addition', instr: 'Use column addition. Exchange when you need to.',
+  years: [3], nc: COL_ADD,
+  gen: 'add', params: { a: [10, 99], b: [10, 99] }, format: 'vertical', count: 25, counts: V_COUNTS,
+  intro: 'Column addition is the formal written method children learn in Year 3: line the numbers up in columns, add the ones, then the tens, exchanging 10 ones for 1 ten when a column makes 10 or more. Two-digit numbers are a good place to start.',
+  onSheet: 'Two two-digit numbers set out in columns. Some sums need an exchange and some do not.',
+  tips: [
+    'Many UK schools write the exchanged ten small, under the answer line of the tens column. Follow the layout your school uses.',
+    'Ask children to estimate first by rounding each number to the nearest 10.',
+  ],
+});
+ws({
+  ...UK, slug: 'maths/column-addition-3-digit', group: 'Column addition and subtraction', card: 'Column addition, 3-digit', alt: 'addition/3-digit-with-regrouping',
+  title: 'Column Addition Worksheets: 3-Digit Numbers', sheet: 'Column Addition', instr: 'Use column addition. Exchange when you need to.',
+  years: [3], nc: COL_ADD,
+  gen: 'add', params: { a: [100, 999], b: [100, 999] }, format: 'vertical', count: 25, counts: V_COUNTS,
+  intro: 'Three-digit column addition is the main Year 3 written method for addition. Children add ones, tens and hundreds in turn and exchange whenever a column makes 10 or more.',
+  onSheet: 'Two three-digit numbers in columns, with exchanges in some, all or none of the columns.',
+  tips: [
+    'Check each answer with the inverse: subtract one number from the total.',
+    'Place value counters on a hundreds, tens and ones chart show exactly what an exchange is.',
+  ],
+});
+ws({
+  ...UK, slug: 'maths/column-addition-4-digit', group: 'Column addition and subtraction', card: 'Column addition, 4-digit', alt: 'addition/4-digit',
+  title: 'Column Addition Worksheets: 4-Digit Numbers', sheet: 'Column Addition', instr: 'Use column addition. Exchange when you need to.',
+  years: [4], nc: COL_ADD4,
+  gen: 'add', params: { a: [1000, 9999], b: [1000, 9999] }, format: 'vertical', count: 20, counts: [10, 15, 20, 25],
+  intro: 'In Year 4, column addition extends to four-digit numbers. The method is the same, with one more column and more chances to exchange.',
+  onSheet: 'Two four-digit numbers in columns. Some answers have five digits.',
+  tips: [
+    'Neat columns matter at this size. Squared maths books help children keep one digit per square.',
+    'Round both numbers to the nearest 1,000 to estimate before working it out.',
+  ],
+});
+ws({
+  ...UK, slug: 'maths/column-subtraction-2-digit', group: 'Column addition and subtraction', card: 'Column subtraction, 2-digit',
+  title: 'Column Subtraction Worksheets: 2-Digit Numbers', sheet: 'Column Subtraction', instr: 'Use column subtraction. Exchange when you need to.',
+  years: [3], nc: COL_ADD,
+  gen: 'sub', params: { a: [10, 99], b: [10, 99], diff: [1, 99] }, format: 'vertical', count: 25, counts: V_COUNTS,
+  intro: 'Column subtraction sets the larger number on top and subtracts one column at a time. When the top digit is too small, children exchange 1 ten for 10 ones.',
+  onSheet: 'Two-digit numbers in columns. Some problems need an exchange and some do not.',
+  tips: [
+    'Ask "Can I take this away?" for each column before subtracting.',
+    'Cross out the tens digit and write the new value above it, then add the 10 ones to the ones digit.',
+  ],
+});
+ws({
+  ...UK, slug: 'maths/column-subtraction-3-digit', group: 'Column addition and subtraction', card: 'Column subtraction, 3-digit', alt: 'subtraction/3-digit-with-regrouping',
+  title: 'Column Subtraction Worksheets: 3-Digit Numbers', sheet: 'Column Subtraction', instr: 'Use column subtraction. Exchange when you need to.',
+  years: [3], nc: COL_ADD,
+  gen: 'sub', params: { a: [100, 999], b: [100, 999], diff: [1, 999] }, format: 'vertical', count: 25, counts: V_COUNTS,
+  intro: 'Three-digit column subtraction is a core Year 3 skill. Some problems need an exchange from the tens, some from the hundreds, and some from both.',
+  onSheet: 'Three-digit numbers in columns with any number of exchanges.',
+  tips: [
+    'Numbers with a zero in the tens, like 503, need an exchange from the hundreds first. Model these carefully.',
+    'Check by adding the answer to the number that was taken away.',
+  ],
+});
+ws({
+  ...UK, slug: 'maths/column-subtraction-4-digit', group: 'Column addition and subtraction', card: 'Column subtraction, 4-digit', alt: 'subtraction/4-digit',
+  title: 'Column Subtraction Worksheets: 4-Digit Numbers', sheet: 'Column Subtraction', instr: 'Use column subtraction. Exchange when you need to.',
+  years: [4], nc: COL_ADD4,
+  gen: 'sub', params: { a: [1000, 9999], b: [1000, 9999], diff: [1, 9999] }, format: 'vertical', count: 20, counts: [10, 15, 20, 25],
+  intro: 'Four-digit column subtraction is the Year 4 written method for subtraction, with exchanges possible in every column.',
+  onSheet: 'Two four-digit numbers in columns, with the larger number first.',
+  tips: [
+    'Work from the ones column to the left and finish each exchange before moving on.',
+    'Use the inverse to check: answer + smaller number = larger number.',
+  ],
+});
+ws({
+  ...UK, slug: 'maths/times-tables', group: 'Times tables, multiplication and division', card: 'Times tables 2 to 12', alt: 'multiplication/facts-0-12',
+  title: 'Times Tables Worksheets', sheet: 'Times Tables', instr: 'Multiply.',
+  years: [2, 3, 4], nc: 'Year 2: the 2, 5 and 10 times tables. Year 3: the 3, 4 and 8 times tables. Year 4: all multiplication tables up to 12 × 12.',
+  gen: 'mul', params: { tables: range(2, 12), from: 1, upTo: 12 }, controls: ['tables'], format: 'horizontal', count: 30, counts: FACT_COUNTS,
+  intro: 'Times tables practice for every table from 2 to 12. Children learn the 2, 5 and 10 times tables in Year 2, the 3, 4 and 8 times tables in Year 3, and all tables up to 12 × 12 by the end of Year 4. Tick the tables you want on the sheet.',
+  onSheet: 'Facts from the times tables you choose, each multiplied by 1 to 12.',
+  tips: [
+    'Year 2: tick only 2, 5 and 10. Year 3: add 3, 4 and 8.',
+    'Practise the related division facts too: if 6 × 8 = 48, then 48 ÷ 8 = 6.',
+  ],
+});
+ws({
+  ...UK, slug: 'maths/multiplication-tables-check', group: 'Times tables, multiplication and division', card: 'Times tables check practice',
+  title: 'Multiplication Tables Check Practice Sheets', sheet: 'Times Tables Check Practice', instr: 'Answer all 25 questions. In the real check you get 6 seconds for each one.',
+  years: [4], nc: 'Year 4: recall multiplication and division facts for multiplication tables up to 12 × 12. Pupils in England take the multiplication tables check in Year 4.',
+  gen: 'mul', params: { tables: range(2, 12), from: 2, upTo: 12 }, format: 'horizontal', formats: ['horizontal'], count: 25, counts: [25, 50],
+  intro: 'Year 4 pupils in England take the multiplication tables check (MTC) every June: 25 times tables questions on screen, with 6 seconds to answer each one. These printable sheets give the same 25-question practice on paper, with an answer key.',
+  onSheet: '25 multiplication questions from the 2 to 12 times tables, mixed up like the real check.',
+  tips: [
+    'Time the sheet: 25 questions at 6 seconds each is 2 minutes 30 seconds.',
+    'Mark the sheet together and list the facts that took longest. Those are the ones to practise.',
+    'Choose 50 questions for two practice rounds on one print.',
+  ],
+});
+ws({
+  ...UK, slug: 'maths/short-multiplication', group: 'Times tables, multiplication and division', card: 'Short multiplication', alt: 'multiplication/3-digit-by-1-digit',
+  title: 'Short Multiplication Worksheets', sheet: 'Short Multiplication', instr: 'Use short multiplication.',
+  years: [4], nc: 'Year 4: multiply two-digit and three-digit numbers by a one-digit number using formal written layout.',
+  gen: 'mul', params: { a: [12, 999], b: [2, 9], noTrailingZero: true }, format: 'vertical', count: 20, counts: [10, 15, 20, 25],
+  intro: 'Short multiplication is the Year 4 formal written method for multiplying a two- or three-digit number by a one-digit number. Children multiply each digit from right to left and carry into the next column.',
+  onSheet: 'Two- and three-digit numbers multiplied by 2 to 9, set out in columns.',
+  tips: [
+    'Write carried digits small under the answer line, then add them on after multiplying the next digit.',
+    'Estimate first: 386 × 7 is about 400 × 7 = 2,800.',
+  ],
+});
+ws({
+  ...UK, slug: 'maths/long-multiplication', group: 'Times tables, multiplication and division', card: 'Long multiplication', alt: 'multiplication/3-digit-by-2-digit',
+  title: 'Long Multiplication Worksheets', sheet: 'Long Multiplication', instr: 'Use long multiplication. Show both rows.',
+  years: [5, 6], nc: 'Year 5: multiply numbers up to 4 digits by a one- or two-digit number using a formal written method, including long multiplication for two-digit numbers.',
+  gen: 'mul', params: { a: [101, 999], b: [11, 99], noTrailingZero: true }, format: 'vertical', count: 12, counts: [6, 9, 12],
+  layout: { vertical: { cols: 4, rows: 3 } },
+  intro: 'Long multiplication is the formal written method for multiplying by a two-digit number, introduced in Year 5 and used with up to four-digit numbers in Year 6. Children multiply by the ones digit, then by the tens digit with a zero placeholder, and add the two rows.',
+  onSheet: 'Three-digit numbers multiplied by two-digit numbers, with space for both rows of working.',
+  tips: [
+    'Remind children to write the placeholder zero before multiplying by the tens digit.',
+    'The grid method is a useful check: split both numbers into hundreds, tens and ones.',
+  ],
+});
+ws({
+  ...UK, slug: 'maths/short-division', group: 'Times tables, multiplication and division', card: 'Short division (bus stop)', alt: 'division/long-division-4-digit-by-1-digit',
+  title: 'Short Division Worksheets (Bus Stop Method)', sheet: 'Short Division', instr: 'Use the bus stop method. Write any remainder.',
+  years: [5], nc: 'Year 5: divide numbers up to 4 digits by a one-digit number using the formal written method of short division and interpret remainders appropriately.',
+  gen: 'div', params: { digits: 4, divisor: [2, 9], rem: 'any' }, format: 'longdiv', formats: ['longdiv', 'horizontal'], count: 12, counts: [6, 9, 12],
+  layout: { longdiv: { cols: 3, rows: 4 } },
+  intro: 'Short division, often called the bus stop method, is the formal written method for dividing by a one-digit number. It is taught in Year 5 with numbers up to four digits: the number being divided sits under the bus stop and each remainder is carried to the next digit.',
+  onSheet: 'Four-digit numbers divided by 2 to 9 in the bus stop layout. Some divide exactly and some leave a remainder.',
+  tips: [
+    'Carry each remainder as a small digit in front of the next digit inside the bus stop.',
+    'Check answers with multiplication, adding on any remainder.',
+    'Year 6 pupils can write remainders as fractions or decimals as well as with r.',
+  ],
+});
+ws({
+  ...UK, slug: 'maths/long-division', group: 'Times tables, multiplication and division', card: 'Long division', alt: 'division/long-division-4-digit-by-2-digit',
+  title: 'Long Division Worksheets: 4-Digit by 2-Digit Numbers', sheet: 'Long Division', instr: 'Use long division. Show your working.',
+  years: [6], nc: 'Year 6: divide numbers up to 4 digits by a two-digit whole number using the formal written method of long division, and interpret remainders.',
+  gen: 'div', params: { digits: 4, divisor: [11, 99], noRound: true, rem: 'any' }, format: 'longdiv', formats: ['longdiv', 'horizontal'], count: 9, counts: [6, 9],
+  layout: { longdiv: { cols: 3, rows: 3 } },
+  intro: 'Long division is the Year 6 formal written method for dividing numbers up to four digits by a two-digit number. Children write each subtraction step under the bus stop, which makes larger divisors easier to manage than short division.',
+  onSheet: 'Four-digit numbers divided by two-digit numbers, with space for every step.',
+  tips: [
+    'Write the multiples of the divisor down the side before starting.',
+    'Decide what the remainder means for the question: a whole-number remainder, a fraction, or a rounded answer.',
+  ],
+});
+
+const UK_CLOCK = { ...CLOCK, controls: ['mode', 'step'], instr: UK_TIME_INSTR };
+ws({
+  ...UK, ...UK_CLOCK, slug: 'maths/telling-the-time-oclock-and-half-past', group: 'Telling the time', card: "O'clock and half past", alt: 'telling-time/half-hour',
+  title: "Telling the Time Worksheets: O'Clock and Half Past", sheet: "O'Clock and Half Past",
+  years: [1], nc: 'Year 1: tell the time to the hour and half past the hour, and draw the hands on a clock face to show these times.',
+  gen: 'clock', params: { step: 30, mode: 'read' },
+  intro: "Year 1 children learn to tell the time to the hour and half past the hour, and to draw the hands on a clock face to show these times. Switch the task to drawing the hands in the options.",
+  onSheet: "Clock faces showing o'clock and half past times, from 1 o'clock to half past 12.",
+  tips: [
+    'At half past, the minute hand points to 6 and the hour hand is halfway between two numbers.',
+    'Say each time in words as well: half past four.',
+  ],
+});
+ws({
+  ...UK, ...UK_CLOCK, slug: 'maths/telling-the-time-quarter-past-and-quarter-to', group: 'Telling the time', card: 'Quarter past and quarter to', alt: 'telling-time/quarter-hour',
+  title: 'Telling the Time Worksheets: Quarter Past and Quarter To', sheet: 'Quarter Past and Quarter To',
+  years: [2], nc: 'Year 2: tell and write the time to five minutes, including quarter past/to the hour.',
+  gen: 'clock', params: { step: 15, mode: 'read' },
+  intro: "In Year 2, children learn quarter past and quarter to the hour before moving on to five-minute intervals. These sheets mix o'clock, quarter past, half past and quarter to.",
+  onSheet: "Clock faces at o'clock, quarter past, half past and quarter to.",
+  tips: [
+    'Shade a clock face in quarters to show where quarter past and quarter to sit.',
+    'Remind children that at quarter to five the hour hand is nearly at 5, but the hour is still 4.',
+  ],
+});
+ws({
+  ...UK, ...UK_CLOCK, slug: 'maths/telling-the-time-5-minutes', group: 'Telling the time', card: 'To 5 minutes', alt: 'telling-time/5-minutes',
+  title: 'Telling the Time to 5 Minutes Worksheets', sheet: 'Telling the Time to 5 Minutes',
+  years: [2], nc: 'Year 2: tell and write the time to five minutes, including quarter past/to the hour, and draw the hands on a clock face to show these times.',
+  gen: 'clock', params: { step: 5, mode: 'read' },
+  intro: 'Telling the time to five minutes is a Year 2 objective: children count in fives around the clock and say times such as twenty-five past three or ten to six.',
+  onSheet: 'Clock faces showing times in five-minute steps.',
+  tips: [
+    'Count in fives from 12 to the minute hand, then decide whether it is past or to the hour.',
+    'Write the minutes around the outside of a practice clock: 5, 10, 15 and so on.',
+  ],
+});
+ws({
+  ...UK, ...UK_CLOCK, slug: 'maths/telling-the-time-to-the-minute', group: 'Telling the time', card: 'To the minute', alt: 'telling-time/1-minute',
+  title: 'Telling the Time to the Minute Worksheets', sheet: 'Telling the Time to the Minute',
+  years: [3], nc: 'Year 3: tell and write the time from an analogue clock, including using Roman numerals from I to XII, and 12-hour and 24-hour clocks.',
+  gen: 'clock', params: { step: 1, mode: 'read' },
+  intro: 'In Year 3, children tell the time to the nearest minute on an analogue clock. Counting in fives to the last numbered mark, then on in ones, is the key step.',
+  onSheet: 'Clock faces showing any time to the minute.',
+  tips: [
+    'Count in fives to the last number before the minute hand, then count the small marks.',
+    'Ask children to write each time in words and as it would appear on a 24-hour clock.',
   ],
 });
 
