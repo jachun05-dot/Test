@@ -1,29 +1,43 @@
 // About, privacy, terms and contact pages. Bodies are trusted HTML written here.
-export function staticPages(site, worksheetCount, updated) {
+export function staticPages(site, worksheetCount, updated, guideCount = 0) {
   const email = site.contactEmail;
   return [
     {
       path: '/about/',
       title: 'About Endless Math Sheets',
       heading: 'About Endless Math Sheets',
-      description: 'Endless Math Sheets makes free printable math worksheets with answer keys for kindergarten through 7th grade.',
-      body: `<p>Endless Math Sheets is a free collection of ${worksheetCount} math worksheet makers for kindergarten through 7th grade. Each one creates a new set of problems every time you click, so a class never runs out of practice and no two students need the same sheet.</p>
-<h2>How it works</h2>
-<p>Every worksheet follows a precise rule. On the two-digit subtraction with regrouping sheet, for example, every problem needs regrouping; on the subtracting across zeros sheet, every starting number has a zero in the tens place. Problems are generated in your browser, checked against those rules, and printed with an answer key on a separate page.</p>
-<p>Each sheet has a short code printed in the corner. Copy the link to a sheet and you can print exactly the same problems again later.</p>
+      description: 'Endless Math Sheets makes free printable math worksheets with answer keys and step-by-step teaching guides for kindergarten through 7th grade.',
+      body: `<p>Endless Math Sheets is a free collection of ${worksheetCount} math worksheet makers and ${guideCount} teaching guides for kindergarten through 7th grade, plus A4 maths worksheets for schools in the UK and Australia. Each worksheet creates a new set of problems every time you click, so a class never runs out of practice and no two students need the same sheet.</p>
+<h2>Why we made it</h2>
+<p>Most free worksheets online are fixed PDFs. Once a class has done the sheet, it's used up, and the answers are easy to find. Teachers and parents told us the same thing again and again: they wanted more practice on exactly the skill a child is working on, such as two-digit subtraction where every problem needs regrouping, without hunting through dozens of sites. Endless Math Sheets is built around that idea: one precise skill per worksheet, unlimited versions, and an answer key for every one.</p>
+<h2>How the worksheets are made</h2>
+<p>Every worksheet follows a precise rule. On the two-digit subtraction with regrouping sheet, every problem needs regrouping; on the subtracting across zeros sheet, every starting number has a zero in the right place; long division sheets that promise no remainders never produce one. Problems are generated in your browser from those rules, and the answer key is calculated from the same numbers.</p>
+<p>Each sheet has a short code printed in the corner. Copy the link to a sheet and you can print exactly the same problems again later, which is handy for retakes and for sharing with other teachers.</p>
+<h2>How we check them</h2>
+<p>Before any change goes live, automated tests generate thousands of worksheets and check every answer independently, including fractions, which are checked as exact values rather than rounded decimals. Every worksheet is also printed to Letter and A4 paper in a test browser to make sure it fits its page. The worked examples in our teaching guides are drawn by the same checked code, so every carried digit and long division step shown is correct.</p>
+<h2>Teaching guides</h2>
+<p>Our <a href="/guides/">teaching guides</a> explain the methods behind the worksheets: regrouping, multiplication fact strategies, long division, fractions, decimals, telling time, the order of operations and more. Each one has worked examples, the mistakes students make most often and a suggested teaching order. They are written to match the Common Core State Standards and, for the UK guides, the National Curriculum for England.</p>
 <h2>Who it is for</h2>
-<p>The site is made for teachers, tutors, homeschooling families and parents who want extra practice at home. It is free to use and needs no account.</p>
+<p>The site is made for teachers, tutors, homeschooling families and parents who want extra practice at home. It is free to use and needs no account. The worksheets are free for home and classroom use; please don't resell them.</p>
+<h2>How the site is funded</h2>
+<p>Endless Math Sheets is an independent site. It may show advertising to cover the cost of running it, which keeps every worksheet free. Ads never appear on the printed worksheets themselves. See our <a href="/privacy/">privacy policy</a> for details.</p>
 <h2>Standards</h2>
-<p>Worksheets list the Common Core State Standards they practice so you can match them to your curriculum. The codes are given for reference. Endless Math Sheets is not affiliated with the Common Core State Standards Initiative.</p>
-<h2>Contact</h2>
-<p>Found a problem or have an idea for a worksheet? Write to <a href="mailto:${email}">${email}</a>.</p>`,
+<p>Worksheets list the Common Core State Standards they practice so you can match them to your curriculum. UK worksheets list the National Curriculum statement they cover. The codes are given for reference. Endless Math Sheets is not affiliated with the Common Core State Standards Initiative or the Department for Education.</p>
+<h2>Corrections and requests</h2>
+<p>If you find a mistake, a problem that doesn't follow its worksheet's rule, or a sheet that prints badly, please tell us and we will fix it. Ideas for new worksheets and guides are welcome too. Write to <a href="mailto:${email}">${email}</a>.</p>`,
     },
     {
       path: '/contact/',
       title: 'Contact | Endless Math Sheets',
       heading: 'Contact',
       description: 'Contact Endless Math Sheets with questions, corrections or requests for new printable math worksheets.',
-      body: `<p>Questions, corrections and worksheet requests are welcome. Email <a href="mailto:${email}">${email}</a> and include the link to the worksheet if your message is about a specific sheet.</p>
+      body: `<p>Questions, corrections and worksheet requests are welcome. Email <a href="mailto:${email}">${email}</a>. We read every message.</p>
+<h2>Reporting a mistake</h2>
+<p>If a problem or answer looks wrong, please include the link to the worksheet (copy it with the Copy link button) or the sheet code printed in the bottom corner. The code lets us recreate exactly the sheet you printed.</p>
+<h2>Requesting a worksheet or guide</h2>
+<p>Tell us the skill, the grade or year, and how you would like the problems laid out. Requests from teachers and parents decide what we add next.</p>
+<h2>Using the worksheets</h2>
+<p>You are welcome to print and copy the worksheets for your own children, students or tutoring clients, and to share links to them. Please don't sell them or publish them on another website.</p>
 <p>Please do not send personal information about students.</p>`,
     },
     {

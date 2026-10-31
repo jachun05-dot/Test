@@ -4,6 +4,9 @@ import { makeWorksheet, formatsFor } from '../engine/index.js';
 import { hashString, seedToCode, makeRng } from '../engine/rng.js';
 import { GENERATORS } from '../engine/generators.js';
 import { CONTROLS, FORMAT_LABELS } from '../content/worksheets.js';
+import { GRADE_MORE, YEAR_MORE } from '../content/levels.js';
+import { workedExample } from './explain.js';
+import { addWork, subWork, mulWork, divWork, decWork, busWork, f, mx, clockFig } from './work.js';
 
 const FONTS =
   'https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Lexend:wght@400;500;600&display=swap';
@@ -55,6 +58,7 @@ function header(ctx) {
     ['/multiplication/', 'Multiplication'],
     ['/division/', 'Division'],
     ['/fractions/', 'Fractions'],
+    ['/guides/', 'Guides'],
     ['/#topics', 'All topics'],
   ];
   return `<a class="skip" href="#main">Skip to content</a>
@@ -73,7 +77,7 @@ function footer(ctx) {
 <p>Free printable math worksheets with answer keys. A new set of problems every time you click.</p></div>
 <nav aria-label="Topics"><h2>Topics</h2><ul>${cats}</ul></nav>
 <nav aria-label="Grades"><h2>Grades</h2><ul>${grades}</ul></nav>
-<nav aria-label="Site"><h2>Site</h2><ul><li><a href="${L('/about/')}">About</a></li><li><a href="${L('/contact/')}">Contact</a></li><li><a href="${L('/privacy/')}">Privacy</a></li><li><a href="${L('/terms/')}">Terms</a></li></ul></nav>
+<nav aria-label="Site"><h2>Site</h2><ul><li><a href="${L('/guides/')}">Teaching guides</a></li><li><a href="${L('/about/')}">About</a></li><li><a href="${L('/contact/')}">Contact</a></li><li><a href="${L('/privacy/')}">Privacy</a></li><li><a href="${L('/terms/')}">Terms</a></li></ul></nav>
 </div><div class="wrap foot-legal"><p>&copy; ${ctx.year} Endless Math Sheets. Free for home and classroom use. Common Core State Standards codes are shown for reference only.</p></div></footer>`;
 }
 
@@ -320,6 +324,8 @@ ${printBtn}
 <article class="prose">
 <h2>What's on this worksheet</h2>
 <p>${esc(ws.onSheet)} Each sheet comes with an answer key on a separate page.</p>
+${guideLink(ctx, guideFor(ctx, ws))}
+${workedExample(ws, GENERATORS[cfg.gen].generate(makeRng(cfg.seed), { ...cfg.params }, ws.count)[0])}
 <h2>Teaching tips</h2>
 <ul>${ws.tips.map((t) => `<li>${esc(t)}</li>`).join('')}</ul>
 ${ws.byGrade ? `<h2>Which grade is this for?</h2>${ws.byGrade.map(([g, t]) => `<p><b>${esc(g)}.</b> ${esc(t)}</p>`).join('')}` : ''}
@@ -392,7 +398,10 @@ ${groups}
 ${cat.slug === 'maths' ? yearStrip(ctx, 'Worksheets by year') : ''}
 ${adSlot(ctx, 'bottom')}
 <div class="hub-guide">
-<article class="prose"><h2>${esc(cat.guideTitle || `Teaching ${cat.lower || cat.name.toLowerCase()}, step by step`)}</h2>${cat.guide.map((p) => `<p>${esc(p)}</p>`).join('')}</article>
+<article class="prose"><h2>${esc(cat.guideTitle || `Teaching ${cat.lower || cat.name.toLowerCase()}, step by step`)}</h2>${cat.guide.map((p) => `<p>${esc(p)}</p>`).join('')}${ctx.guides
+    .filter((g) => g.cats.includes(cat.slug))
+    .map((g) => guideLink(ctx, g))
+    .join('')}</article>
 <section class="faq prose" aria-labelledby="faq-h"><h2 id="faq-h">Questions</h2>${cat.faq.map(([q, a]) => `<h3>${esc(q)}</h3><p>${esc(a)}</p>`).join('')}</section>
 </div>
 </main>`;
@@ -412,6 +421,17 @@ ${adSlot(ctx, 'bottom')}
     jsonld,
     lang: cat.slug === 'maths' ? 'en-GB' : 'en',
   });
+}
+
+// "What children learn" write-up plus links to the matching guides.
+function levelMore(ctx, more, uk) {
+  if (!more) return '';
+  const guides = more.guides.map((sl) => ctx.guides.find((g) => g.slug === sl)).filter(Boolean);
+  return `<div class="hub-guide"><article class="prose">${more.sections.map(([h, p]) => `<h2>${esc(h)}</h2><p>${esc(p)}</p>`).join('')}</article>${
+    guides.length
+      ? `<aside class="prose"><h2>Teaching guides</h2><p>Step-by-step explanations of the methods ${uk ? 'pupils' : 'students'} learn this year:</p><ul>${guides.map((g) => `<li><a href="${ctx.link(`/guides/${g.slug}/`)}">${esc(g.title)}</a></li>`).join('')}</ul></aside>`
+      : ''
+  }</div>`;
 }
 
 function yearStrip(ctx, heading, skip) {
@@ -438,6 +458,7 @@ ${crumbs(ctx, crumbItems)}
 <header class="hub-head"><h1>${esc(year.title)}</h1><p class="lede">${esc(year.intro)}</p><p class="count">${list.length} A4 worksheet makers for ${esc(year.name)} · answer keys included</p></header>
 ${byGroup}
 ${adSlot(ctx, 'bottom')}
+${levelMore(ctx, YEAR_MORE[year.key], true)}
 ${yearStrip(ctx, 'Other years', year.key)}
 </main>`;
   return page(ctx, {
@@ -471,6 +492,7 @@ ${crumbs(ctx, crumbItems)}
 <header class="hub-head"><h1>${esc(grade.title)}</h1><p class="lede">${esc(grade.intro)}</p><p class="count">${list.length} worksheet makers for ${esc(grade.name.toLowerCase())}</p></header>
 ${byCat}
 ${adSlot(ctx, 'bottom')}
+${levelMore(ctx, GRADE_MORE[grade.key], false)}
 <nav class="grade-strip" aria-label="Other grades"><h2>Other grades</h2><ul>${others}</ul></nav>
 </main>`;
   return page(ctx, {
@@ -534,6 +556,11 @@ ${jsonScript('demo-config', demoCfg)}
 <li><h3>Letter or A4, any number of problems</h3><p>Choose the paper size and the number of problems. Spacing and font size adjust so every page stays easy to read.</p></li>
 <li><h3>Reprint any sheet</h3><p>Each sheet has a short code. Save the link and print the same problems again for a retake or another class.</p></li>
 </ul></section>
+<section class="wrap home-sec" aria-labelledby="guides-h"><h2 id="guides-h">Teaching guides</h2><p class="sec-lede">Step-by-step explanations of the methods on the worksheets, with worked examples and the mistakes to watch for.</p><ul class="guide-list">${ctx.guides
+    .filter((g) => !g.uk)
+    .slice(0, 6)
+    .map((g) => guideCard(ctx, g))
+    .join('')}</ul><p class="more"><a href="${L('/guides/')}">All teaching guides</a></p></section>
 <section class="wrap home-sec" aria-labelledby="pop-h"><h2 id="pop-h">Popular worksheets</h2><ul class="cards">${popular.map((w) => card(ctx, w, { showCat: true })).join('')}</ul></section>
 </main>`;
   const jsonld = [
@@ -554,7 +581,8 @@ ${jsonScript('demo-config', demoCfg)}
 // ---------- simple pages ----------
 
 export function textPage(ctx, { path, title, heading, description, body }) {
-  const main = `<main id="main" class="wrap text-page"><article class="prose"><h1>${esc(heading)}</h1>${body}</article></main>`;
+  const linked = body.replace(/href="(\/[^"]*)"/g, (m, href) => `href="${ctx.link(href)}"`);
+  const main = `<main id="main" class="wrap text-page"><article class="prose"><h1>${esc(heading)}</h1>${linked}</article></main>`;
   return page(ctx, { title, description, path, main });
 }
 
@@ -564,4 +592,112 @@ export function notFoundPage(ctx) {
     .map((c) => `<li><a href="${L(`/${c.slug}/`)}">${esc(c.title)}</a></li>`)
     .join('')}</ul></article></main>`;
   return page(ctx, { title: 'Page not found | Endless Math Sheets', description: 'This page could not be found.', path: '/404', main });
+}
+
+// ---------- teaching guides ----------
+
+const slugify = (t) => t.toLowerCase().replace(/&/g, 'and').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+const longDate = (d) => new Date(`${d}T12:00:00Z`).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' });
+
+function guideFor(ctx, ws) {
+  return ctx.guides.find((g) => g.worksheets.includes(ws.slug)) || ctx.guides.find((g) => g.cats.includes(ws.cat));
+}
+
+function guideLink(ctx, g) {
+  if (!g) return '';
+  return `<p class="guide-link"><span>Step-by-step guide</span><a href="${ctx.link(`/guides/${g.slug}/`)}">${esc(g.title)}</a></p>`;
+}
+
+function guideCard(ctx, g) {
+  return `<li><a class="guide-card" href="${ctx.link(`/guides/${g.slug}/`)}"><span class="gc-level">${esc(g.level)}</span><span class="gc-title">${esc(g.title)}</span><span class="gc-sum">${esc(g.summary)}</span></a></li>`;
+}
+
+// Helpers the guide bodies use. Links go through the linker so preview builds work.
+function guideHelpers(ctx) {
+  return {
+    add: addWork,
+    sub: subWork,
+    mul: mulWork,
+    div: (n, d, o) => divWork(n, d, o).html,
+    divSteps: divWork,
+    dec: decWork,
+    bus: busWork,
+    f,
+    mx,
+    clocks: clockFig,
+    h2: (t) => `<h2 id="${slugify(t)}">${esc(t)}</h2>`,
+    a: (slug, text) => `<a href="${ctx.link(`/${slug}/`)}">${text}</a>`,
+    note: (html) => `<aside class="callout">${html}</aside>`,
+  };
+}
+
+export function guideBody(ctx, g) {
+  return g.body(guideHelpers(ctx));
+}
+
+export function guidePage(ctx, g) {
+  const path = `/guides/${g.slug}/`;
+  const body = guideBody(ctx, g);
+  const words = body
+    .replace(/<figure[\s\S]*?<\/figure>/g, ' ')
+    .replace(/<[^>]+>/g, ' ')
+    .split(/\s+/)
+    .filter((x) => /[a-z]/i.test(x)).length;
+  const minutes = Math.max(3, Math.round(words / 200));
+  const toc = [...body.matchAll(/<h2 id="([^"]+)">([^<]+)<\/h2>/g)].map((m) => `<li><a href="#${m[1]}">${m[2]}</a></li>`).join('');
+  const practice = g.worksheets.map((sl) => ctx.worksheets.find((w) => w.slug === sl)).filter(Boolean);
+  const others = [...ctx.guides.filter((x) => x !== g && !!x.uk === !!g.uk), ...ctx.guides.filter((x) => x !== g && !!x.uk !== !!g.uk)].slice(0, 6);
+  const crumbItems = [['/', 'Home'], ['/guides/', 'Guides'], [path, g.short]];
+  const main = `<main id="main" class="wrap guide">
+${crumbs(ctx, crumbItems)}
+<header class="guide-head"><h1>${esc(g.title)}</h1><p class="lede">${esc(g.summary)}</p>
+<p class="guide-meta">${esc(g.level)} · ${minutes} min read · Updated ${longDate(g.updated)}</p></header>
+<div class="guide-body">
+<nav class="toc" aria-label="On this page"><h2>On this page</h2><ol>${toc}</ol></nav>
+<article class="prose guide-text">${body}</article>
+</div>
+${adSlot(ctx, 'bottom')}
+<section class="related" aria-labelledby="prac-h"><h2 id="prac-h">${g.uk ? 'Practise' : 'Practice'} with these worksheets</h2><ul class="cards">${practice.map((w) => card(ctx, w)).join('')}</ul></section>
+<section class="related" aria-labelledby="more-g"><h2 id="more-g">More teaching guides</h2><ul class="guide-list">${others.map((x) => guideCard(ctx, x)).join('')}</ul></section>
+</main>`;
+  const jsonld = [
+    breadcrumbLd(ctx, crumbItems),
+    {
+      '@context': 'https://schema.org',
+      '@type': 'Article',
+      headline: g.title,
+      description: g.description,
+      datePublished: g.published,
+      dateModified: g.updated,
+      inLanguage: g.uk ? 'en-GB' : 'en-US',
+      author: { '@type': 'Organization', name: 'Endless Math Sheets', url: `${ctx.site.url}/about/` },
+      publisher: { '@type': 'Organization', name: 'Endless Math Sheets', url: `${ctx.site.url}/` },
+      mainEntityOfPage: ctx.site.url + path,
+      image: `${ctx.site.url}/og.png`,
+    },
+  ];
+  return page(ctx, { title: g.metaTitle || g.title, description: g.description, path, main, jsonld, lang: g.uk ? 'en-GB' : 'en', paper: g.uk ? 'a4' : 'letter' });
+}
+
+export function guidesHubPage(ctx) {
+  const path = '/guides/';
+  const crumbItems = [['/', 'Home'], [path, 'Guides']];
+  const us = ctx.guides.filter((g) => !g.uk);
+  const uk = ctx.guides.filter((g) => g.uk);
+  const main = `<main id="main" class="wrap hub">
+${crumbs(ctx, crumbItems)}
+<header class="hub-head"><h1>Math Teaching Guides</h1><p class="lede">Clear, step-by-step explanations of the methods on our worksheets. Each guide has worked examples, the mistakes students make most often, a suggested teaching order and links to matching practice sheets.</p><p class="count">${ctx.guides.length} guides · written for teachers, tutors and parents</p></header>
+<section class="ws-group"><h2>Guides by topic</h2><ul class="guide-list">${us.map((g) => guideCard(ctx, g)).join('')}</ul></section>
+${uk.length ? `<section class="ws-group"><h2>UK and Australia</h2><ul class="guide-list">${uk.map((g) => guideCard(ctx, g)).join('')}</ul></section>` : ''}
+<div class="hub-guide"><article class="prose"><h2>How these guides are written</h2>
+<p>Every guide explains one method the way it is usually taught in US classrooms (and, for the UK guides, in schools in England), from the first concrete idea to the written method. Worked examples are drawn by the same code that checks our worksheet answer keys, so every carried digit, regrouped number and long division step is correct.</p>
+<p>Each guide ends with the worksheets that practise that skill, in the order we suggest using them. If you spot a mistake or want a guide on another topic, write to <a href="mailto:${esc(ctx.site.contactEmail)}">${esc(ctx.site.contactEmail)}</a>.</p></article></div>
+</main>`;
+  return page(ctx, {
+    title: 'Math Teaching Guides: Step-by-Step Methods With Worked Examples',
+    description: `${ctx.guides.length} free teaching guides for elementary math: regrouping, multiplication facts, long division, fractions, decimals, telling time and more, with worked examples.`,
+    path,
+    main,
+    jsonld: [breadcrumbLd(ctx, crumbItems)],
+  });
 }

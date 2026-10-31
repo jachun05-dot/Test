@@ -344,3 +344,11 @@ export function renderSheets(problems, o) {
   const html = pages.map((l, i) => sheet(l, i, false)).join('') + pages.map((l, i) => sheet(l, i, true)).join('');
   return { html, plan, pages: total };
 }
+
+// A read-only clock (used by the teaching guides).
+export function clockSvg(h, m) {
+  const hands =
+    `<g class="ck-h"><path d="${hand(((h % 12) + m / 60) * 30, 38)}" class="ck-hh"/>` +
+    `<path d="${hand(m * 6, 55)}" class="ck-mh"/></g>`;
+  return `<svg viewBox="0 0 200 200" class="ckf" aria-hidden="true">${CLOCK_FACE}${hands}<circle cx="100" cy="100" r="5" class="ck-c"/></svg>`;
+}
