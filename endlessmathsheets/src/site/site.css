@@ -483,3 +483,10 @@ p { margin: 0; }
 .eqs .ex { font-family: var(--font-sheet); font-size: 1.15rem; white-space: nowrap; }
 .eqs .why { font-size: 0.88rem; color: var(--paper-muted); }
 .eqs li::marker { content: none; }
+.we-q { font-size: 1.1rem; }
+.we-q b { font-family: var(--font-sheet); font-weight: 500; white-space: nowrap; }
+.tt-list { columns: 2; column-gap: 32px; list-style: none; padding: 0 !important; font-family: var(--font-sheet); }
+.tt-list li { margin: 0 0 6px !important; }
+.home-how { margin-top: 18px; }
+.home-how aside h3 { margin-top: 0; }
+.home-how aside h3 + p { margin-top: 0.3em; }

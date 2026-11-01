@@ -315,3 +315,31 @@ export function busWork(n, d, caption = '') {
   dRow[c0].c.push('bl');
   return figure([qRow, dRow], `${fmt(n)} divided by ${d} equals ${fmt(quotient)}${cur ? ` remainder ${cur}` : ''}`, caption, '1.45em');
 }
+
+// Column addition of three or more numbers (a column can regroup 2 or more).
+export function addManyWork(nums, caption = '') {
+  const S = String(nums.reduce((t, x) => t + x, 0));
+  const strs = nums.map(String);
+  const n = Math.max(...strs.map((x) => x.length), S.length);
+  const w = n + 1;
+  const carry = Array(n + 1).fill(0);
+  for (let k = 0; k < n; k++) {
+    const col = strs.reduce((t, x) => t + +(x[x.length - 1 - k] || 0), 0);
+    carry[k + 1] = Math.floor((col + carry[k]) / 10);
+  }
+  const width = Math.max(...strs.map((x) => x.length));
+  const top = blankRow(w);
+  for (let k = 1; k < width; k++) if (carry[k]) top[w - 1 - k] = { t: String(carry[k]), c: ['cy'] };
+  const rows = [top];
+  strs.forEach((x, i) => {
+    const r = blankRow(w);
+    if (i === strs.length - 1) place(r, 0, '+', ['op']);
+    place(r, w - 1, x);
+    if (i === strs.length - 1) r.forEach((c) => c.c.push('ul'));
+    rows.push(r);
+  });
+  const ans = blankRow(w);
+  place(ans, w - 1, S, ['an']);
+  rows.push(ans);
+  return figure(rows, `${nums.map(fmt).join(' plus ')} equals ${fmt(Number(S))}`, caption);
+}

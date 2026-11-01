@@ -71,10 +71,18 @@ export function staticPages(site, worksheetCount, updated, guideCount = 0) {
 <h2>Using the worksheets</h2>
 <p>You may print and copy worksheets from this site for free for personal, home-school, tutoring and classroom use, including sharing printed or digital copies with your students.</p>
 <p>Please do not sell the worksheets or republish them on another website as your own collection.</p>
+<h2>Teaching guides and other content</h2>
+<p>The teaching guides, worked examples and other text on this site are written by Endless Math Sheets. You are welcome to link to them and to quote short passages with a link back. Please don't copy whole guides to another website.</p>
+<h2>No account needed</h2>
+<p>You don't need an account to use the site, and worksheets are generated in your browser. See the <a href="/privacy/">privacy policy</a> for details of the limited information our hosting provider and advertising partners process.</p>
+<h2>Advertising</h2>
+<p>The site may show advertising to cover its costs and keep the worksheets free. Ads are shown on the web pages only; they are never printed on the worksheets themselves.</p>
 <h2>Accuracy</h2>
 <p>We check every type of worksheet carefully, but the site is provided “as is” without warranties of any kind. If you find a mistake, please tell us so we can fix it.</p>
 <h2>Links</h2>
 <p>Links to other websites are provided for convenience. We are not responsible for their content.</p>
+<h2>Changes to the site and these terms</h2>
+<p>We may add, change or remove worksheets and guides, and we may update these terms. The date at the top shows the latest version. Continuing to use the site after a change means you accept the updated terms.</p>
 <h2>Contact</h2>
 <p><a href="mailto:${email}">${email}</a></p>`,
     },

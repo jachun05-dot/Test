@@ -325,7 +325,7 @@ ${printBtn}
 <h2>What's on this worksheet</h2>
 <p>${esc(ws.onSheet)} Each sheet comes with an answer key on a separate page.</p>
 ${guideLink(ctx, guideFor(ctx, ws))}
-${workedExample(ws, GENERATORS[cfg.gen].generate(makeRng(cfg.seed), { ...cfg.params }, ws.count)[0])}
+${workedExample(ws, GENERATORS[cfg.gen].generate(makeRng(cfg.seed), { ...cfg.params }, ws.count))}
 <h2>Teaching tips</h2>
 <ul>${ws.tips.map((t) => `<li>${esc(t)}</li>`).join('')}</ul>
 ${ws.byGrade ? `<h2>Which grade is this for?</h2>${ws.byGrade.map(([g, t]) => `<p><b>${esc(g)}.</b> ${esc(t)}</p>`).join('')}` : ''}
@@ -556,6 +556,14 @@ ${jsonScript('demo-config', demoCfg)}
 <li><h3>Letter or A4, any number of problems</h3><p>Choose the paper size and the number of problems. Spacing and font size adjust so every page stays easy to read.</p></li>
 <li><h3>Reprint any sheet</h3><p>Each sheet has a short code. Save the link and print the same problems again for a retake or another class.</p></li>
 </ul></section>
+<section class="wrap home-sec" aria-labelledby="how-h"><h2 id="how-h">How to use Endless Math Sheets</h2>
+<div class="hub-guide home-how"><article class="prose">
+<p>Pick a topic or a grade, then choose the exact skill you want to practice: two-digit subtraction where every problem needs regrouping, the 7 times table, adding fractions with unlike denominators, or telling time to five minutes. Each worksheet page has settings for the number of problems, the layout and the paper size, and a <b>New worksheet</b> button that makes a fresh set of problems every time.</p>
+<p>Press <b>Print</b> and the worksheet prints on one page with its answer key on the next, so you can hand out the problems and keep the answers. Every sheet has a short code in the corner; copy the link and you can print exactly the same problems again later for a retake.</p>
+<p>Each worksheet page also explains what the sheet covers, gives teaching tips and works through an example step by step. For a fuller explanation of a method, our teaching guides cover everything from making ten to long division.</p>
+</article>
+<aside class="prose"><h3>For teachers</h3><p>Give every student a different version of the same skill, print answer keys for quick marking, and use timed tests to track fact fluency week by week.</p><h3>For parents</h3><p>Find your child's grade, choose a short sheet at the right level, and mark it together with the answer key. Our guide to <a href="${L('/guides/math-practice-at-home/')}">practicing math at home</a> has a simple 15-minute routine.</p><h3>For UK and Australian schools</h3><p>A4 <a href="${L('/maths/')}">maths worksheets</a> use the words your pupils know: column addition, exchanging and the bus stop method.</p></aside>
+</div></section>
 <section class="wrap home-sec" aria-labelledby="guides-h"><h2 id="guides-h">Teaching guides</h2><p class="sec-lede">Step-by-step explanations of the methods on the worksheets, with worked examples and the mistakes to watch for.</p><ul class="guide-list">${ctx.guides
     .filter((g) => !g.uk)
     .slice(0, 6)

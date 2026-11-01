@@ -54,12 +54,12 @@ test('worksheet worked examples hold for many random problems', async () => {
   let shown = 0;
   for (const ws of WORKSHEETS) {
     for (let seed = 1; seed <= 40; seed++) {
-      const p = GENERATORS[ws.gen].generate(makeRng(seed * 7919), { ...ws.params }, ws.count)[0];
-      const html = workedExample(ws, p);
+      const ps = GENERATORS[ws.gen].generate(makeRng(seed * 7919), { ...ws.params }, ws.count);
+      const html = workedExample(ws, ps);
       if (!html) continue;
       shown++;
       assert.ok(!/undefined|NaN|\[object/.test(html), `${ws.slug} seed ${seed}`);
     }
   }
-  assert.ok(shown > 1000);
+  assert.ok(shown > 4000, `only ${shown} examples`);
 });

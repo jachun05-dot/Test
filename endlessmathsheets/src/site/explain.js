@@ -2,7 +2,8 @@
 // kind, drawn with work.js and explained step by step. Text is built from the
 // numbers, so it always matches the figure.
 import { esc } from '../engine/render.js';
-import { addWork, subWork, mulWork, divWork, decWork, busWork } from './work.js';
+import { addWork, subWork, mulWork, divWork, decWork, busWork, addManyWork } from './work.js';
+import { moreExample } from './explain2.js';
 
 const PL = ['ones', 'tens', 'hundreds', 'thousands', 'ten thousands', 'hundred thousands', 'millions'];
 const ONE = ['one', 'ten', 'hundred', 'thousand', 'ten thousand', 'hundred thousand', 'million'];
@@ -28,6 +29,24 @@ function addSteps(a, b, uk) {
     out.push(t);
   }
   if (c) out.push(`The ${uk ? "exchanged" : "regrouped"} ${ONE[n]} has no column of its own, so it becomes the first digit of the answer.`);
+  return out;
+}
+
+function addManySteps(nums, uk) {
+  const strs = nums.map(String);
+  const n = Math.max(...strs.map((x) => x.length));
+  const verb = uk ? 'exchange' : 'regroup';
+  const out = [];
+  let c = 0;
+  for (let k = 0; k < n; k++) {
+    const digits = strs.map((x) => x[x.length - 1 - k]).filter((d) => d !== undefined);
+    const parts = [...(c ? [String(c)] : []), ...digits];
+    const sum = c + digits.reduce((t, d) => t + +d, 0);
+    c = Math.floor(sum / 10);
+    out.push(`${cap(PL[k])}: ${parts.join(' + ')} = ${sum}.${c ? ` Write ${sum % 10} and ${verb} ${c} ${ONE[k + 1]}${c > 1 ? 's' : ''} into the ${PL[k + 1]} column.` : ` Write ${sum}.`}`);
+  }
+  if (c) out.push(`Write the ${uk ? 'exchanged' : 'regrouped'} ${c} at the front of the answer.`);
+  out.push(`The answer is ${fmt(nums.reduce((t, x) => t + x, 0))}.`);
   return out;
 }
 
@@ -159,15 +178,43 @@ function busSteps(n, d) {
   return out;
 }
 
-const list = (items) => `<ol>${items.map((t) => `<li>${esc(t)}</li>`).join('')}</ol>`;
+// Items are built here from numbers and fixed words (fractions as trusted HTML).
+const list = (items) => (items.length ? `<ol>${items.map((t) => `<li>${t}</li>`).join('')}</ol>` : '');
 
 // Returns '' when the page's problems have no worked layout.
-export function workedExample(ws, p) {
+// Prefer a problem that shows the sheet's skill: one that regroups, if any do.
+function regroups(p) {
+  if (p.type !== 'arith' || p.nums.length !== 2 || /\./.test(p.nums.join(''))) return 0;
+  const [a, b] = p.nums;
+  let n = 0;
+  if (p.op === '+') {
+    let c = 0;
+    for (let k = 0; k < Math.max(a.length, b.length); k++) {
+      c = Math.floor((+(a[a.length - 1 - k] || 0) + +(b[b.length - 1 - k] || 0) + c) / 10);
+      n += c;
+    }
+  } else if (p.op === '−') {
+    let borrow = 0;
+    for (let k = 0; k < a.length; k++) {
+      const top = +a[a.length - 1 - k] - borrow;
+      borrow = top < +(b[b.length - 1 - k] || 0) ? 1 : 0;
+      n += borrow;
+    }
+  } else if (p.op === '×') n = Math.min(a.length, b.length);
+  return Math.min(n, 2);
+}
+
+export function workedExample(ws, problems) {
+  const p = ws.format === 'vertical' ? problems.reduce((best, q) => (regroups(q) > regroups(best) ? q : best), problems[0]) : problems[0];
   const uk = ws.locale === 'uk';
   const intro = `<p>Here's how to solve a problem like the ones on this sheet, step by step.</p>`;
   let fig = '';
   let items = [];
-  if (p.type === 'arith' && ws.format === 'vertical' && p.nums.length === 2) {
+  if (p.type === 'arith' && ws.format === 'vertical' && p.nums.length > 2 && p.op === '+' && !/\./.test(p.nums.join(''))) {
+    const v = p.nums.map(Number);
+    if (String(v.reduce((t, x) => t + x, 0)) !== String(p.ans).replace(/,/g, '')) throw new Error(`${ws.slug}: worked example disagrees with the answer key`);
+    [fig, items] = [addManyWork(v), addManySteps(v, uk)];
+  } else if (p.type === 'arith' && ws.format === 'vertical' && p.nums.length === 2) {
     const [x, y] = p.nums;
     if (/\./.test(x + y)) {
       const op = p.op === '+' ? '+' : '-';
@@ -194,6 +241,11 @@ export function workedExample(ws, p) {
     if (Math.floor(n / d) !== Number(p.q) || n % d !== Number(p.r)) throw new Error(`${ws.slug}: worked example disagrees with the answer key`);
     if (ws.slug === 'maths/short-division') [fig, items] = [busWork(n, d), busSteps(n, d)];
     else [fig, items] = [divWork(n, d, { uk }).html, divSteps(n, d, uk)];
-  } else return '';
+  } else {
+    const more = moreExample(ws, problems);
+    if (!more) return '';
+    const q = more.q ? `<p class="we-q">Problem: <b>${more.q}</b></p>` : '';
+    return `<h2>Worked example</h2>${intro}${q}${more.fig}${list(more.items)}${more.extra || ''}`;
+  }
   return `<h2>Worked example</h2>${intro}${fig}${list(items)}`;
 }

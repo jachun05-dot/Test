@@ -828,18 +828,593 @@ ${h2('Practise')}
 `,
 };
 
+
+const additionFacts = {
+  slug: 'addition-facts-strategies',
+  title: 'Addition Facts Strategies: Counting On, Doubles and Making Ten',
+  short: 'Addition fact strategies',
+  description: 'How children learn the addition facts to 20: counting on, doubles, near doubles, making ten and fact families, with a teaching order and practice ideas.',
+  summary: 'Counting on, doubles, near doubles and making ten, the order to teach them, and short practice routines that build real recall.',
+  level: 'Kindergarten–Grade 2',
+  cats: ['addition'],
+  worksheets: ['addition/within-5', 'addition/within-10', 'addition/within-20', 'addition/single-digit', 'addition/missing-addend', 'addition/100-facts-timed-test'],
+  body: ({ h2, a }) => `
+${h2('What knowing the facts means')}
+<p>A child knows an addition fact when they can give the answer quickly, without counting on their fingers, and can explain how they could work it out if they forgot. Both parts matter. Children who only memorize get stuck when a fact slips; children who only count stay slow. Strategies come first, then practice turns the strategies into recall.</p>
+<p>In the Common Core standards, kindergartners add and subtract fluently within 5 (K.OA.A.5), 1st graders become fluent within 10 and use strategies within 20 (1.OA.C.6), and by the end of 2nd grade children know all sums of two one-digit numbers from memory (2.OA.B.2).</p>
+
+${h2('Counting on')}
+<p>The first strategy is counting on from the larger number. For 2 + 7, start at 7 and count two more: 8, 9. Children who start at 1 and count everything ("1, 2, … 9") need to learn that they can hold the first number in their head. Showing that 2 + 7 and 7 + 2 have the same answer lets them always start with the bigger number. Counting on works well for adding 1, 2 or 3, and becomes slow and error-prone beyond that.</p>
+
+${h2('Doubles and near doubles')}
+<p>Doubles are the easiest facts to memorize because children see them everywhere: 5 + 5 fingers, 6 + 6 eggs in a carton, 4 + 4 legs on a spider. Once doubles are known, near doubles follow: 6 + 7 is 6 + 6 and one more, so 13. 8 + 9 is 8 + 8 and one more, so 17. Encourage children to say the double out loud first.</p>
+
+${h2('Making ten')}
+<p>Making ten is the most powerful strategy for facts that cross 10. For 8 + 5, 8 needs 2 more to make 10, so split 5 into 2 and 3: 8 + 2 = 10 and 10 + 3 = 13. Ten frames make this visible: fill the frame with 8 counters, move 2 of the 5 across to complete it, and 3 are left outside.</p>
+<p>Making ten depends on knowing the number bonds to 10 (1 and 9, 2 and 8, 3 and 7, 4 and 6, 5 and 5) without thinking. If a child hesitates on those, practice them first; every make-ten step uses one.</p>
+
+${h2('A teaching order')}
+<ol>
+<li>Adding 0, 1 and 2 by counting on, and the turnaround idea (2 + 7 = 7 + 2).</li>
+<li>Number bonds to 10.</li>
+<li>Doubles to 10 + 10.</li>
+<li>Facts with 9 and 8, using making ten (9 + 6 = 10 + 5).</li>
+<li>Near doubles (6 + 7, 7 + 8).</li>
+<li>The remaining facts, such as 7 + 4 and 6 + 3, using whichever strategy the child finds easiest.</li>
+</ol>
+
+${h2('Fact families')}
+<p>Every addition fact comes with a family: 3 + 5 = 8, 5 + 3 = 8, 8 − 5 = 3 and 8 − 3 = 5. Teaching addition and subtraction facts together halves the work, and ${a('addition/missing-addend', 'missing addend problems')} like 5 + ? = 8 build the bridge between them.</p>
+
+${h2('Practice that works')}
+<ul>
+<li><b>Short and daily.</b> Five to ten minutes a day beats a long session once a week.</li>
+<li><b>One strategy at a time.</b> A sheet of near doubles teaches more than a random mix while the strategy is new.</li>
+<li><b>Then mix.</b> Once strategies are secure, mixed sheets make children choose a strategy for each fact, which is what real fluency needs.</li>
+<li><b>Games.</b> Dice games, card games ("make ten" with a deck of cards) and quick oral quizzes in the car all count.</li>
+<li><b>Timed tests last.</b> Use them only after a child is accurate, and compare each child with their own previous score.</li>
+</ul>
+<p>Our worksheets follow the same progression: ${a('addition/within-5', 'within 5')}, ${a('addition/within-10', 'within 10')}, ${a('addition/within-20', 'within 20')}, then ${a('addition/100-facts-timed-test', 'the 100-problem timed test')} for fluency checks.</p>
+`,
+};
+
+const subtractionFacts = {
+  slug: 'subtraction-facts-strategies',
+  title: 'Subtraction Facts Strategies: Think Addition, Count Up and Subtract Through Ten',
+  short: 'Subtraction fact strategies',
+  description: 'How to teach the subtraction facts to 20: thinking addition, counting up, subtracting through ten and fact families, plus the mistakes children make.',
+  summary: 'Thinking addition, counting back and up, subtracting through ten, and how to avoid the counting mistakes that cause most errors.',
+  level: 'Kindergarten–Grade 2',
+  cats: ['subtraction'],
+  worksheets: ['subtraction/within-5', 'subtraction/within-10', 'subtraction/within-20', 'subtraction/2-digit-minus-1-digit', 'subtraction/100-facts-timed-test'],
+  body: ({ h2, a }) => `
+${h2('Why subtraction feels harder')}
+<p>Most children find subtraction facts harder than addition facts, mainly because counting backwards is harder than counting forwards. The good news is that children rarely need to count back at all. If they know their addition facts, every subtraction fact is an addition fact in disguise.</p>
+<p>The Common Core expectations match addition: fluency within 5 in kindergarten (K.OA.A.5), within 10 in 1st grade (1.OA.C.6), and all facts within 20 from memory by the end of 2nd grade (2.OA.B.2).</p>
+
+${h2('Think addition')}
+<p>For 13 − 8, ask "8 plus what makes 13?" A child who knows 8 + 5 = 13 has the answer: 5. This is the most reliable strategy because it reuses facts the child already knows. Practise it by saying the related addition fact out loud before writing each subtraction answer.</p>
+
+${h2('Counting back and counting up')}
+<p>Counting back works for taking away 1, 2 or 3: 9 − 2 is "8, 7", so 7. The classic mistake is counting the starting number: for 12 − 3, a child says "12, 11, 10" and writes 10. Teach children to count the jumps, not the numbers: start at 12 and jump back three times, landing on 9.</p>
+<p>When the two numbers are close together, counting up is faster. For 12 − 9, start at 9 and count up to 12: 10, 11, 12. That's three jumps, so 12 − 9 = 3. A number line shows why: subtraction finds the distance between two numbers.</p>
+
+${h2('Subtracting through ten')}
+<p>For facts that cross 10, break the number you're subtracting into two parts. For 14 − 6, first take away 4 to reach 10 (14 − 4 = 10), then take away the other 2 (10 − 2 = 8). This mirrors the make-ten strategy for addition and depends on the same number bonds.</p>
+<p>Another way is to subtract from the ten: for 15 − 9, take 9 from the 10 in 15 to leave 1, then add the 5 ones back: 1 + 5 = 6. Some children find one method much easier than the other; either is fine.</p>
+
+${h2('Fact families and doubles')}
+<p>Doubles help with subtraction too: if 8 + 8 = 16, then 16 − 8 = 8. Fact family triangles (with the total at the top and the two parts at the bottom) make the link between addition and subtraction visual: cover one corner and work out the missing number.</p>
+
+${h2('Common mistakes')}
+<ul>
+<li><b>Counting the starting number</b> when counting back, which gives answers one too big.</li>
+<li><b>Turning the problem around:</b> doing 3 − 7 instead of 7 − 3, often written as "4" for 3 − 7. In facts this shows up as confusion about which number to start from.</li>
+<li><b>Guessing from the look of the numbers</b> rather than using a strategy, such as writing 15 − 9 = 4 by mixing it up with 15 − 9 = 6 and 13 − 9 = 4.</li>
+</ul>
+
+${h2('Practice')}
+<p>Work through ${a('subtraction/within-5', 'within 5')}, ${a('subtraction/within-10', 'within 10')} and ${a('subtraction/within-20', 'within 20')}, then use ${a('subtraction/2-digit-minus-1-digit', '2-digit minus 1-digit problems')} to extend the strategies to bigger numbers: 43 − 7 is 43 − 3 = 40, then 40 − 4 = 36. The ${a('subtraction/100-facts-timed-test', 'subtraction timed test')} is useful once children are accurate.</p>
+`,
+};
+
+const placeValue = {
+  slug: 'place-value-and-comparing-numbers',
+  title: 'Place Value and Comparing Numbers: Ones, Tens, Hundreds and Beyond',
+  short: 'Place value and comparing',
+  description: 'How to teach place value and comparing numbers: digits and their values, expanded form, zero as a placeholder, and using < and > correctly.',
+  summary: 'What each digit is worth, expanded form, why zero matters, and a reliable method for comparing and ordering numbers.',
+  level: 'Grades 1–4',
+  cats: ['comparing-numbers', 'rounding'],
+  worksheets: ['comparing-numbers/up-to-100', 'comparing-numbers/3-digit', 'comparing-numbers/large-numbers', 'rounding/nearest-10', 'rounding/nearest-100'],
+  body: ({ h2, a }) => `
+${h2('Digits and their values')}
+<p>Our number system uses only ten digits, 0 to 9, and a digit's value depends on its place. In 4,382, the 4 is worth 4,000, the 3 is worth 300, the 8 is worth 80 and the 2 is worth 2. The digit is 3, but its value is 300. Being clear about that difference is the heart of place value.</p>
+<table>
+<thead><tr><th>Thousands</th><th>Hundreds</th><th>Tens</th><th>Ones</th></tr></thead>
+<tbody><tr><td>4</td><td>3</td><td>8</td><td>2</td></tr></tbody>
+</table>
+<p>Each place is worth ten times the place to its right: 10 ones make a ten, 10 tens make a hundred, 10 hundreds make a thousand. Base-ten blocks show this physically, and 4th graders are expected to explain it in words (4.NBT.A.1).</p>
+
+${h2('Expanded form')}
+<p>Writing a number in expanded form makes each value visible: 4,382 = 4,000 + 300 + 80 + 2. Going the other way, from expanded form back to a number, is a good check that a child understands. The trickiest cases have missing places: 5,000 + 60 + 7 is 5,067, with a zero holding the hundreds place.</p>
+
+${h2('Zero as a placeholder')}
+<p>Zero has no value of its own, but it holds a place open. 405 and 45 have the same nonzero digits, yet 405 is 4 hundreds and 45 is 4 tens. Children who write "four hundred five" as 4005 are writing down what they hear rather than what each place holds; a place value chart fixes this quickly.</p>
+
+${h2('Comparing numbers')}
+<ol>
+<li>For whole numbers, the one with more digits is larger: 1,204 > 987.</li>
+<li>If they have the same number of digits, compare from the left. Look at the biggest place first.</li>
+<li>Keep going right until two digits are different. The number with the bigger digit there is larger: 438 &lt; 483 because, with the hundreds equal, 3 tens is less than 8 tens.</li>
+</ol>
+<p>The symbols are easier to remember as "the open side faces the bigger number" or "the small point faces the smaller number" than as an alligator eating, which some children apply backwards. In the Common Core standards, 1st graders compare two-digit numbers (1.NBT.B.3), 2nd graders three-digit numbers (2.NBT.A.4) and 4th graders multi-digit numbers (4.NBT.A.2).</p>
+
+${h2('Common mistakes')}
+<ul>
+<li><b>Comparing the last digits:</b> saying 29 > 41 because 9 > 1.</li>
+<li><b>Ignoring the number of digits:</b> saying 999 > 1,002 because 9 is the biggest digit.</li>
+<li><b>Reversing the symbol,</b> especially when the larger number is on the right.</li>
+<li><b>Losing track in big numbers.</b> Commas split numbers into groups of three, which makes 456,736 and 465,736 easier to compare.</li>
+</ul>
+
+${h2('Quick place value activities')}
+<ul>
+<li><b>Biggest and smallest:</b> give four digit cards, such as 3, 8, 1 and 6. What's the biggest number you can make? (8,631) The smallest? (1,368)</li>
+<li><b>Say it, build it:</b> say a number aloud and have children build it with base-ten blocks or write it in a place value chart.</li>
+<li><b>Ten more, ten less:</b> from 347, what's ten more (357), a hundred less (247)? Only one digit changes, unless the change crosses a ten or hundred.</li>
+</ul>
+
+${h2('Practice')}
+<p>Start with ${a('comparing-numbers/up-to-100', 'comparing numbers up to 100')}, including pairs like 47 and 74, then ${a('comparing-numbers/3-digit', 'three-digit numbers')} and ${a('comparing-numbers/large-numbers', 'large numbers')}. Rounding, such as ${a('rounding/nearest-10', 'to the nearest 10')}, uses the same place value thinking and is a natural next step.</p>
+`,
+};
+
+const integers = {
+  slug: 'integers',
+  title: 'Adding, Subtracting, Multiplying and Dividing Integers',
+  short: 'Integers',
+  description: 'How to add, subtract, multiply and divide positive and negative numbers, with number line models, the sign rules, why they work and common mistakes.',
+  summary: 'Number line models for adding and subtracting, the sign rules for multiplying and dividing, why a negative times a negative is positive, and common mistakes.',
+  level: 'Grades 6–7',
+  cats: ['integers'],
+  worksheets: ['integers/adding-integers', 'integers/subtracting-integers', 'integers/multiplying-integers', 'integers/dividing-integers'],
+  body: ({ h2, a }) => `
+${h2('Integers on the number line')}
+<p>Integers are the whole numbers and their opposites: … −3, −2, −1, 0, 1, 2, 3 … On a number line, negative numbers sit to the left of zero. Every number has an opposite the same distance from zero on the other side: the opposite of 6 is −6. The distance from zero is called the absolute value, so |−6| = 6. Sixth graders meet negative numbers on the number line (6.NS.C.5, 6.NS.C.6), and 7th graders add, subtract, multiply and divide them (7.NS.A.1, 7.NS.A.2).</p>
+<p>Real contexts help: temperatures below zero, elevations below sea level, and money owed. "It was −4 °C and the temperature rose 10 degrees" is −4 + 10 = 6.</p>
+
+${h2('Adding integers')}
+<p>On the number line, adding a positive number moves right and adding a negative number moves left. Two rules cover every case:</p>
+<ul>
+<li><b>Same signs:</b> add the absolute values and keep the sign. −7 + (−5) = −12.</li>
+<li><b>Different signs:</b> subtract the smaller absolute value from the larger, and use the sign of the number with the larger absolute value. −7 + 5 = −2, and 7 + (−5) = 2.</li>
+</ul>
+<p>Two-color counters show the second rule well: a positive and a negative counter cancel to make zero, and whatever is left over is the answer.</p>
+
+${h2('Subtracting integers')}
+<p>Subtracting a number is the same as adding its opposite. Rewrite every subtraction as an addition, then use the addition rules:</p>
+<ul>
+<li>3 − 8 = 3 + (−8) = −5</li>
+<li>−4 − (−9) = −4 + 9 = 5</li>
+<li>−6 − 2 = −6 + (−2) = −8</li>
+</ul>
+<p>The number line explains why subtracting a negative moves right: 5 − (−3) asks for the distance from −3 up to 5, which is 8.</p>
+
+${h2('Multiplying and dividing integers')}
+<p>Multiply or divide the absolute values, then decide the sign. If the two numbers have the same sign, the answer is positive; if they have different signs, the answer is negative.</p>
+<ul>
+<li>−6 × 4 = −24</li>
+<li>−6 × (−4) = 24</li>
+<li>−24 ÷ 3 = −8</li>
+<li>−24 ÷ (−3) = 8</li>
+</ul>
+
+${h2('Why a negative times a negative is positive')}
+<p>A pattern makes the rule believable. Look at −3 times numbers that go down by 1:</p>
+<p>−3 × 2 = −6, −3 × 1 = −3, −3 × 0 = 0, −3 × (−1) = ?</p>
+<p>Each answer goes up by 3, so the next answer is 3. A negative times a negative continues the pattern into positive numbers.</p>
+
+${h2('Integers in real life')}
+<ul>
+<li><b>Temperature:</b> at 6 a.m. it was −8 °F, and by noon it was 15 °F. The rise was 15 − (−8) = 23 degrees.</li>
+<li><b>Elevation:</b> a diver at −30 m rises 12 m, reaching −30 + 12 = −18 m.</li>
+<li><b>Money:</b> a balance of −$20 (owing $20) plus a $45 deposit is −20 + 45 = $25.</li>
+</ul>
+<p>Problems like these give students a way to check whether an answer makes sense before they rely on the rules alone.</p>
+
+${h2('Common mistakes')}
+<ul>
+<li><b>Using the multiplication rule for addition:</b> saying −3 + (−5) = 8 because "two negatives make a positive". The rule about two negatives is only for multiplying and dividing.</li>
+<li><b>−3 − 5 = −2.</b> The correct answer is −8: starting at −3 and moving 5 further left.</li>
+<li><b>Dropping a sign</b> when rewriting, especially the negative inside parentheses.</li>
+<li><b>Mixing up the sign of the answer</b> when adding numbers with different signs. Ask, "Which number is farther from zero?"</li>
+</ul>
+
+${h2('Practice')}
+<p>Work through ${a('integers/adding-integers', 'adding integers')} and ${a('integers/subtracting-integers', 'subtracting integers')} until rewriting subtraction as addition is automatic, then ${a('integers/multiplying-integers', 'multiplying')} and ${a('integers/dividing-integers', 'dividing integers')}. Mixed practice afterwards helps students choose the right rule.</p>
+`,
+};
+
+const multiplyDivideFractions = {
+  slug: 'multiplying-and-dividing-fractions',
+  title: 'Multiplying and Dividing Fractions, With the Reasons Behind the Rules',
+  short: 'Multiplying and dividing fractions',
+  description: 'How to multiply and divide fractions: fractions times whole numbers, the area model, simplifying first, mixed numbers and why "keep, change, flip" works.',
+  summary: 'Multiplying by whole numbers and by fractions, simplifying before you multiply, mixed numbers, and why dividing means multiplying by the reciprocal.',
+  level: 'Grades 4–6',
+  cats: ['fractions'],
+  worksheets: ['fractions/multiplying-fractions-by-whole-numbers', 'fractions/multiplying-fractions', 'fractions/dividing-fractions', 'fractions/simplifying-fractions', 'fractions/mixed-numbers-to-improper-fractions'],
+  body: ({ h2, f, mx, a }) => `
+${h2('A fraction times a whole number')}
+<p>3 × ${f(2, 5)} means three groups of ${f(2, 5)}: ${f(2, 5)} + ${f(2, 5)} + ${f(2, 5)} = ${f(6, 5)}, which is ${mx(1, 1, 5)}. So multiply the numerator by the whole number and keep the denominator. Fourth graders multiply a fraction by a whole number this way (4.NF.B.4).</p>
+
+${h2('A fraction times a fraction')}
+<p>Multiply the numerators and multiply the denominators: ${f(2, 3)} × ${f(3, 4)} = ${f(6, 12)} = ${f(1, 2)}.</p>
+<p>The area model shows why. Draw a rectangle and shade ${f(3, 4)} of it with vertical lines. Then shade ${f(2, 3)} of the whole rectangle with horizontal lines. The rectangle is now cut into 3 × 4 = 12 small pieces, and the double-shaded part is 2 × 3 = 6 of them: ${f(6, 12)}. Fifth graders multiply fractions and explain it with models like this (5.NF.B.4).</p>
+<p>Multiplying by a fraction less than 1 gives a smaller answer: half of a third is ${f(1, 6)}. Saying "of" for × helps: ${f(1, 2)} × ${f(1, 3)} is "half of a third".</p>
+
+${h2('Simplify first')}
+<p>You can simplify before multiplying by dividing a numerator and a denominator by a common factor. In ${f(4, 9)} × ${f(3, 8)}, divide 4 and 8 by 4, and 3 and 9 by 3: the problem becomes ${f(1, 3)} × ${f(1, 2)} = ${f(1, 6)}. Multiplying first gives ${f(12, 72)}, which simplifies to the same ${f(1, 6)} with more work.</p>
+
+${h2('Mixed numbers')}
+<p>Change mixed numbers to improper fractions before multiplying: ${mx(1, 1, 2)} × ${mx(2, 2, 3)} = ${f(3, 2)} × ${f(8, 3)} = ${f(24, 6)} = 4. Multiplying the whole numbers and the fractions separately (1 × 2 and ${f(1, 2)} × ${f(2, 3)}) gives the wrong answer, because it leaves out two of the four parts of the area model.</p>
+
+${h2('Dividing fractions')}
+<p>Start with a question children can picture: how many quarters are in 3? Each whole has 4 quarters, so 3 ÷ ${f(1, 4)} = 12. Dividing by ${f(1, 4)} gave the same answer as multiplying by 4.</p>
+<p>That is the reason for the rule: to divide by a fraction, multiply by its reciprocal (flip the second fraction). It's often taught as "keep, change, flip".</p>
+<ul>
+<li>${f(3, 4)} ÷ ${f(1, 8)} = ${f(3, 4)} × ${f(8, 1)} = ${f(24, 4)} = 6. Check: there are 6 eighths in three quarters.</li>
+<li>${f(2, 3)} ÷ ${f(4, 5)} = ${f(2, 3)} × ${f(5, 4)} = ${f(10, 12)} = ${f(5, 6)}.</li>
+</ul>
+<p>Fifth graders divide unit fractions by whole numbers and whole numbers by unit fractions (5.NF.B.7); dividing a fraction by a fraction is a 6th grade standard (6.NS.A.1).</p>
+
+${h2('Fractions in word problems')}
+<ul>
+<li>A recipe needs ${f(3, 4)} cup of flour, and you're making half the recipe: ${f(1, 2)} × ${f(3, 4)} = ${f(3, 8)} cup.</li>
+<li>How many ${f(1, 3)}-cup servings are in 2 cups of juice? 2 ÷ ${f(1, 3)} = 6 servings.</li>
+<li>A ribbon ${mx(2, 1, 2)} meters long is cut into pieces ${f(1, 2)} meter long. How many pieces? ${mx(2, 1, 2)} ÷ ${f(1, 2)} = ${f(5, 2)} × 2 = 5 pieces.</li>
+</ul>
+<p>Word problems like these show why division by a fraction can give a bigger number: you're counting how many small pieces fit.</p>
+
+${h2('Common mistakes')}
+<ul>
+<li><b>Flipping the wrong fraction.</b> Only the divisor, the second fraction, is flipped.</li>
+<li><b>Finding a common denominator to multiply.</b> It isn't needed, and it makes the numbers bigger.</li>
+<li><b>Multiplying mixed numbers part by part</b> instead of converting to improper fractions.</li>
+<li><b>Cross-multiplying</b> when the problem is multiplication, not a comparison or proportion.</li>
+</ul>
+
+${h2('Practice')}
+<p>Begin with ${a('fractions/multiplying-fractions-by-whole-numbers', 'fractions times whole numbers')}, then ${a('fractions/multiplying-fractions', 'multiplying fractions')} and ${a('fractions/dividing-fractions', 'dividing fractions')}. Keep ${a('fractions/simplifying-fractions', 'simplifying')} and ${a('fractions/mixed-numbers-to-improper-fractions', 'converting mixed numbers')} going, since nearly every problem uses them.</p>
+`,
+};
+
+const exponents = {
+  slug: 'exponents',
+  title: 'Exponents Explained: Squares, Cubes and Powers of 10',
+  short: 'Exponents',
+  description: 'What exponents mean, squares and cubes, powers of 10, exponents of 1 and 0, and where exponents fit in the order of operations, with common mistakes.',
+  summary: 'What the base and exponent mean, squares and cubes, powers of 10, the zero exponent, and exponents in the order of operations.',
+  level: 'Grades 5–7',
+  cats: ['order-of-operations'],
+  worksheets: ['order-of-operations/exponents', 'order-of-operations/with-exponents', 'order-of-operations/basic'],
+  body: ({ h2, a }) => `
+${h2('Base and exponent')}
+<p>An exponent is a short way to write repeated multiplication. In 2⁴, 2 is the base and 4 is the exponent: use 2 as a factor four times. 2⁴ = 2 × 2 × 2 × 2 = 16. It's read "2 to the fourth power" or "2 to the fourth". Sixth graders write and evaluate expressions with whole-number exponents (6.EE.A.1).</p>
+
+${h2('Squares and cubes')}
+<p>An exponent of 2 is called squared because a square with side 5 has an area of 5 × 5 = 5² = 25 square units. An exponent of 3 is called cubed because a cube with edge 3 has a volume of 3 × 3 × 3 = 3³ = 27 cubic units. Drawing the square and building the cube from unit cubes makes the names stick.</p>
+<p>The squares from 1² to 12² are worth knowing by heart: 1, 4, 9, 16, 25, 36, 49, 64, 81, 100, 121 and 144. They come up constantly, from area problems to square roots.</p>
+
+${h2('Powers of 10')}
+<p>Powers of 10 follow a simple pattern: the exponent tells you how many zeros to write. 10² = 100, 10³ = 1,000 and 10⁶ = 1,000,000. Fifth graders use this to multiply by powers of 10: 6 × 10⁴ = 60,000 (5.NBT.A.2). It's also the basis of scientific notation later on.</p>
+
+${h2('Exponents of 1 and 0')}
+<p>Any number to the first power is itself: 7¹ = 7. Any nonzero number to the zeroth power is 1, which surprises students. A pattern explains it: 7³ = 343, 7² = 49, 7¹ = 7. Each step divides by 7, so the next step is 7 ÷ 7 = 1, and 7⁰ = 1.</p>
+
+${h2('Exponents in the order of operations')}
+<p>Exponents come after parentheses and before multiplication and division. That changes answers:</p>
+<ul>
+<li>2 × 3² = 2 × 9 = 18</li>
+<li>(2 × 3)² = 6² = 36</li>
+<li>4 + 2³ = 4 + 8 = 12</li>
+</ul>
+<p>The exponent applies only to the number (or parentheses) directly before it. In 2 × 3², only the 3 is squared.</p>
+
+${h2('Exponents in real life')}
+<p>Exponents appear wherever things grow by repeated multiplication. Computer memory is counted in powers of 2: 2¹⁰ = 1,024, which is why a kilobyte was traditionally 1,024 bytes. Area is measured in square units and volume in cubic units, which is where squared and cubed come from. And anything that doubles, like a folded sheet of paper (1, 2, 4, 8, 16 layers), follows powers of 2.</p>
+
+${h2('A first look at square roots')}
+<p>Square roots undo squaring. Because 7² = 49, the square root of 49 is 7, written √49 = 7. Students who know the squares from 1² to 12² can find the square roots of those numbers instantly, which is a good reason to learn the squares well.</p>
+
+${h2('Common mistakes')}
+<ul>
+<li><b>Multiplying the base by the exponent:</b> 2⁴ = 8 instead of 16, or 5² = 10 instead of 25.</li>
+<li><b>Adding instead of multiplying:</b> 3³ = 3 + 3 + 3 = 9 instead of 27.</li>
+<li><b>Squaring too much:</b> treating 2 × 3² as (2 × 3)².</li>
+<li><b>Writing too many or too few zeros</b> in powers of 10. Count the exponent, not the digits.</li>
+</ul>
+
+${h2('Practice')}
+<p>Start with ${a('order-of-operations/exponents', 'evaluating exponents')} on their own, then ${a('order-of-operations/with-exponents', 'expressions that combine exponents with other operations')}. Students who are unsure of the order of operations can review ${a('order-of-operations/basic', 'expressions without exponents')} first.</p>
+`,
+};
+
+const divisionFacts = {
+  slug: 'division-facts',
+  title: 'Division Facts: Sharing, Grouping and Thinking Multiplication',
+  short: 'Division facts',
+  description: 'How to teach the division facts: sharing and grouping, fact families, thinking multiplication, rules for 0 and 1, a learning order and first remainders.',
+  summary: 'The two meanings of division, using multiplication facts to divide, the rules for 0 and 1, and a simple start on remainders.',
+  level: 'Grades 3–4',
+  cats: ['division'],
+  worksheets: ['division/dividing-by-2', 'division/dividing-by-5', 'division/dividing-by-3', 'division/facts', 'division/with-remainders', 'division/100-facts-timed-test'],
+  body: ({ h2, a }) => `
+${h2('Two meanings of division')}
+<p>Division answers two different questions, and children need both:</p>
+<ul>
+<li><b>Sharing:</b> 12 cookies shared equally among 3 children. How many does each child get? 4.</li>
+<li><b>Grouping:</b> 12 cookies put in bags of 3. How many bags? 4.</li>
+</ul>
+<p>Both are written 12 ÷ 3 = 4. Acting out each with counters, before any worksheet, prevents a lot of confusion in word problems later. Third graders interpret division both ways (3.OA.A.2).</p>
+
+${h2('Think multiplication')}
+<p>Every division fact belongs to a multiplication fact family: 4 × 6 = 24, 6 × 4 = 24, 24 ÷ 6 = 4 and 24 ÷ 4 = 6. So the best strategy for 24 ÷ 6 is to ask, "6 times what is 24?" A child who knows 6 × 4 = 24 has the answer. Third graders are expected to understand division as an unknown-factor problem (3.OA.B.6) and to know all the facts within 100 by the end of the year (3.OA.C.7).</p>
+<p>This means division facts are only as strong as multiplication facts. If a child is slow on 56 ÷ 7, check whether they know 7 × 8 first.</p>
+
+${h2('A learning order')}
+<ol>
+<li>Dividing by ${a('division/dividing-by-2', '2')}, ${a('division/dividing-by-5', '5')} and 10: the easiest multiplication tables.</li>
+<li>Dividing by ${a('division/dividing-by-3', '3')} and 4.</li>
+<li>Dividing by 6, 7, 8 and 9.</li>
+<li>Dividing by 11 and 12, if your curriculum includes them.</li>
+<li>${a('division/facts', 'Mixed division facts')}.</li>
+</ol>
+
+${h2('Rules for 0 and 1')}
+<ul>
+<li>Any number divided by 1 is itself: 7 ÷ 1 = 7.</li>
+<li>Any number (except 0) divided by itself is 1: 7 ÷ 7 = 1.</li>
+<li>0 divided by any number (except 0) is 0: 0 ÷ 7 = 0. Sharing nothing among 7 people gives each person nothing.</li>
+<li>You can't divide by 0. Asking "0 times what is 7?" has no answer.</li>
+</ul>
+
+${h2('First remainders')}
+<p>When a number can't be shared equally, there's a remainder. For 29 ÷ 4, find the biggest multiple of 4 that isn't more than 29: 4 × 7 = 28. That leaves 29 − 28 = 1, so 29 ÷ 4 = 7 R1. The remainder must always be less than the number you divided by; if it isn't, the answer was too small. Our ${a('division/with-remainders', 'division with remainders worksheet')} practises exactly this step, which is also the heart of long division.</p>
+
+${h2('Word problems')}
+<p>Division word problems are easier when children decide first whether they are sharing or grouping:</p>
+<ul>
+<li>"There are 35 apples and 5 baskets. How many apples go in each basket?" This is sharing: 35 ÷ 5 = 7 apples per basket.</li>
+<li>"There are 35 apples. Each bag holds 5. How many bags are needed?" This is grouping: 35 ÷ 5 = 7 bags.</li>
+</ul>
+<p>Asking children to draw a quick picture (baskets with apples, or bags) before writing the number sentence makes the meaning clear and catches problems that need multiplication instead.</p>
+
+${h2('Practice tips')}
+<ul>
+<li>Practise division facts alongside the matching times table, not weeks later.</li>
+<li>Use word problems that switch between sharing and grouping.</li>
+<li>Once children are accurate, the ${a('division/100-facts-timed-test', 'division timed test')} shows which facts are automatic.</li>
+</ul>
+`,
+};
+
+const factFluency = {
+  slug: 'math-fact-fluency',
+  title: 'Math Fact Fluency: How to Use Timed Tests Without the Stress',
+  short: 'Fact fluency and timed tests',
+  description: 'How to build math fact fluency: what fluency means, when timed tests help, how to run them fairly, tracking progress and alternatives for anxious children.',
+  summary: 'What fluency really means, when timed tests help and when they hurt, a fair way to run them, and how to track progress.',
+  level: 'Grades 1–4',
+  cats: ['addition', 'subtraction', 'multiplication', 'division'],
+  worksheets: ['addition/100-facts-timed-test', 'subtraction/100-facts-timed-test', 'multiplication/100-facts-timed-test', 'division/100-facts-timed-test'],
+  body: ({ h2, a }) => `
+${h2('What fluency means')}
+<p>Fact fluency is more than speed. A fluent child answers accurately, quickly and flexibly: they know 7 + 8 = 15 at once, and if they ever forget, they can rebuild it from 7 + 7 = 14. Many teachers treat a fact as automatic when a child answers it in about three seconds without counting.</p>
+<p>Fluency matters because it frees up attention. A child working on long division who has to count out 7 × 8 on their fingers loses track of the steps. Children who know their facts can think about the new idea instead.</p>
+
+${h2('When timed tests help')}
+<p>Timed tests are a measuring tool, not a teaching tool. They work well when:</p>
+<ul>
+<li>the child can already work out every fact on the sheet accurately with a strategy;</li>
+<li>the goal is to see which facts have become automatic;</li>
+<li>each child compares their score with their own last score, not with classmates.</li>
+</ul>
+<p>They work badly when they come before understanding, when results are posted publicly, or when a child freezes under time pressure. For those children, the same sheet without a clock still builds fluency.</p>
+
+${h2('A fair way to run them')}
+<ol>
+<li>Choose sheets that only include facts the class has learned. Our multiplication timed test lets you tick which tables to include.</li>
+<li>Explain the goal: "Beat your own score from last week."</li>
+<li>Use the same time limit each time, such as 5 minutes for 100 problems, and let children stop when time is up rather than rushing the last row.</li>
+<li>Mark with the answer key, or have children mark their own.</li>
+<li>Record the number correct on a simple chart that only the child (and you) see.</li>
+</ol>
+<p>Because every click on our site makes a new sheet, children can't memorize the order of answers, and the sheet code in the corner lets you reprint an identical sheet if you want an exact retest.</p>
+
+${h2('Tracking progress')}
+<p>A rising line on a personal chart is motivating in a way a single score never is. Look at errors as well as speed: if a child misses the same three facts every week, those facts go on a short practice list for the next few days.</p>
+
+${h2('Building fluency between tests')}
+<ul>
+<li>Teach strategies first: counting on, doubles and making ten for addition; doubling and "times 10 minus one group" for multiplication.</li>
+<li>Practise a little every day. Ten minutes daily is better than an hour once a week.</li>
+<li>Mix in games, flash cards and quick oral quizzes.</li>
+<li>Keep reviewing old facts while learning new ones.</li>
+</ul>
+
+${h2('Timed tests on this site')}
+<p>There are 100-problem timed tests for ${a('addition/100-facts-timed-test', 'addition')}, ${a('subtraction/100-facts-timed-test', 'subtraction')}, ${a('multiplication/100-facts-timed-test', 'multiplication')} and ${a('division/100-facts-timed-test', 'division')}. Each fits on one page, with an answer key on the next, and you can set fewer problems for a shorter warm-up.</p>
+`,
+};
+
+const practiceAtHome = {
+  slug: 'math-practice-at-home',
+  title: 'How to Practice Math at Home: A 15-Minute Routine for Parents',
+  short: 'Practice at home',
+  description: 'A simple routine for math practice at home: choosing the right worksheet, keeping sessions short, marking together, praising strategies and avoiding tears.',
+  summary: 'How to pick the right level, a short routine that works, how to mark together, and what to do when practice turns into a battle.',
+  level: 'Kindergarten–Grade 6',
+  cats: [],
+  worksheets: ['addition/within-10', 'subtraction/within-20', 'multiplication/facts-0-10', 'division/facts', 'fractions/equivalent-fractions', 'telling-time/5-minutes'],
+  body: ({ h2, a }) => `
+${h2('Start with the right level')}
+<p>The most common reason home practice goes badly is a worksheet that's too hard. Practice should feel like something a child can mostly do on their own: aim for a sheet where they get about 8 or 9 out of 10 right. If they get fewer than 7, step back to an easier sheet; if every answer is instant, move on.</p>
+<p>Our grade pages, from ${a('kindergarten-math-worksheets', 'kindergarten')} to ${a('5th-grade-math-worksheets', '5th grade')}, list the skills for each year. If you're unsure, ask your child's teacher what the class is working on this month and pick the matching sheet.</p>
+
+${h2('A 15-minute routine')}
+<ol>
+<li><b>Warm up (2 minutes).</b> A few quick questions out loud, like doubles or counting by fives.</li>
+<li><b>One worksheet (8 to 10 minutes).</b> Choose fewer problems for younger children. On our sheets, you can set the number of problems before printing.</li>
+<li><b>Mark it together (3 minutes).</b> Use the answer key. Celebrate the right answers first, then look at one or two mistakes together.</li>
+</ol>
+<p>Short and regular works better than long and occasional. Fifteen minutes four times a week does more than an hour on Sunday.</p>
+
+${h2('How to mark together')}
+<p>When an answer is wrong, ask your child to explain how they got it. Often they find the mistake themselves while explaining, which is worth far more than being told. If the same mistake shows up several times, that's the thing to practise next. Our ${a('guides', 'teaching guides')} describe the usual methods and the most common mistakes for each topic.</p>
+
+${h2('Praise the thinking')}
+<p>Praise strategies and effort rather than speed or "being smart": "You made a ten first, that was clever" helps more than "You're so good at math". Children who believe they can improve by practising are more willing to try hard problems.</p>
+
+${h2('When practice becomes a battle')}
+<ul>
+<li>Make the sheet shorter. Ten problems finished happily beat thirty finished in tears.</li>
+<li>Take turns: you solve one, they solve one.</li>
+<li>Switch format: a clock or fractions sheet can feel like a break from facts.</li>
+<li>Stop on a success, not a struggle, and try again tomorrow.</li>
+</ul>
+
+${h2('Homework and school methods')}
+<p>Schools often teach methods that look different from what parents learned, such as making ten, partial products or the area model. They lead to the same answers, and they're designed to build understanding first. If a method is unfamiliar, the matching guide explains it, or ask the teacher how they'd like you to help.</p>
+
+${h2('Holidays and summer')}
+<p>A few short sessions a week during long breaks helps children keep skills fresh. Our seasonal sheets for Thanksgiving and Christmas practise the usual skills with pictures to color afterwards, which makes them an easy sell in December.</p>
+`,
+};
+
+const numberBondsUK = {
+  slug: 'number-bonds',
+  uk: true,
+  title: 'Number Bonds to 10, 20 and 100: How to Teach Them',
+  short: 'Number bonds',
+  description: 'How to teach number bonds to 10, 20 and 100: the part-whole model, ten frames, using bonds to 10 for bigger bonds, and quick ways to practise them.',
+  summary: 'What number bonds are, the part-whole model and ten frames, how bonds to 10 unlock bonds to 20 and 100, and quick practice ideas.',
+  level: 'Reception–Year 2',
+  cats: ['maths'],
+  worksheets: ['maths/number-bonds-to-10', 'maths/number-bonds-to-20', 'maths/number-bonds-to-100', 'maths/column-addition-2-digit'],
+  body: ({ h2, a }) => `
+${h2('What number bonds are')}
+<p>A number bond is a pair of numbers that make a given total. The bonds to 10 are 0 and 10, 1 and 9, 2 and 8, 3 and 7, 4 and 6, and 5 and 5 (and the same pairs the other way round). Knowing them instantly is one of the most useful things a child can learn in maths, because so many later calculations rely on making a 10.</p>
+<p>In the National Curriculum, Year 1 pupils represent and use number bonds and related subtraction facts within 20, and Year 2 pupils recall facts to 20 fluently and use them to work out related facts up to 100.</p>
+
+${h2('The part-whole model and ten frames')}
+<p>The part-whole model shows a whole (10) split into two parts (7 and 3). Children can see that 7 + 3 = 10, 3 + 7 = 10, 10 − 7 = 3 and 10 − 3 = 7 all come from the same picture. A ten frame makes it physical: put 7 counters in the frame and the empty spaces show the bond, 3.</p>
+<p>Fingers work too. Hold up 7 fingers: the 3 fingers that are down are the number bond to 10.</p>
+
+${h2('Bonds to 20')}
+<p>Bonds to 20 come straight from bonds to 10. If 7 and 3 make 10, then 17 and 3 make 20, and 7 and 13 make 20. Children who see this pattern don't need to learn a separate set of facts.</p>
+
+${h2('Bonds to 100')}
+<p>For multiples of 10, use bonds to 10 with tens: 7 tens and 3 tens make 10 tens, so 70 and 30 make 100. For other numbers, count on to the next ten and then to 100. For 64: 64 + 6 = 70, then 70 + 30 = 100, so 64 and 36 make 100. A quick check: the ones digits make 10 (4 and 6) and the tens digits make 9 (6 and 3).</p>
+
+${h2('Using bonds for mental calculation')}
+<p>Number bonds are the engine of mental addition and subtraction. For 8 + 7, use the bond 8 + 2 = 10, then add the remaining 5: 15. For 36 + 7, bridge through the next ten: 36 + 4 = 40, then 40 + 3 = 43. For 52 − 6, go back to 50 first (52 − 2), then take the other 4: 46. Pupils who know their bonds can do all of these without counting.</p>
+
+${h2('Missing number questions')}
+<p>Number bond sheets usually mix several forms: 7 + ? = 10, ? + 7 = 10, 10 − 7 = ? and 10 = 7 + ?. Mixing them is important, because children who only see one form can learn to spot a pattern rather than understand the bond. Our ${a('maths/number-bonds-to-10', 'number bonds to 10 worksheets')} move the missing number around for this reason.</p>
+
+${h2('Quick ways to practise')}
+<ul>
+<li><b>Rainbow bonds:</b> write 0 to 10 in a line and draw arcs joining the pairs that make 10.</li>
+<li><b>Ten frame flash:</b> show a ten frame for a second; children call out how many more make 10.</li>
+<li><b>Bond snap:</b> with cards from 0 to 10, players snap any pair that makes 10.</li>
+<li><b>Short daily sheets:</b> ten questions a day, marked together with the answer key.</li>
+</ul>
+<p>Once bonds to 10 are secure, move on to ${a('maths/number-bonds-to-20', 'bonds to 20')} and ${a('maths/number-bonds-to-100', 'bonds to 100')}. They pay off again in Year 3, when column addition and subtraction need quick mental facts.</p>
+`,
+};
+
+const columnMethodsUK = {
+  slug: 'column-addition-and-subtraction',
+  uk: true,
+  title: 'Column Addition and Subtraction: The Formal Written Methods Explained',
+  short: 'Column methods',
+  description: 'How to do column addition and column subtraction with exchanging, including exchanging across zero, with worked examples and the mistakes to watch for.',
+  summary: 'Setting out column calculations, exchanging in addition and subtraction, exchanging across zero, and checking with the inverse.',
+  level: 'Years 3–4',
+  cats: ['maths'],
+  worksheets: ['maths/column-addition-2-digit', 'maths/column-addition-3-digit', 'maths/column-addition-4-digit', 'maths/column-subtraction-2-digit', 'maths/column-subtraction-3-digit', 'maths/column-subtraction-4-digit'],
+  body: ({ h2, add, sub, a }) => `
+${h2('The formal written methods')}
+<p>In the National Curriculum, Year 3 pupils add and subtract numbers with up to three digits using formal written methods of columnar addition and subtraction, and Year 4 pupils use them with up to four digits. The methods line up the digits by place value and work from the ones column to the left.</p>
+<p>Schools in England say exchanging rather than carrying or borrowing: 10 ones are exchanged for 1 ten, or 1 ten for 10 ones. The word describes what really happens, since the value of the number never changes.</p>
+
+${h2('Setting out the calculation')}
+<p>Line the ones up first, then the tens, hundreds and thousands. In 352 + 47, the 7 goes under the 2 and the 4 goes under the 5. Squared paper, one digit per square, keeps columns straight. Draw the answer line with a ruler and leave room above the top number for exchanged digits in subtraction.</p>
+
+${h2('Column addition: 476 + 358')}
+${add(476, 358, 'Both the ones and the tens make more than 10, so there are two exchanges.')}
+<ol>
+<li>Ones: 6 + 8 = 14. Write 4 and exchange 10 ones for 1 ten, written small under the tens column (or above it, depending on your school).</li>
+<li>Tens: 7 + 5 + 1 = 13 tens. Write 3 and exchange 10 tens for 1 hundred.</li>
+<li>Hundreds: 4 + 3 + 1 = 8. The answer is 834.</li>
+</ol>
+
+${h2('Column subtraction: 724 − 386')}
+${sub(724, 386, 'The tens exchange twice: once to give the ones 10 more, then to receive 10 from the hundreds.')}
+<ol>
+<li>Ones: 4 − 6 needs an exchange. Exchange 1 ten for 10 ones: the 2 tens become 1, and the ones become 14. 14 − 6 = 8.</li>
+<li>Tens: 1 − 8 needs an exchange. Exchange 1 hundred for 10 tens: the 7 hundreds become 6, and the tens become 11. 11 − 8 = 3.</li>
+<li>Hundreds: 6 − 3 = 3. The answer is 338.</li>
+</ol>
+
+${h2('Exchanging across zero: 503 − 168')}
+${sub(503, 168, 'The tens have nothing to exchange, so start at the hundreds: 5 hundreds become 4, the tens become 9 and the ones become 13.')}
+<p>When the next column is 0, go to the first column that isn't zero. Exchange 1 hundred for 10 tens, then 1 of those tens for 10 ones. The tens end up as 9. Then 13 − 8 = 5, 9 − 6 = 3 and 4 − 1 = 3: the answer is 335.</p>
+
+${h2('When a mental method is better')}
+<p>Formal methods work for any numbers, but some calculations are quicker in your head. 299 + 150 is easier as 300 + 150 − 1 = 449, and 1,000 − 1 = 999 needs no columns at all. The National Curriculum expects pupils to choose a mental or written method depending on the numbers, so ask "Do I need a written method for this?" before reaching for the columns.</p>
+
+${h2('Check with the inverse')}
+<p>Addition and subtraction undo each other, so every answer can be checked. For 724 − 386 = 338, add 338 + 386: if you get 724, the subtraction is right. Estimating first is quick too: 724 − 386 is about 700 − 400 = 300.</p>
+
+${h2('Common mistakes')}
+<ul>
+<li><b>Taking the smaller digit from the larger</b> in every column: 724 − 386 worked as 4 hundreds, 6 tens and 2 ones (462).</li>
+<li><b>Forgetting to reduce the column you exchanged from.</b></li>
+<li><b>Writing 14 in the ones column</b> instead of exchanging in addition.</li>
+<li><b>Misaligned digits</b> when the numbers have different lengths.</li>
+</ul>
+
+${h2('Practise')}
+<p>Our column worksheets build up in the same order: ${a('maths/column-addition-2-digit', '2-digit')}, ${a('maths/column-addition-3-digit', '3-digit')} and ${a('maths/column-addition-4-digit', '4-digit')} addition, then ${a('maths/column-subtraction-2-digit', '2-digit')}, ${a('maths/column-subtraction-3-digit', '3-digit')} and ${a('maths/column-subtraction-4-digit', '4-digit')} subtraction. They print on A4 with an answer key.</p>
+`,
+};
+
 export const GUIDES = [
+  additionFacts,
+  subtractionFacts,
   additionWithRegrouping,
   subtractionWithRegrouping,
+  placeValue,
   multiplicationFacts,
+  divisionFacts,
   multiDigitMultiplication,
   longDivision,
   equivalentFractions,
   unlikeDenominators,
   mixedNumbers,
+  multiplyDivideFractions,
   decimals,
   rounding,
   tellingTime,
   orderOfOperations,
+  exponents,
+  integers,
+  factFluency,
+  practiceAtHome,
+  numberBondsUK,
+  columnMethodsUK,
   busStop,
 ].map((g) => ({ published: PUBLISHED, updated: PUBLISHED, ...g }));

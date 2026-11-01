@@ -277,3 +277,18 @@ test('sheets render with an answer key for every page', () => {
   assert.ok(plan.fs >= 3, `font size ${plan.fs}`);
   assert.ok(toLine(problems[0]).length >= 4);
 });
+
+test('no worksheet ever shows NaN, undefined or an empty number', async () => {
+  const { WORKSHEETS } = await import('../src/content/worksheets.js');
+  const { GENERATORS } = await import('../src/engine/generators.js');
+  const { makeRng } = await import('../src/engine/rng.js');
+  const bad = [];
+  for (const ws of WORKSHEETS) {
+    for (let seed = 1; seed <= 60; seed++) {
+      const ps = GENERATORS[ws.gen].generate(makeRng(seed * 104729), { ...ws.params }, Math.max(...ws.counts));
+      const text = JSON.stringify(ps);
+      if (/NaN|undefined|null|Infinity|"v":""/.test(text)) bad.push(`${ws.slug} seed ${seed}`);
+    }
+  }
+  assert.deepEqual(bad.slice(0, 5), []);
+});

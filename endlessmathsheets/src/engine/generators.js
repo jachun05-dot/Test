@@ -590,12 +590,17 @@ function genCompare(rng, p, count) {
     if (r < 0.12) b = a;
     else if (r < 0.45) {
       const s = String(a);
-      const i = rng.int(0, s.length - 2);
-      const swapped = s.slice(0, i) + s[i + 1] + s[i] + s.slice(i + 2);
-      b = swapped[0] === '0' || swapped === s ? a + rng.int(1, 9) : Number(swapped);
+      if (s.length < 2) {
+        // One digit: nothing to swap, so compare with a nearby number instead.
+        b = a + rng.int(1, 9);
+      } else {
+        const i = rng.int(0, s.length - 2);
+        const swapped = s.slice(0, i) + s[i + 1] + s[i] + s.slice(i + 2);
+        b = swapped[0] === '0' || swapped === s ? a + rng.int(1, 9) : Number(swapped);
+      }
     } else if (r < 0.7) b = a + rng.pick([-1, 1]) * rng.int(1, Math.max(2, Math.floor((hi - lo) / 50)));
     else b = rng.int(lo, hi);
-    if (b < lo || b > hi) return null;
+    if (!Number.isFinite(b) || b < lo || b > hi) return null;
     const sym = a > b ? '>' : a < b ? '<' : '=';
     return {
       type: 'line',

@@ -73,6 +73,7 @@ export const YEAR_MORE = {
     sections: [
       ['Number bonds first', 'Number bonds to 10 and 20 are the most important facts in Year 1. A child who knows instantly that 7 and 3 make 10 can work out 17 + 3, 27 + 3 and later 70 + 30. Practise them with objects and ten frames first, then with missing number sheets like 7 + ? = 10.'],
       ['Using the worksheets', 'Short, regular practice works best: ten minutes a day is plenty. Read the instructions aloud, let children use counters or a number line, and use the answer key to mark the sheet together.'],
+      ['Counting and place value', 'Year 1 pupils count to and across 100, forwards and backwards, read and write numbers to 100 in numerals and from 1 to 20 in words, and find one more or one less than a number. A hundred square on the wall makes the patterns easy to see.'],
     ],
   },
   2: {
@@ -80,6 +81,7 @@ export const YEAR_MORE = {
     sections: [
       ['Facts to 20 and the 2, 5 and 10 times tables', 'Year 2 pupils recall addition and subtraction facts to 20 fluently and use them to derive facts to 100, such as 30 + 70 = 100. They learn the 2, 5 and 10 times tables and the matching division facts.'],
       ['Telling the time', 'Pupils tell the time to five minutes, including quarter past and quarter to, and draw the hands on a clock face. "Quarter to" is the trickiest phrase because the hour said is not the hour written: quarter to three is 2:45.'],
+      ['Place value and money', 'Pupils recognise the place value of each digit in a two-digit number, compare numbers to 100 using <, > and =, and use the symbols for pounds (£) and pence (p) to solve simple money problems. Counting in steps of 2, 3, 5 and 10 builds towards the times tables.'],
     ],
   },
   3: {
@@ -87,6 +89,7 @@ export const YEAR_MORE = {
     sections: [
       ['Formal column methods', 'Year 3 introduces column addition and column subtraction with three-digit numbers. Exchanging (called regrouping in the US) is the big new idea: 10 ones are exchanged for 1 ten, or 1 ten for 10 ones. Practise without exchanging first, then with it.'],
       ['The 3, 4 and 8 times tables', 'Pupils add the 3, 4 and 8 times tables. The 4s are double the 2s and the 8s are double the 4s, which makes them quicker to learn than they look.'],
+      ['Fractions', 'Year 3 pupils count up and down in tenths, find fractions of a set of objects, recognise simple equivalent fractions such as 1/2 = 2/4, and add and subtract fractions with the same denominator within one whole, such as 5/7 + 1/7 = 6/7.'],
     ],
   },
   4: {
@@ -94,6 +97,7 @@ export const YEAR_MORE = {
     sections: [
       ['The multiplication tables check', 'Pupils in England take the multiplication tables check (MTC) in June of Year 4. It is an on-screen check of 25 questions on the tables up to 12 × 12, with 6 seconds to answer each one. Our practice sheets use the same 25-question format on paper.'],
       ['Column methods to four digits', 'Year 4 pupils use column addition and subtraction with up to four digits and short multiplication for two- and three-digit numbers multiplied by a one-digit number. Times table recall is what makes these methods quick and accurate.'],
+      ['Decimals and fractions', 'Pupils recognise and write decimal equivalents of any number of tenths or hundredths, round decimals with one decimal place to the nearest whole number, and add and subtract fractions with the same denominator. Money and measurement make decimals concrete.'],
     ],
   },
   5: {
@@ -101,6 +105,7 @@ export const YEAR_MORE = {
     sections: [
       ['Short division and long multiplication', 'Year 5 brings short division (the bus stop method) for numbers up to four digits divided by a one-digit number, including remainders, and long multiplication for two-digit multipliers. Both rely on fast times table recall.'],
       ['Interpreting remainders', 'Pupils start deciding what a remainder means in context: sometimes it is left over, sometimes it means rounding up (one more minibus), and sometimes it becomes a fraction. Talking through a few word problems makes this click.'],
+      ['Fractions and decimals', 'Year 5 pupils compare and order fractions, add and subtract fractions with the same denominator or denominators that are multiples of the same number, read and write decimals as fractions (0.71 = 71/100), and round decimals with two decimal places.'],
     ],
   },
   6: {
@@ -108,6 +113,7 @@ export const YEAR_MORE = {
     sections: [
       ['Long division and long multiplication', 'In Year 6 pupils divide numbers up to four digits by a two-digit number using long division, and multiply numbers up to four digits by a two-digit number. They choose how to express remainders: as whole numbers, fractions or decimals, or by rounding.'],
       ['Preparing for the end of Key Stage 2', 'Year 6 pupils take the Key Stage 2 national tests in May. The arithmetic paper includes column methods, long multiplication, long and short division, and fractions and decimals, so regular mixed practice in the spring term helps most.'],
+      ['Fractions and the order of operations', 'Year 6 pupils add and subtract fractions with different denominators and mixed numbers, multiply simple pairs of proper fractions, divide proper fractions by whole numbers, and use their knowledge of the order of operations to carry out calculations involving all four operations.'],
     ],
   },
 };

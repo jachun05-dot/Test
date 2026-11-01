@@ -262,3 +262,12 @@ export const CATEGORIES = [
 ];
 
 export const CATEGORY_BY_SLUG = Object.fromEntries(CATEGORIES.map((c) => [c.slug, c]));
+
+// Extra hub write-ups added after review (see MORE in categories-more.js).
+import { MORE } from './categories-more.js';
+for (const c of CATEGORIES) {
+  const more = MORE[c.slug];
+  if (!more) continue;
+  if (more.guide) c.guide = [...c.guide, ...more.guide];
+  if (more.faq) c.faq = [...c.faq, ...more.faq];
+}
