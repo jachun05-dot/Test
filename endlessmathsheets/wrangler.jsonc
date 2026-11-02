@@ -3,6 +3,8 @@
 {
   "name": "endlessmathsheets",
   "compatibility_date": "2026-06-01",
+  // A tiny Worker redirects www to the bare domain; all pages are static files.
+  "main": "src/worker.js",
   // Serve only on the custom domains, so the same pages are not also public on
   // *.workers.dev. Pages carry a canonical link to the bare domain.
   "workers_dev": false,
@@ -13,6 +15,8 @@
   ],
   "assets": {
     "directory": "./dist",
+    "binding": "ASSETS",
+    "run_worker_first": true,
     "html_handling": "auto-trailing-slash",
     "not_found_handling": "404-page"
   }
