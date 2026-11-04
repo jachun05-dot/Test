@@ -23,6 +23,51 @@ function setPageSize(paper) {
   if (style) style.textContent = `@page{size:${(PAPERS[paper] || PAPERS.letter).css};margin:0.5in}`;
 }
 
+// Printing. The dialog opens after the click has painted, so the button
+// responds at once. Desktop Chromium browsers print a copy of the sheets from a
+// hidden frame: the page itself never switches to its print layout, which the
+// browser would otherwise record as a large layout shift. Phones and other
+// browsers print the page itself with the print CSS.
+function printSheets(sheets) {
+  const viaFrame = Boolean(navigator.userAgentData && !navigator.userAgentData.mobile);
+  const go = () => {
+    if (!viaFrame) {
+      window.print();
+      return;
+    }
+    for (const old of document.querySelectorAll('iframe.print-frame')) old.remove();
+    const frame = document.createElement('iframe');
+    frame.className = 'print-frame';
+    frame.title = 'Print';
+    frame.tabIndex = -1;
+    frame.setAttribute('aria-hidden', 'true');
+    frame.style.cssText = 'position:fixed;left:-10000px;top:0;width:900px;height:700px;border:0;';
+    document.body.appendChild(frame);
+    const head = [...document.querySelectorAll('link[rel="stylesheet"], style#page-size')].map((n) => n.outerHTML).join('');
+    const doc = frame.contentDocument;
+    doc.open();
+    doc.write(
+      `<!doctype html><html lang="${document.documentElement.lang}"><head><meta charset="utf-8"><base href="${location.href}">${head}</head>` +
+        `<body class="print-body"><div class="sheets" data-paper="${sheets.dataset.paper}" data-view="sheet" data-print-key="${sheets.dataset.printKey}">${sheets.innerHTML}</div></body></html>`,
+    );
+    doc.close();
+    const win = frame.contentWindow;
+    const loaded = new Promise((resolve) => {
+      const check = () => (doc.readyState === 'complete' ? resolve() : setTimeout(check, 30));
+      check();
+    });
+    loaded
+      .then(() => (doc.fonts ? doc.fonts.ready : null))
+      .then(() => {
+        win.addEventListener('afterprint', () => setTimeout(() => frame.remove(), 0), { once: true });
+        win.focus();
+        win.print();
+      })
+      .catch(() => window.print());
+  };
+  requestAnimationFrame(() => setTimeout(go, 0));
+}
+
 function initMaker(root, cfg) {
   const sheets = $('#sheets', root);
   const form = $('#opts', root);
@@ -162,7 +207,7 @@ function initMaker(root, cfg) {
     writeUrl();
   });
   const printBtn = $('#btn-print', root);
-  if (printBtn) printBtn.addEventListener('click', () => window.print());
+  if (printBtn) printBtn.addEventListener('click', () => printSheets(sheets));
 
   for (const b of root.querySelectorAll('.seg [data-view]')) {
     b.addEventListener('click', () => {
