@@ -3,6 +3,7 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [main, claude/gazua-4079rc]
+    paths-ignore: ['endlessmathsheets/**']
   workflow_dispatch:
 
 permissions:
