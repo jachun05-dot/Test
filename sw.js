@@ -1,5 +1,7 @@
-// Stale-while-revalidate for same-origin files so the calculator works offline.
-const CACHE = 'nyang-diet-v1';
+// Network first, cache as fallback: a new deploy shows up on the next visit,
+// and the calculator still opens offline with the last version it loaded.
+// Bump CACHE only to drop old caches on purpose.
+const CACHE = 'nyang-diet-v2';
 
 self.addEventListener('install', () => self.skipWaiting());
 
@@ -17,14 +19,15 @@ self.addEventListener('fetch', (event) => {
   if (request.method !== 'GET' || new URL(request.url).origin !== self.location.origin) return;
   event.respondWith(
     caches.open(CACHE).then(async (cache) => {
-      const cached = await cache.match(request);
-      const network = fetch(request)
-        .then((response) => {
-          if (response.ok) cache.put(request, response.clone());
-          return response;
-        })
-        .catch(() => cached);
-      return cached ?? network;
+      try {
+        const response = await fetch(request, { cache: 'no-cache' });
+        if (response.ok) cache.put(request, response.clone());
+        return response;
+      } catch (error) {
+        const cached = (await cache.match(request)) ?? (request.mode === 'navigate' ? await cache.match('./') : undefined);
+        if (cached) return cached;
+        throw error;
+      }
     }),
   );
 });

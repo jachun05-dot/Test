@@ -28,6 +28,15 @@ npm test           # 계산 엔진 테스트
 npx serve .        # http://localhost:3000
 ```
 
+## 배포
+
+`npm run build:site`를 실행하면 `site/` 폴더에 올릴 파일만 모입니다. 정적 호스팅 어디에나 그대로 올리면 됩니다.
+
+- **GitHub Pages**: 저장소 Settings → Pages → Source를 **GitHub Actions**로 바꾸면, `.github/workflows/deploy.yml`이 push할 때마다 테스트 → 빌드 → 배포합니다.
+- **Netlify**: 저장소를 연결하면 `netlify.toml` 설정으로 자동 빌드됩니다.
+
+링크 미리보기(카톡 등)용 이미지 주소는 배포 주소를 넘기면 절대 경로로 바뀝니다: `node scripts/build-site.mjs https://내주소`
+
 ## 구조
 
 ```

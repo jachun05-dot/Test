@@ -148,6 +148,14 @@ ul { margin: 0; padding: 0; }
   scrollbar-width: none;
   border-bottom: 1px solid var(--line);
 }
+@media (max-width: 420px) {
+  .tabs {
+    gap: 0;
+  }
+  .tabs .tab {
+    padding-inline: 8px;
+  }
+}
 .tab {
   flex: none;
   padding: 10px 14px;

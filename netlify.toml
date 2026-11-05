@@ -1,0 +1,4 @@
+# Netlify: connect the repo and it builds with these settings.
+[build]
+  command = "npm test && node scripts/build-site.mjs $URL"
+  publish = "site"
