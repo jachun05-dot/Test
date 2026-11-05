@@ -1,0 +1,16 @@
+{
+  "name": "endless-math-sheets",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Free printable math worksheet generator (static site).",
+  "scripts": {
+    "build": "node scripts/build.js",
+    "build:preview": "node scripts/build.js --preview",
+    "test": "node --test tests/*.test.js",
+    "serve": "node scripts/serve.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
